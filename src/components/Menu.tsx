@@ -19,7 +19,7 @@ const Menu = (): ReactElement =>  {
             <ul className="flex items-center justify-around space-x-8">
                 {
                 navigation.map((elem: string) => {
-                    return <li><a key={elem} href="" className="text-white hover:text-black hidden sm:block sm:text-xl">{elem}</a></li>
+                    return <li key={elem}><a href="" className="text-white hover:text-black hidden sm:block sm:text-xl">{elem}</a></li>
                 })
                 }
             </ul>
