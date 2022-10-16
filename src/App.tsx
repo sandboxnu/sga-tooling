@@ -20,9 +20,13 @@ function App() {
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <LoginContext.Provider value={{user, setUser}}>
       <LoginPage />
     </LoginContext.Provider>
+=======
+    <Footer />
+>>>>>>> fb6e5fc (initial commit)
 =======
     <Footer />
 >>>>>>> fb6e5fc (initial commit)
