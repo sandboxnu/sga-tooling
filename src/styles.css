@@ -1,0 +1,11 @@
+/* utility styles */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .link {
+        @apply underline text-blue-600 cursor-pointer hover:text-blue-800 visited:text-purple-600;
+    }
+}
