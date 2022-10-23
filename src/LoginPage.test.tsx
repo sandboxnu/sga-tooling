@@ -1,4 +1,4 @@
-const mockLoginAPI = require('src/requests.tsx');
+const mockLoginAPI = require('../src/requests.tsx');
 const unmockedFetch = global.fetch;
 
 beforeAll(() => {
@@ -13,7 +13,7 @@ afterAll(() => {
 
 describe('withFetch', () => {
     test('works', async () => {
-      const json = await mockLoginAPI(69)
-      expect(Array.isArray(json)).toEqual(true)
+      const response = await mockLoginAPI(69)
+        expect(response).toEqual({} as Response)
     })
-  })
+})
