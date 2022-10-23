@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-const Footer  = (): JSX.Element => {
-    return (
-        <></>
-    );
-}
-
-export default Footer;
-=======
 import React from "react";
 import { ReactElement } from "react";
 import '.././styles.css';
@@ -59,4 +48,3 @@ const Footer = (): ReactElement => {
 };
 
 export default Footer;
->>>>>>> fb6e5fc (initial commit)
