@@ -1,18 +1,26 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import Menu from "./components/Menu";
-import Alert from "./components/Alert";
+import React, { createContext, useState } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Menu from './components/Menu';
+import LoginPage from './components/LoginPage';
+
+export type User = number | null
+
+type UserContext = {
+  user: User,
+  setUser: React.Dispatch<React.SetStateAction<User>>
+}
+
+export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
+
+  const [user, setUser] = useState<User | null>(null)
+
   return (
-    <>
-      <Menu />{" "}
-      <Alert
-        message="Your standing in SGA may be affected if you miss the next meeting."
-        className="max-w-sm"
-      />
-    </>
+    <LoginContext.Provider value={{user, setUser}}>
+      <LoginPage />
+    </LoginContext.Provider>
   );
 }
 
