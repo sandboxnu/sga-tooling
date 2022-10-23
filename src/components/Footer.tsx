@@ -2,6 +2,7 @@ import React from "react";
 import { ReactElement } from "react";
 import '.././styles.css';
 
+// Footer with source code and project information that goes at the bottom of each page
 const Footer = (): ReactElement => {
   return (
     <div className="w-full px-2 py-4 mt-4 flex flex-row justify-between border-t-2 absolute bottom-0">
