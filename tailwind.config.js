@@ -9,7 +9,11 @@ module.exports = {
         'sgared-active': '#87121d',
         'transparent-gray': '#ECECEC52',
       },
-    }
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'sans': ["'Open Sans'"],
+      },  
+    },
   },
   plugins: [],
 }
