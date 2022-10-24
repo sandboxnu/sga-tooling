@@ -50,11 +50,11 @@ const EventCard = ({
             </p>
           </div>
 
-          <div className="flex flex-row justify-center">
-            <div className="flex flex-row justify-center items-center border border-solid rounded border-black bg-white not-italic font-bold text-xl h-fit px-2 py-1 m-2 ml-0 font-sans">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-center items-center border border-solid rounded border-black bg-white not-italic font-bold text-xl h-fit px-4 py-1 m-2 ml-0 font-sans">
               Unregister
             </div>
-            <div className="flex flex-row justify-center items-center rounded bg-sgared text-white not-italic font-bold text-xl h-fit px-5 py-1 m-2 mr-0 shadow-md shadow-black/20 font-sans">
+            <div className="flex flex-row justify-center items-center rounded bg-sgared text-white not-italic font-bold text-xl h-fit px-6 py-1 m-2 mr-0 shadow-md shadow-black/20 font-sans">
               See More
             </div>
           </div>
