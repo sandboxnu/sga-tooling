@@ -1,3 +1,4 @@
+export {}
 const mockLoginAPI = require('../src/requests.tsx');
 const unmockedFetch = global.fetch;
 
