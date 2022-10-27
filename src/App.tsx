@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import logo from './logo.svg';
+import Footer from './components/Footer';
 import './App.css';
 import Menu from './components/Menu';
 import LoginPage from './components/LoginPage';
@@ -15,15 +16,19 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
 
+
   const [user, setUser] = useState<User | null>(null)
 
   return (
-    <LoginContext.Provider value={{user, setUser}}>
-      <LoginPage />
-    </LoginContext.Provider>
-  
-
+    <>
+      <LoginContext.Provider value={{user, setUser}}>
+        <LoginPage />
+      </LoginContext.Provider>
+      <Menu/>
+      <Footer/>
+    </>
   );
+  
 }
 
 export default App;
