@@ -9,12 +9,15 @@ function App() {
   return (
     <>
       <Menu />
-      <EventCard
-        time="8-11am"
-        name="Sample Event"
-        location="WVF 020"
-        description="Sample text. Please don't read this area. If you do you may be subject to legal action."
-      />
+      <div className="flex flex-row">
+        <div className="w-1/5">placeholder for dates whee</div>
+        <EventCard
+          startTime={new Date()}
+          name="Sample Event"
+          location="WVF 020"
+          description="Sample text. Please don't read this area. If you do you may be subject to legal action."
+        />
+      </div>
       <Footer />
     </>
   );

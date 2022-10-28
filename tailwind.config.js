@@ -11,8 +11,8 @@ module.exports = {
       },
       fontFamily: {
         'montserrat': ['Montserrat'],
-        'sans': ["'Open Sans'"],
-      },  
+        'sans': ['"Open Sans"'],
+      },
     },
   },
   plugins: [],
