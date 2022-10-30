@@ -21,11 +21,10 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "jest-w": "jest --watch",
     "compile": "tsc",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "yarn jest-w",
+    "test": "yarn jest",
     "eject": "react-scripts eject",
     "lint": "yarn eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx ."
   },
