@@ -8,6 +8,7 @@ module.exports = {
         'sgared-hover': '#b51727',
         'sgared-active': '#87121d',
         'transparent-gray': '#ECECEC52',
+        'alert-yellow': '#FFEDC0'
       },
     }
   },
