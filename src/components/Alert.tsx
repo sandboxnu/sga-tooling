@@ -8,9 +8,9 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
  */
 const Alert = (props: {message: string, className?: string}): ReactElement =>  {
     return (
-        <div className={`flex items-start space-x-2 text-left bg-warning-light rounded-lg p-3 text-sm h-fit ${props.className}`} role="alert">
+        <div className={`flex items-start space-x-2 text-left bg-warning-light rounded-2xl p-3 text-sm h-fit ${props.className}`} role="alert">
             <ExclamationCircleIcon className="w-12 fill-warning-dark flex-none stroke-white"/>
-            <span className="font-medium self-center">{props.message}</span>
+            <span className="font-bold text-base self-center">{props.message}</span>
         </div>
     );
 }
