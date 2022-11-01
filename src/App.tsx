@@ -23,9 +23,9 @@ function App() {
     <>
       <LoginContext.Provider value={{user, setUser}}>
         <LoginPage />
+        <Footer/>
+        {/*<Menu/>*/}
       </LoginContext.Provider>
-      <Menu/>
-      <Footer/>
     </>
   );
   

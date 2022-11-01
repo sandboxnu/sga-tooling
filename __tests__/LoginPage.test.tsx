@@ -1,5 +1,5 @@
 export {}
-const mockLoginAPI = require('../src/requests.tsx');
+const getUserInfo = require('../src/requests.tsx');
 const unmockedFetch = global.fetch;
 
 beforeAll(() => {
@@ -11,10 +11,10 @@ afterAll(() => {
     global.fetch = unmockedFetch
 });
 
-
+// We are testing that the response from the api we mocked works
 describe('withFetch', () => {
     test('works', async () => {
-      const response = await mockLoginAPI(69)
+      const response = await getUserInfo(69)
         expect(response).toEqual({} as Response)
     })
 })
