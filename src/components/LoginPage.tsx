@@ -1,6 +1,6 @@
-import React, { ReactElement, createContext, useContext, useState, useEffect } from 'react';
-import { LoginContext, User } from '../App';
-import { getUserInfo } from '../requests';
+import React, { ReactElement, useContext, useState } from 'react';
+import { LoginContext } from '../App';
+// import { getUserInfo } from '../requests';
 
 const LoginPage = (): ReactElement => {
 
