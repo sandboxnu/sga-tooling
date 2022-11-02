@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "yarn jest",
     "eject": "react-scripts eject",
-    "lint": "yarn eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx ."
+    "lint": "eslint --debug 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
