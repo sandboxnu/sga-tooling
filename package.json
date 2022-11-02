@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^29.2.0",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -17,13 +17,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
+    "typescript": "^4.8.4",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "compile": "tsc",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "yarn jest",
     "eject": "react-scripts eject",
     "lint": "yarn eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx ."
   },
@@ -47,7 +48,9 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
+    "jest": "^29.2.1",
     "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "ts-jest": "^29.0.3"
   }
 }
