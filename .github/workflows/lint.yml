@@ -12,5 +12,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - uses: bahmutov/npm-install@v1
+      - uses: borales/actions-yarn@v3.0.0
       - run: yarn lint
