@@ -65,9 +65,13 @@ const EventCard = ({
           </p>
         </div>
 
-        <div className="flex flex-row justify-between col-gap-4">
-          <div className="button-base-white px-2 my-2">Unregister</div>
-          <div className="button-base-red px-5 my-2">See More</div>
+        <div className="flex flex-row flex-wrap">
+          <div className="my-2 mr-5">
+            <button className="button-base-white px-2">Unregister</button>
+          </div>
+          <div className="my-2">
+            <button className="button-base-red px-4">See More</button>
+          </div>
         </div>
       </div>
     </>
