@@ -6,14 +6,14 @@ const Footer = (): ReactElement => {
 	return (
 		<div className="w-full px-2 py-4 mt-4 flex flex-row justify-between border-t-2 absolute bottom-0">
 			<div>
-				Made by students @
+				Made by students @&nbsp;
 				<a
 					href="https://sandboxnu.com"
 					className="link"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Sandbox&nbsp;
+					Sandbox
 				</a>
 				. Source on&nbsp;
 				<a
