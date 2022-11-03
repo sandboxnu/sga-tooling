@@ -1,5 +1,4 @@
-import React, { ReactElement } from "react";
-import { Disclosure, Transition } from "@headlessui/react";
+import { ReactElement } from "react";
 
 /**
  * Creates a navbar menu with the SGA logo and a predetermined
@@ -25,7 +24,7 @@ const Menu = (): ReactElement => {
 					return (
 						<li key={elem}>
 							<a
-								href=""
+								href={elem}
 								className="text-white hover:text-black hidden sm:block sm:text-xl"
 							>
 								{elem}
