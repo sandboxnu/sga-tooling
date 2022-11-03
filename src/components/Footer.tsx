@@ -13,8 +13,9 @@ const Footer = (): ReactElement => {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Sandbox. Source on
+					Sandbox
 				</a>
+				. Source on
 				<a
 					href="https://github.com/sandboxnu/sga-tooling"
 					className="link"
