@@ -16,6 +16,7 @@ function App() {
           name="Sample Event"
           location="WVF 020"
           description="Sample text. Please don't read this area. If you do you may be subject to legal action."
+          live={false}
         />
       </div>
       <Footer />

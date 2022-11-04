@@ -11,6 +11,7 @@ export interface EventCardProps {
   name: string;
   location: string;
   description: string;
+  live: boolean;
 }
 
 /**
@@ -22,6 +23,7 @@ const EventCard = ({
   name,
   location,
   description,
+  live,
 }: EventCardProps): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
@@ -66,8 +68,16 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap">
-          <button className="button-base-white px-2 my-2 mr-5"> Unregister </button>
-          <button className="button-base-red px-4 my-2">See More</button>
+          {live ? (
+            <button className="button-base-red px-4 my-2">Vote</button>
+          ) : (
+            <>
+              <button className="button-base-white px-2 my-2 mr-5">
+                Unregister
+              </button>
+              <button className="button-base-red px-4 my-2">See More</button>
+            </>
+          )}
         </div>
       </div>
     </>
