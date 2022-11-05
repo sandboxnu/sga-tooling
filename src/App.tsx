@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
-import Footer from './components/Footer';
 import './App.css';
-import LoginPage from './components/LoginPage';
+import Error404 from './components/Error404';
+import Footer from './components/Footer';
 
 export type User = number | null
 
@@ -20,9 +20,9 @@ function App() {
   return (
     <>
       <LoginContext.Provider value={{user, setUser}}>
-        <LoginPage />
+        {/*<LoginPage />*/}
+        <Error404 />
         <Footer />
-        {/*<Menu/>*/}
       </LoginContext.Provider>
     </>
   );
