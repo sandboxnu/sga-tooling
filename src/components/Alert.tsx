@@ -10,6 +10,9 @@ const Alert = (props: {
   message: string;
   className?: string;
 }): ReactElement => {
+
+  // let { eventID } = useParams();
+
   return (
     <div
       className={`flex items-start space-x-2 text-left bg-warning-light rounded-2xl p-3 text-sm h-fit ${props.className}`}
