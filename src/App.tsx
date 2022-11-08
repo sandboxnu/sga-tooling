@@ -1,3 +1,4 @@
+import { Menu } from '@headlessui/react';
 import React, { createContext, useState } from 'react';
 import './App.css';
 import Error404 from './components/Error404';
@@ -20,7 +21,7 @@ function App() {
   return (
     <>
       <LoginContext.Provider value={{user, setUser}}>
-        {/*<LoginPage />*/}
+        <Menu />
         <Error404 />
         <Footer />
       </LoginContext.Provider>

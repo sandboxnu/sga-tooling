@@ -1,25 +1,17 @@
-import Menu from './Menu';
+import { ReactElement } from 'react';
+import SVGFile from '../errorIcon.svg';
 
-let Error404 = () => {
-
+const Error404 = ():ReactElement => {
     return (
         <div>
-            <Menu />
-            <div className="flex flex-col items-center justify-center mx-[24px] min-h-[70vh]">
-                <svg width="116" height="116" viewBox="0 0 116 116" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M101.5 101.5L76.3812 76.381M76.3812 76.381C83.1796 69.5826 86.999 60.3619 86.999 50.7475C86.999 41.133 83.1796 31.9123 76.3812 25.1139C69.5827 18.3154 60.362 14.4961 50.7476 14.4961C41.1331 14.4961 31.9125 18.3154 25.114 25.1139C18.3156 31.9123 14.4962 41.133 14.4962 50.7475C14.4962 60.3619 18.3156 69.5826 25.114 76.381C31.9125 83.1795 41.1331 86.9988 50.7476 86.9988C60.362 86.9988 69.5827 83.1795 76.3812 76.381V76.381Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M64.5235 69.3515C60.9572 65.776 56.118 63.7614 51.068 63.75C48.5445 63.7377 46.0438 64.2266 43.7107 65.1881C41.3776 66.1497 39.2585 67.5648 37.4765 69.3515M89.25 51C89.25 56.0231 88.2606 60.9969 86.3384 65.6376C84.4162 70.2783 81.5987 74.495 78.0468 78.0468C74.495 81.5987 70.2783 84.4162 65.6376 86.3384C60.9969 88.2606 56.0231 89.25 51 89.25C45.9769 89.25 41.0031 88.2606 36.3624 86.3384C31.7217 84.4162 27.505 81.5987 23.9532 78.0468C20.4013 74.495 17.5838 70.2783 15.6616 65.6376C13.7394 60.9969 12.75 56.0231 12.75 51C12.75 40.8555 16.7799 31.1264 23.9532 23.9532C31.1264 16.7799 40.8555 12.75 51 12.75C61.1445 12.75 70.8736 16.7799 78.0468 23.9532C85.2201 31.1264 89.25 40.8555 89.25 51ZM41.4375 41.4375C41.4375 43.197 40.7235 44.625 39.8438 44.625C38.964 44.625 38.25 43.197 38.25 41.4375C38.25 39.678 38.964 38.25 39.8438 38.25C40.7235 38.25 41.4375 39.678 41.4375 41.4375ZM39.8438 41.4375H39.8778V41.5013H39.8438V41.4375ZM63.75 41.4375C63.75 43.197 63.036 44.625 62.1562 44.625C61.2765 44.625 60.5625 43.197 60.5625 41.4375C60.5625 39.678 61.2765 38.25 62.1562 38.25C63.036 38.25 63.75 39.678 63.75 41.4375ZM62.1562 41.4375H62.1903V41.5013H62.1562V41.4375Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div className="flex flex-col items-center font-['Open_Sans'] mt-[1vh] mb-[3vh]">
-                    <h1 className="text-[28px] font-bold text-center">404 - Page Not Found</h1>
-                    <p className="text-[20px] text-center">We can't find the page you're looking for. Contact the site owner if this is a mistake. </p>
+            <div className="flex flex-col items-center justify-center mx-2xl min-h-[70vh]">
+                <img src={SVGFile} alt="" />
+                <div className="flex flex-col items-center font-sans mt-1 mb-6">
+                    <h1 className="text-3xl font-bold text-center">404 - Page Not Found</h1>
+                    <p className="text-xl text-center">We can't find the page you're looking for. Contact the site owner if this is a mistake. </p>
                 </div>
-                <form action="">
-                    <button className="bg-sgared text-white px-[18vw] py-[0.8vh] font-['Open_Sans'] font-bold text-[20px] rounded-xl shadow-md shadow-neutral-400">Return to home</button>
-                </form>
+                <button className="bg-sgared text-white font-sans font-bold text-xl rounded-xl shadow-md shadow-neutral-400 px-[18vw] py-[0.8vh]">Return to home</button>
             </div>
-           
-            
         </div>
     );
 }
