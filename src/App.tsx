@@ -1,13 +1,28 @@
-import React from "react";
-import logo from "./logo.svg";
-import Footer from "./components/Footer";
+import React, { useState } from "react";
 import "./App.css";
-import Menu from "./components/Menu";
 import EventCard from "./components/EventCard";
+import Footer from "./components/Footer";
+import Menu from "./components/Menu";
+
+export type User = number | null;
+
+type UserContext = {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+};
 
 function App() {
+  const [user, setUser] = useState<User | null>(null);
+
   return (
     <>
+      {/* pages to be updated once routing is provided */}
+      {/* <LoginContext.Provider value={{user, setUser}}>
+        <LoginPage />
+        <Footer />
+        <Menu/>
+      </LoginContext.Provider> */}
+
       <Menu />
       <div className="flex flex-row">
         <div className="w-1/5">placeholder for dates whee</div>

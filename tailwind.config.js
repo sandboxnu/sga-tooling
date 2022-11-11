@@ -8,6 +8,7 @@ module.exports = {
         'sga-red-hover': '#b51727',
         'sga-red-active': '#87121d',
         'transparent-gray': '#ECECEC52',
+        'alert-yellow': '#FFEDC0'
       },
       fontFamily: {
         'montserrat': ['Montserrat'],
