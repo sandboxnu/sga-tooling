@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import "./App.css";
 import EventCard from "./components/EventCard";
 import Footer from "./components/Footer";
@@ -10,6 +10,8 @@ type UserContext = {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
 };
+
+export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
