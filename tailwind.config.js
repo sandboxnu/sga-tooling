@@ -4,13 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'sgared': '#D41B2C',
-        'sgared-hover': '#b51727',
-        'sgared-active': '#87121d',
+        'sga-red': '#D41B2C',
+        'sga-red-hover': '#b51727',
+        'sga-red-active': '#87121d',
         'transparent-gray': '#ECECEC52',
         'alert-yellow': '#FFEDC0'
       },
-    }
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'sans': ['"Open Sans"'],
+      },
+    },
   },
   plugins: [],
 }
