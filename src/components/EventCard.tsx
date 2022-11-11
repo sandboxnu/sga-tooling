@@ -41,11 +41,11 @@ const EventCard = ({
   return (
     <>
       <div className="pl-4 pt-4 pr-6 w-4/5 md:w-[90%]">
-        <span className="font-sans md:text-lg">
+        <span className="font-sans md:text-base">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
-        <div className="flex flex-row justify-between items-start mb-4">
-          <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5 md:pr-64 md:text-[22px]">
+        <div className="flex flex-row justify-between items-start mb-4 md:mb-0">
+          <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5 md:pr-64 md:text-lg">
             {name}
           </div>
           <img
@@ -54,15 +54,15 @@ const EventCard = ({
             aria-label="Open Event Card details"
           />
         </div>
-        <div className="flex flex-row items-start mb-4 md:ml-4">
+        <div className="flex flex-row items-start mb-4 md:ml-4 md:mb-2">
           <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
-          <span className="text-body-mobile pl-2 pr-8 pt-0.5 font-montserrat break-words w-full md:pr-64 md:text-lg">
+          <span className="text-body-mobile pl-2 pr-8 pt-0.5 font-montserrat break-words w-full md:pr-64 md:text-base">
             {location}
           </span>
         </div>
-        <div className="flex flex-row items-start mb-6 md:ml-4">
+        <div className="flex flex-row items-start mb-6 md:ml-4 md:mb-0">
           <img src={TextIconSVG} alt="TextIcon svg" className="p-1 pt-0" />
-          <p className="text-body-mobile pl-2 pr-8 font-montserrat break-words w-full md:pr-64 md:text-lg">
+          <p className="text-body-mobile pl-2 pr-8 font-montserrat break-words w-full md:pr-64 md:text-base">
             {description}
           </p>
         </div>
