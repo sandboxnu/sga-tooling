@@ -1,8 +1,8 @@
-import { Menu } from '@headlessui/react';
 import React, { createContext, useState } from 'react';
 import './App.css';
 import Error404 from './components/Error404';
 import Footer from './components/Footer';
+import Menu from './components/Menu';
 
 export type User = number | null
 

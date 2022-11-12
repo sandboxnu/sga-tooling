@@ -10,7 +10,7 @@ const Menu = (): ReactElement => {
   const navigation = ["Calendar", "Events", "Attendance"];
 
   return (
-    <div className="flex items-center justify-between space-x-16 md:space-x-0 lg:space-x-0 min-w-100 h-24 bg-sgared px-5 shadow-md shadow-neutral-400">
+    <div className="flex items-center justify-between space-x-16 md:space-x-0 lg:space-x-0 min-w-100 h-24 bg-sga-red px-5 shadow-md shadow-neutral-400">
       <div>
         <img
           src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
