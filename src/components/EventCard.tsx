@@ -1,9 +1,8 @@
-import React from "react";
 import { ReactElement } from "react";
+import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
+import PinSVG from ".././assets/Pin.svg";
+import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
-import PinSVG from ".././public/Pin.svg";
-import TextIconSVG from ".././public/TextIcon.svg";
-import MeatballMenuSVG from ".././public/MeatballMenu.svg";
 
 export interface EventCardProps {
   startTime: Date;
