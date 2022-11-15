@@ -42,15 +42,15 @@
   }
 
   .home-mx {
-    @apply mx-6 md:mx-8;
+    @apply mx-8 md:mx-10;
   }
 
-  .home-my {
-    @apply my-6 md:my-8;
+  .section-heading {
+    @apply home-mx mt-8 md:mt-9 text-2xl font-bold;
   }
 
   .hr {
-    @apply border-black home-mx home-my;
+    @apply border-black home-mx;
   }
 
   .event-date {
