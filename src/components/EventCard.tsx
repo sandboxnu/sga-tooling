@@ -3,7 +3,7 @@ import MeatballMenuSVG from ".././public/MeatballMenu.svg";
 import PinSVG from ".././public/Pin.svg";
 import TextIconSVG from ".././public/TextIcon.svg";
 import ".././styles.css";
-import { EventDate } from "../EventDate";
+import { EventDate } from "./EventDate";
 export interface EventCardProps {
   startTime: Date;
   endTime?: Date;
