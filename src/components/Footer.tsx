@@ -6,21 +6,21 @@ const Footer = (): ReactElement => {
   return (
     <div className="w-full px-2 py-4 mt-4 flex flex-row justify-between border-t-2 bottom-0 mt-auto">
       <div>
-        Made by students @{" "}
+        Made by students @&nbsp;
         <a
+          href="https://sandboxnu.com"
           className="link"
-          onClick={() => {
-            window.open("https://sandboxnu.com");
-          }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Sandbox
         </a>
-        . Source on{" "}
+        . Source on&nbsp;
         <a
+          href="https://github.com/sandboxnu/sga-tooling"
           className="link"
-          onClick={() => {
-            window.open("https://github.com/sandboxnu/sga-tooling");
-          }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           GitHub.
         </a>
@@ -28,21 +28,19 @@ const Footer = (): ReactElement => {
 
       <div>
         <a
+          href="https://github.com/sandboxnu/office-hours/discussions"
           className="link"
-          onClick={() => {
-            window.open(
-              "https://github.com/sandboxnu/office-hours/discussions"
-            );
-          }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Give us feedback
         </a>
         <span> or </span>
         <a
+          href="https://github.com/sandboxnu/office-hours/issues"
           className="link"
-          onClick={() => {
-            window.open("https://github.com/sandboxnu/office-hours/issues");
-          }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           File a bug report
         </a>

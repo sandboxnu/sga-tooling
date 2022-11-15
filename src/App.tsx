@@ -1,15 +1,13 @@
-import { createContext, useState } from "react";
-import "./App.css";
-import EventCard from "./components/EventCard";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import React, { createContext, useState } from 'react';
+import './App.css';
+import Footer from './components/Footer';
 import SearchIcon from "./SearchIcon.svg";
 
 export type User = number | null;
 
 type UserContext = {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  user: User,
+  setUser: React.Dispatch<React.SetStateAction<User>>,
 };
 
 export const LoginContext = createContext<UserContext>({} as UserContext);
@@ -53,9 +51,11 @@ function App() {
           live={true}
         />
         <Footer />
-      </div>
-    </LoginContext.Provider>
+        
+      </LoginContext.Provider>
+    </>
   );
+  
 }
 
 export default App;

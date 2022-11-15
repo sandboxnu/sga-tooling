@@ -3,7 +3,7 @@ import { LoginContext } from "../App";
 // import { getUserInfo } from '../requests';
 
 const LoginPage = (): ReactElement => {
-  const { user, setUser } = useContext(LoginContext);
+  const { setUser } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
   function login() {

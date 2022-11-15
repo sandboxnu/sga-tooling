@@ -14,6 +14,22 @@
   }
 
   .button-base {
+    @apply flex flex-row justify-center items-center rounded h-fit not-italic font-bold text-xl font-sans py-1;
+  }
+
+  .button-base-red {
+    @apply button-base bg-sga-red text-white shadow-md shadow-black/20;
+  }
+
+  .button-base-white {
+    @apply button-base border border-solid border-black bg-white;
+  }
+
+  .text-body-mobile {
+    @apply font-normal text-base leading-5;
+  }
+
+  .button-base {
     @apply flex flex-row justify-center items-center rounded h-fit not-italic font-bold text-xl font-sans py-1 md:text-[22px] md:rounded-[10px] md:py-2;
   }
 
