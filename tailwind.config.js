@@ -10,7 +10,11 @@ module.exports = {
         'transparent-gray': '#ECECEC52',
         'alert-yellow': '#FFEDC0'
       },
-    }
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'sans': ['"Open Sans"'],
+      },
+    },
   },
   plugins: [],
 }

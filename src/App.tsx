@@ -1,33 +1,45 @@
-import React, { createContext, useState } from 'react';
-import './App.css';
-import Error404 from './components/Error404';
-import Footer from './components/Footer';
-import Menu from './components/Menu';
+import React, { createContext, useState } from "react";
+import "./App.css";
+import EventCard from "./components/EventCard";
+import Footer from "./components/Footer";
+import Menu from "./components/Menu";
 
-export type User = number | null
+
+export type User = number | null;
 
 type UserContext = {
   user: User,
-  setUser: React.Dispatch<React.SetStateAction<User>>
-}
+  setUser: React.Dispatch<React.SetStateAction<User>>,
+};
 
 export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
-
-
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null);
 
   return (
     <>
-      <LoginContext.Provider value={{user, setUser}}>
-        <Menu />
-        <Error404 />
+      {/* pages to be updated once routing is provided */}
+      {/* <LoginContext.Provider value={{user, setUser}}>
+        <LoginPage />
         <Footer />
-      </LoginContext.Provider>
+        <Menu/>
+      </LoginContext.Provider> */}
+
+      <Menu />
+      <div className="flex flex-row">
+        <div className="w-1/5">placeholder for dates whee</div>
+        <EventCard
+          startTime={new Date()}
+          name="Sample Event"
+          location="WVF 020"
+          description="Sample text. Please don't read this area. If you do you may be subject to legal action."
+          live={false}
+        />
+      </div>
+      <Footer />
     </>
   );
-  
 }
 
 export default App;
