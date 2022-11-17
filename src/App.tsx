@@ -9,12 +9,12 @@ import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import Menu from './components/Menu';
 
-export type User = number | null
+export type User = number | null;
 
 type UserContext = {
   user: User,
-  setUser: React.Dispatch<React.SetStateAction<User>>
-}
+  setUser: React.Dispatch<React.SetStateAction<User>>,
+};
 
 export const LoginContext = createContext<UserContext>({} as UserContext);
 
@@ -36,7 +36,6 @@ function App() {
       <Footer />
     </LoginContext.Provider>
   );
-  
 }
 
 export default App;
