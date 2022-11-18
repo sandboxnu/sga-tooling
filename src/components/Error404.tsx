@@ -15,7 +15,7 @@ let Error404 = () => {
                     <p className="text-[20px] text-center">We can't find the page you're looking for. Contact the site owner if this is a mistake. </p>
                 </div>
                 <form action="">
-                    <button className="bg-sgared text-white px-[18vw] py-[0.8vh] font-['Open_Sans'] font-bold text-[20px] rounded-xl shadow-md shadow-neutral-400">Return to home</button>
+                    <button className="bg-sga-red text-white px-[18vw] py-[0.8vh] font-['Open_Sans'] font-bold text-[20px] rounded-xl shadow-md shadow-neutral-400">Return to home</button>
                 </form>
             </div>
            

@@ -28,6 +28,7 @@ function App() {
         <Routes>
             <Route path="/" element={<LoginPage />} errorElement={<Error404 />} />
             <Route path="/events" element={<Menu />}>
+              {/* :alerID needs to be updated to display Events */}
               <Route path=":alertID" element={<Alert message='hi'/>} />
             </Route>
             <Route path="*" element={<Error404 />} />

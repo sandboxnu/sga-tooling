@@ -9,6 +9,13 @@ const LoginPage = (): ReactElement => {
 
   const navigate = useNavigate();
 
+  function checkIfLoginSaved() {
+    const nuid = localStorage.getItem("user")
+    if (nuid && isValidPassword(parseInt(nuid))) {
+      navigate("/events");
+    }
+  }
+
   function login() {
     if (input) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
@@ -26,7 +33,7 @@ const LoginPage = (): ReactElement => {
   }
 
   return (
-    <div>
+    <div onLoad={checkIfLoginSaved}>
       <div className="flex flex-col justify-end min-h-[68vh] bg-gradient-to-r from-red-400 to-gray-300">
         <div>
           <form className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg shadow-xl">
@@ -41,7 +48,7 @@ const LoginPage = (): ReactElement => {
             />
             <button
               onClick={(e) => login()}
-              className="w-full my-2.5 bg-sgared text-white text-2xl font-semibold rounded-lg px-2.5 py-4 hover:bg-sgared-hover active:bg-sgared-active"
+              className="w-full my-2.5 bg-sga-red text-white text-2xl font-semibold rounded-lg px-2.5 py-4 hover:bg-sga-red-hover active:bg-sga-red-active"
             >
               Log In
             </button>
