@@ -2,9 +2,11 @@ import React, { createContext, useState } from "react";
 import "./App.css";
 import Alert from "./components/Alert";
 import EventCard from "./components/EventCard";
+import Error404 from "./components/Error404";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import SearchIcon from "./SearchIcon.svg";
+
 
 export type User = number | null;
 
