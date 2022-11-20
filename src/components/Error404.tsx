@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ErrorIconSVG from '../assets/errorIcon.svg';
 
-
 const Error404 = ():ReactElement => {
     const navigate = useNavigate();
 
@@ -14,6 +13,7 @@ const Error404 = ():ReactElement => {
                 <p className="text-xl text-center max-w-sm">We can't find the page you're looking for. Contact the site owner if this is a mistake. </p>
             </div>
             <button onClick={() => navigate("/events")} className="button-base-red rounded-xl py-3 px-14 md:[py-5 px-20]">Return to home</button>
+
         </div>
     );
 }
