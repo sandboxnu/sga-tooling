@@ -1,8 +1,9 @@
 import React, { createContext, useState } from "react";
 import "./App.css";
-import EventCard from "./components/EventCard";
+import Error404 from "./components/Error404";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
+
 
 export type User = number | null;
 
@@ -24,19 +25,11 @@ function App() {
         <Footer />
         <Menu/>
       </LoginContext.Provider> */}
-
-      <Menu />
-      <div className="flex flex-row">
-        <div className="w-1/5">placeholder for dates whee</div>
-        <EventCard
-          startTime={new Date()}
-          name="Sample Event"
-          location="WVF 020"
-          description="Sample text. Please don't read this area. If you do you may be subject to legal action."
-          live={false}
-        />
+      <div className="flex min-h-screen flex-col justify-between">
+        <Menu />
+        <Error404 />
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }

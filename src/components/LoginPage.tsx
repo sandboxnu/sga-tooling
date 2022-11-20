@@ -31,7 +31,7 @@ const LoginPage = (): ReactElement => {
             />
             <button
               onClick={(e) => login()}
-              className="w-full my-2.5 bg-sgared text-white text-2xl font-semibold rounded-lg px-2.5 py-4 hover:bg-sgared-hover active:bg-sgared-active"
+              className="w-full my-2.5 bg-sga-red text-white text-2xl font-semibold rounded-lg px-2.5 py-4 hover:bg-sga-red-hover active:bg-sga-red-active"
             >
               Log In
             </button>
