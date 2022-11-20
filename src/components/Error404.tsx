@@ -1,7 +1,10 @@
 import { ReactElement } from "react";
-import ErrorIconSVG from ".././assets/errorIcon.svg";
+import { useNavigate } from "react-router-dom";
+import ErrorIconSVG from "../assets/errorIcon.svg";
 
 const Error404 = (): ReactElement => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center justify-center">
       <img src={ErrorIconSVG} alt="" />
@@ -12,7 +15,10 @@ const Error404 = (): ReactElement => {
           this is a mistake.{" "}
         </p>
       </div>
-      <button className="button-base-red rounded-xl py-3 px-14 md:[py-5 px-20]">
+      <button
+        onClick={() => navigate("/events")}
+        className="button-base-red rounded-xl py-3 px-14 md:[py-5 px-20]"
+      >
         Return to home
       </button>
     </div>

@@ -1,4 +1,5 @@
 import { ReactElement, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 // import { getUserInfo } from '../requests';
 
@@ -6,18 +7,36 @@ const LoginPage = (): ReactElement => {
   const { setUser } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
+  const navigate = useNavigate();
+
+  function checkIfLoginSaved() {
+    const nuid = localStorage.getItem("user");
+    if (nuid && isValidPassword(parseInt(nuid))) {
+      navigate("/events");
+    }
+  }
+
   function login() {
     if (input) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
-      setUser(parseInt(input));
+      setUser(input);
+      if (isValidPassword(parseInt(input))) {
+        navigate("/events");
+      }
     } else {
       alert("Error: Invalid NUID");
     }
   }
 
+  function isValidPassword(password:number) :boolean {
+    // first check the password using a REGEX
+    // check the password using an API
+    return true;
+  }
+
   return (
-    <div>
-      <div className="flex flex-col justify-end min-h-[68vh] bg-gradient-to-r from-red-300 to-gray-300">
+    <div onLoad={checkIfLoginSaved}>
+      <div className="flex flex-col justify-end min-h-[68vh] bg-gradient-to-r from-red-400 to-gray-300">
         <div>
           <form className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg shadow-xl">
             <input

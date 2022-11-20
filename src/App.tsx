@@ -1,10 +1,10 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import "./App.css";
 import EventCard from "./components/EventCard";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 
-export type User = number | null;
+export type User = string | null;
 
 type UserContext = {
   user: User;
@@ -15,6 +15,13 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const nuid = localStorage.getItem("user");
+    if (nuid) {
+      setUser(nuid);
+    }
+  }, []);
 
   return (
     <>
