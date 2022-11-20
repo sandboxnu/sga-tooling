@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
-import SVGFile from '../errorIcon.svg';
+import ErrorIconSVG from '../errorIcon.svg';
 
 const Error404 = ():ReactElement => {
     return (
         <div>
             <div className="flex flex-col items-center justify-center min-h-[70vh]">
-                <img src={SVGFile} alt="" />
+                <img src={ErrorIconSVG} alt="" />
                 <div className="flex flex-col items-center font-sans mt-1 mb-12">
                     <h1 className="text-3xl font-bold text-center">404 - Page Not Found</h1>
                     <p className="text-xl text-center max-w-sm">We can't find the page you're looking for. Contact the site owner if this is a mistake. </p>
