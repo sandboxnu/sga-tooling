@@ -1,11 +1,15 @@
-import React, { createContext, useState } from "react";
-import "./App.css";
-import Error404 from "./components/Error404";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import React, { createContext, useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router, Route, Routes
+} from "react-router-dom";
+import './App.css';
+import Alert from './components/Alert';
+import Error404 from './components/Error404';
+import Footer from './components/Footer';
+import LoginPage from './components/LoginPage';
+import Menu from './components/Menu';
 
-
-export type User = number | null;
+export type User = string | null;
 
 type UserContext = {
   user: User,
@@ -15,22 +19,34 @@ type UserContext = {
 export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
+
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    const nuid = localStorage.getItem("user");
+    if (nuid) {
+      setUser(nuid)
+    }
+    
+  }, [])
 
   return (
-    <>
-      {/* pages to be updated once routing is provided */}
-      {/* <LoginContext.Provider value={{user, setUser}}>
-        <LoginPage />
-        <Footer />
-        <Menu/>
-      </LoginContext.Provider> */}
-      <div className="flex min-h-screen flex-col justify-between">
-        <Menu />
-        <Error404 />
-        <Footer />
-      </div>
-    </>
+      <LoginContext.Provider value={{user, setUser}}>
+        <div className="flex min-h-screen flex-col justify-between">
+          {user ? <Menu /> : null}
+          <Router>
+            <Routes>
+                <Route path="/" element={<LoginPage />} errorElement={<Error404 />} />
+                <Route path="/events" element={<></>}>
+                  {/* :alerID needs to be updated to display Events */}
+                  <Route path=":alertID" element={<Alert message='hi'/>} />
+                </Route>
+                <Route path="*" element={<Error404 />} />
+            </Routes>
+          </Router>
+          <Footer />
+        </div>
+      </LoginContext.Provider>
   );
 }
 
