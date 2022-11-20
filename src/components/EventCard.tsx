@@ -5,14 +5,14 @@ import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import { EventDate } from "./EventDate";
 
-export interface EventCardProps {
+export type Event = {
   startTime: Date;
-  endTime?: Date;
+  endTime: Date;
   name: string;
   location: string;
   description: string;
   color: string;
-}
+};
 
 /**
  * Renders a single event in the feed
@@ -24,7 +24,7 @@ const EventCard = ({
   location,
   description,
   color,
-}: EventCardProps): ReactElement => {
+}: Event): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",

@@ -1,9 +1,10 @@
 import { ReactElement } from "react";
 import SearchIcon from "./assets/SearchIcon.svg";
 import Alert from "./components/Alert";
-import EventCard from "./components/EventCard";
+import EventCard, { Event } from "./components/EventCard";
 import EventsJSON from "./events.json";
 
+// Renders homepage with events.
 const Homepage = (): ReactElement => {
   function getColor(start: Date, end: Date) {
     const today = new Date();
@@ -18,35 +19,48 @@ const Homepage = (): ReactElement => {
     }
   }
 
-  const liveEvents = EventsJSON.filter(
-    (e) => getColor(new Date(e.startTime), new Date(e.endTime)) === "bg-sga-red"
-  ).map((e) => (
-    <>
-      <EventCard
-        startTime={new Date(e.startTime)}
-        name={e.name}
-        location={e.startTime}
-        description={e.description}
-        color={getColor(new Date(e.startTime), new Date(e.endTime))}
-      />
-      <hr className="border-black home-mx" />
-    </>
-  ));
+  const events: Event[] = EventsJSON.map((e) => {
+    return {
+      startTime: new Date(e.startTime),
+      endTime: new Date(e.endTime),
+      name: e.name,
+      location: e.startTime,
+      description: e.description,
+      color: getColor(new Date(e.startTime), new Date(e.endTime)),
+    };
+  });
 
-  const upcomingEvents = EventsJSON.filter(
-    (e) => getColor(new Date(e.startTime), new Date(e.endTime)) !== "bg-sga-red"
-  ).map((e) => (
-    <>
-      <EventCard
-        startTime={new Date(e.startTime)}
-        name={e.name}
-        location={e.startTime}
-        description={e.description}
-        color={getColor(new Date(e.startTime), new Date(e.endTime))}
-      />
-      <hr className="border-black home-mx" />
-    </>
-  ));
+  const liveEvents = events
+    .filter((e) => e.color === "bg-sga-red")
+    .map((e) => (
+      <>
+        <EventCard
+          startTime={e.startTime}
+          endTime={e.endTime}
+          name={e.name}
+          location={e.location}
+          description={e.description}
+          color={e.color}
+        />
+        <hr className="border-black home-mx" />
+      </>
+    ));
+
+  const upcomingEvents = events
+    .filter((e) => e.color !== "bg-sga-red")
+    .map((e) => (
+      <>
+        <EventCard
+          startTime={e.startTime}
+          endTime={e.endTime}
+          name={e.name}
+          location={e.location}
+          description={e.description}
+          color={e.color}
+        />
+        <hr className="border-black home-mx" />
+      </>
+    ));
 
   return (
     <>
