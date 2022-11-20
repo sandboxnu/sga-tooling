@@ -10,7 +10,7 @@ const LoginPage = (): ReactElement => {
   const navigate = useNavigate();
 
   function checkIfLoginSaved() {
-    const nuid = localStorage.getItem("user")
+    const nuid = localStorage.getItem("user");
     if (nuid && isValidPassword(parseInt(nuid))) {
       navigate("/events");
     }
@@ -19,7 +19,7 @@ const LoginPage = (): ReactElement => {
   function login() {
     if (input) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
-      setUser(parseInt(input));
+      setUser(input);
       if (isValidPassword(parseInt(input))) {
         navigate("/events");
       }
@@ -29,6 +29,8 @@ const LoginPage = (): ReactElement => {
   }
 
   function isValidPassword(password:number) :boolean {
+    // first check the password using a REGEX
+    // check the password using an API
     return true;
   }
 
