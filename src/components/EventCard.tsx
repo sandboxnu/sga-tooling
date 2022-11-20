@@ -3,15 +3,16 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
+import { EventDate } from "./EventDate";
 
-export interface EventCardProps {
+export type Event = {
   startTime: Date;
-  endTime?: Date;
+  endTime: Date;
   name: string;
   location: string;
   description: string;
-  live: boolean;
-}
+  color: string;
+};
 
 /**
  * Renders a single event in the feed
@@ -22,8 +23,8 @@ const EventCard = ({
   name,
   location,
   description,
-  live,
-}: EventCardProps): ReactElement => {
+  color,
+}: Event): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -38,8 +39,9 @@ const EventCard = ({
     : undefined;
 
   return (
-    <>
-      <div className="pl-4 pt-4 pr-6 w-4/5 md:w-[90%]">
+    <div className="flex my-8 md:my-10">
+      <EventDate startTime={startTime} color={color} />
+      <div className="flex-1 px-6 md:px-10">
         <span className="font-sans md:text-base">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
@@ -67,7 +69,7 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap justify-end">
-          {live ? (
+          {color === "bg-sga-red" ? (
             <button className="button-base-red px-4 my-2 md:px-6">Vote</button>
           ) : (
             <>
@@ -81,7 +83,7 @@ const EventCard = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

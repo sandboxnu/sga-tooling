@@ -5,23 +5,31 @@
 @tailwind utilities;
 
 @layer components {
-    .link {
-        @apply underline text-blue-600 cursor-pointer hover:text-blue-800 visited:text-purple-600;
-    }
+  .link {
+    @apply underline text-blue-600 cursor-pointer hover:text-blue-800 visited:text-purple-600;
+  }
 
-    .text-body-mobile {
-        @apply font-normal text-base leading-5;
-    }
+  .text-body-mobile {
+    @apply font-normal text-base leading-5;
+  }
 
-    .button-base {
-        @apply flex flex-row justify-center items-center rounded h-fit not-italic font-bold text-xl font-sans py-1 md:text-lg md:rounded-[10px] md:py-1;
-    }
+  .button-base {
+    @apply flex flex-row justify-center items-center rounded h-fit not-italic font-bold text-xl font-sans py-1 md:text-lg md:rounded-[10px] md:py-1;
+  }
 
-    .button-base-red {
-        @apply button-base bg-sga-red text-white shadow-md shadow-black/20;
-    }
+  .button-base-red {
+    @apply button-base bg-sga-red text-white shadow-md shadow-black/20;
+  }
 
-    .button-base-white {
-        @apply button-base border border-solid border-black bg-white;
-    }
+  .button-base-white {
+    @apply button-base border border-solid border-black bg-white;
+  }
+
+  .home-mx {
+    @apply mx-8 md:mx-10;
+  }
+
+  .section-heading {
+    @apply home-mx mt-8 md:mt-9 text-2xl font-bold;
+  }
 }
