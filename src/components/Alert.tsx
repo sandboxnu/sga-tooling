@@ -12,7 +12,7 @@ const Alert = (props: {
 }): ReactElement => {
   return (
     <div
-      className={`flex items-start space-x-2 text-left bg-warning-light rounded-2xl p-3 text-sm h-fit ${props.className}`}
+      className={`flex items-start space-x-2 text-left bg-warning-light rounded-2xl p-3 text-sm h-fit bg-alert-yellow ${props.className}`}
       role="alert"
     >
       <ExclamationCircleIcon className="w-12 fill-warning-dark flex-none stroke-white" />

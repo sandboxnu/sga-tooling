@@ -1,11 +1,8 @@
 import React, { createContext, useState } from "react";
 import "./App.css";
-import Alert from "./components/Alert";
-import EventCard from "./components/EventCard";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
-import EventsJSON from "./events.json";
-import SearchIcon from "./SearchIcon.svg";
+import Homepage from "./Homepage";
 
 export type User = number | null;
 
@@ -19,69 +16,11 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
-  function getColor(start: Date, end: Date) {
-    const today = new Date();
-    const timeNow = today.getTime();
-
-    if (start.getTime() < timeNow && timeNow < end.getTime()) {
-      return "bg-sga-red";
-    } else if (today.toDateString() === start.toDateString()) {
-      return "bg-black";
-    } else {
-      return "bg-white";
-    }
-  }
-
-  const liveEvents = EventsJSON.filter(
-    (e) => getColor(new Date(e.startTime), new Date(e.endTime)) === "bg-sga-red"
-  ).map((e) => (
-    <>
-      <EventCard
-        startTime={new Date(e.startTime)}
-        name={e.name}
-        location={e.startTime}
-        description={e.description}
-        color={getColor(new Date(e.startTime), new Date(e.endTime))}
-      />
-      <hr className="border-black home-mx" />
-    </>
-  ));
-
-  const upcomingEvents = EventsJSON.filter(
-    (e) => getColor(new Date(e.startTime), new Date(e.endTime)) !== "bg-sga-red"
-  ).map((e) => (
-    <>
-      <EventCard
-        startTime={new Date(e.startTime)}
-        name={e.name}
-        location={e.startTime}
-        description={e.description}
-        color={getColor(new Date(e.startTime), new Date(e.endTime))}
-      />
-      <hr className="border-black home-mx" />
-    </>
-  ));
-
   return (
     <LoginContext.Provider value={{ user, setUser }}>
       <main className="flex min-h-screen flex-col justify-start">
         <Menu />
-        {/* <LoginPage /> */}
-
-        <h1 className="section-heading">HAPPENING NOW</h1>
-        {liveEvents}
-
-        <Alert
-          message="Your standing in SGA may be affected if you miss the next event."
-          className="home-mx mt-5 bg-alert-yellow"
-        />
-
-        <div className="section-heading flex justify-between items-center">
-          <h1>UPCOMING EVENTS</h1>
-          <img src={SearchIcon} aria-label="Search for an event"></img>
-        </div>
-        {upcomingEvents}
-
+        <Homepage />
         <Footer />
       </main>
     </LoginContext.Provider>
