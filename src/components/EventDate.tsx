@@ -18,21 +18,17 @@ export const EventDate = (props: {
   const baseStyle =
     "w-16 h-12 md:w-20 md:h-14 rounded-r-2xl flex justify-center items-center text-xl md:text-2xl font-bold text-white";
 
+  const colorStyle = `${baseStyle} ${
+    props.color === "bg-white" ? `${props.color} text-black` : props.color
+  }`;
+
   return (
     <div>
       {props.color === "bg-sga-red" ? (
-        <div className={`${baseStyle} ${props.color}`}>LIVE</div>
+        <div className={colorStyle}>LIVE</div>
       ) : (
         <>
-          <div
-            className={`${baseStyle} ${
-              props.color === "bg-black"
-                ? `${props.color} text-white`
-                : `${props.color} text-black`
-            }`}
-          >
-            {date.num}
-          </div>
+          <div className={colorStyle}>{date.num}</div>
           <div className="mt-1 flex flex-col items-center text-lg md:text-xl">
             <p>{date.month}</p>
             <p>{date.day}</p>

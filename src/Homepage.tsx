@@ -34,14 +34,7 @@ const Homepage = (): ReactElement => {
     .filter((e) => e.color === "bg-sga-red")
     .map((e) => (
       <>
-        <EventCard
-          startTime={e.startTime}
-          endTime={e.endTime}
-          name={e.name}
-          location={e.location}
-          description={e.description}
-          color={e.color}
-        />
+        <EventCard {...e} />
         <hr className="border-black home-mx" />
       </>
     ));
@@ -50,14 +43,7 @@ const Homepage = (): ReactElement => {
     .filter((e) => e.color !== "bg-sga-red")
     .map((e) => (
       <>
-        <EventCard
-          startTime={e.startTime}
-          endTime={e.endTime}
-          name={e.name}
-          location={e.location}
-          description={e.description}
-          color={e.color}
-        />
+        <EventCard {...e} />
         <hr className="border-black home-mx" />
       </>
     ));
