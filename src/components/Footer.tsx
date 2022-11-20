@@ -4,7 +4,11 @@ import ".././styles.css";
 // Footer with source code and project information that goes at the bottom of each page
 const Footer = (): ReactElement => {
   return (
+<<<<<<< HEAD
     <div className="w-full px-2 py-4 mt-4 flex flex-row justify-between border-t-2 bottom-0 mt-auto">
+=======
+    <div className="w-full px-2 py-4 mt-4 flex flex-row justify-between border-t-2 bottom-0">
+>>>>>>> master
       <div>
         Made by students @&nbsp;
         <a

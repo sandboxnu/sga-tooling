@@ -25,7 +25,7 @@ function App() {
         <Menu/>
       </LoginContext.Provider> */}
 
-      <div className="flex min-h-screen flex-col justify-start">
+      <div className="flex min-h-screen flex-col justify-between">
         <Menu />
         <div className="flex flex-row">
           <div className="w-1/5 md:w-[10%]">placeholder for dates whee</div>
