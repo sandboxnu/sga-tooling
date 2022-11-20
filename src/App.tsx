@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import "./App.css";
 import Error404 from "./components/Error404";
 import Footer from "./components/Footer";
+import Menu from "./components/Menu";
 
 
 export type User = number | null;
@@ -24,9 +25,11 @@ function App() {
         <Footer />
         <Menu/>
       </LoginContext.Provider> */}
-
-      <Error404 />
-      <Footer />
+      <div className="flex min-h-screen flex-col justify-between">
+        <Menu />
+        <Error404 />
+        <Footer />
+      </div>
     </>
   );
 }
