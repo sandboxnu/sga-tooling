@@ -1,6 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+import Alert from "./components/Alert";
+import Error404 from "./components/Error404";
 import Footer from "./components/Footer";
+import LoginPage from "./components/LoginPage";
+import Menu from "./components/Menu";
 import Homepage from "./Homepage";
 
 export type User = string | null;
@@ -25,8 +30,6 @@ function App() {
   return (
     <LoginContext.Provider value={{ user, setUser }}>
       <div className="flex min-h-screen flex-col justify-between">
-        <Homepage />
-        {/*
         {user ? <Menu /> : null}
         <Router>
           <Routes>
@@ -35,13 +38,13 @@ function App() {
               element={<LoginPage />}
               errorElement={<Error404 />}
             />
-            <Route path="/events" element={<></>}>
+            <Route path="/events" element={<Homepage />}>
               <Route path=":alertID" element={<Alert message="hi" />} />
-              alertID needs to be updated to display events
+              {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
           </Routes>
-        </Router> */}
+        </Router>
         <Footer />
       </div>
     </LoginContext.Provider>

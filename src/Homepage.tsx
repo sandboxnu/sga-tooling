@@ -24,7 +24,7 @@ const Homepage = (): ReactElement => {
       startTime: new Date(e.startTime),
       endTime: new Date(e.endTime),
       name: e.name,
-      location: e.startTime,
+      location: e.location,
       description: e.description,
       color: getColor(new Date(e.startTime), new Date(e.endTime)),
     };
