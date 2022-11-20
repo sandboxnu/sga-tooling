@@ -11,7 +11,7 @@ export interface EventCardProps {
   name: string;
   location: string;
   description: string;
-  live: boolean;
+  color: string;
 }
 
 /**
@@ -23,7 +23,7 @@ const EventCard = ({
   name,
   location,
   description,
-  live,
+  color,
 }: EventCardProps): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
@@ -40,7 +40,7 @@ const EventCard = ({
 
   return (
     <div className="flex my-8 md:my-10">
-      <EventDate startTime={startTime} live={live} />
+      <EventDate startTime={startTime} color={color} />
       <div className="flex-1 px-6 md:px-10">
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
@@ -69,7 +69,7 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap">
-          {live ? (
+          {color === "bg-sga-red" ? (
             <button className="button-base-red px-4 my-2">Vote</button>
           ) : (
             <>
