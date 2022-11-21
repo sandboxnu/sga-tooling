@@ -12,7 +12,7 @@ const Error404 = (): ReactElement => {
         <h1 className="text-3xl font-bold text-center">404 - Page Not Found</h1>
         <p className="text-xl text-center max-w-sm">
           We can't find the page you're looking for. Contact the site owner if
-          this is a mistake.{" "}
+          this is a mistake.
         </p>
       </div>
       <button
