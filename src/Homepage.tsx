@@ -27,6 +27,7 @@ const Homepage = (): ReactElement => {
       location: e.location,
       description: e.description,
       color: getColor(new Date(e.startTime), new Date(e.endTime)),
+      tags: e.tags,
     };
   });
 

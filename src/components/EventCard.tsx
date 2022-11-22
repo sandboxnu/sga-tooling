@@ -4,6 +4,7 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import { EventDate } from "./EventDate";
+import EventTag from "./EventTag";
 
 export type Event = {
   startTime: Date;
@@ -12,6 +13,7 @@ export type Event = {
   location: string;
   description: string;
   color: string;
+  tags: string[];
 };
 
 /**
@@ -24,6 +26,7 @@ const EventCard = ({
   location,
   description,
   color,
+  tags,
 }: Event): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
@@ -38,6 +41,14 @@ const EventCard = ({
       })
     : undefined;
 
+  const tagElements: ReactElement[] = tags.map((t) => {
+    return (
+      <>
+        <EventTag tag={t} />
+      </>
+    );
+  });
+
   return (
     <div className="flex my-8 md:my-10">
       <EventDate startTime={startTime} color={color} />
@@ -45,7 +56,7 @@ const EventCard = ({
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
-        <div className="flex flex-row justify-between items-start mb-4">
+        <div className="flex flex-row justify-between items-start mb-3">
           <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
             {name}
           </div>
@@ -55,6 +66,14 @@ const EventCard = ({
             aria-label="Open Event Card details"
           />
         </div>
+        <div
+          className={
+            "flex flex-row flex-wrap gap-y-2 gap-x-2 w-full " +
+            (tagElements.length > 0 ? "mb-4" : "")
+          }
+        >
+          {tagElements}
+        </div>
         <div className="flex flex-row items-start mb-4">
           <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
           <span className="text-body-mobile pl-2 pr-12 pt-0.5 font-montserrat break-words w-full">
@@ -63,7 +82,7 @@ const EventCard = ({
         </div>
         <div className="flex flex-row items-start mb-6">
           <img src={TextIconSVG} alt="TextIcon svg" className="p-1 pt-0" />
-          <p className="text-body-mobile pl-2 pr-12 font-montserrat break-words w-full">
+          <p className="text-body-mobile pl-2 pr-8 font-montserrat break-words w-full">
             {description}
           </p>
         </div>
