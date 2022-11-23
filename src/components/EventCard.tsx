@@ -45,7 +45,7 @@ const EventCard = ({
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
-        <div className="flex flex-row justify-between items-start mb-4 md:mb-0">
+        <div className="flex flex-row justify-between items-start mb-4 md:mb-2">
           <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5 md:pr-64">
             {name}
           </div>
@@ -68,12 +68,12 @@ const EventCard = ({
           </p>
         </div>
 
-        <div className="flex flex-row flex-wrap justify-end">
+        <div className="flex flex-row flex-wrap justify-end md:justify-start md:mt-4">
           {color === "bg-sga-red" ? (
             <button className="button-base-red px-4 my-2 md:px-6">Vote</button>
           ) : (
             <>
-              <button className="button-base-white px-2 my-2 mr-5 md:mr-10 md:px-5">
+              <button className="button-base-white px-2 my-2 mr-5 md:mr-4 md:px-5">
                 Unregister
               </button>
               <button className="button-base-red px-4 my-2 md:px-7">
