@@ -7,17 +7,21 @@ export enum Tag {
 }
 
 const EventTag = (props: { tag: string }): ReactElement => {
+  let tag = props.tag;
+
+  if (!Object.keys(Tag).includes(props.tag)) {
+    tag = "Default";
+  }
+
   return (
-    <>
-      <span
-        className={
-          Tag[props.tag as keyof typeof Tag] +
-          " break-words rounded-xl text-sm font-bold font-sans px-4 py-1"
-        }
-      >
-        {props.tag}
-      </span>
-    </>
+    <span
+      className={
+        Tag[tag as keyof typeof Tag] +
+        " break-words rounded-xl text-sm font-bold font-sans px-4 py-1"
+      }
+    >
+      {props.tag}
+    </span>
   );
 };
 
