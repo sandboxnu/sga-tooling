@@ -1,22 +1,17 @@
 import { ReactElement } from "react";
 
-const EventTag = (props: { tag: string }): ReactElement => {
-  const color = () => {
-    switch (props.tag) {
-      case "Senate":
-        return "bg-tag-blue";
-      case "Committee":
-        return "bg-tag-green";
-      default:
-        return "bg-gray-300"; // ask josh for default background color?
-    }
-  };
+export enum Tag {
+  Senate = "bg-tag-blue",
+  Committee = "bg-tag-green",
+  Default = "bg-gray-300", // ask josh for default background color?
+}
 
+const EventTag = (props: { tag: string }): ReactElement => {
   return (
     <>
       <span
         className={
-          color() +
+          Tag[props.tag as keyof typeof Tag] +
           " break-words rounded-xl text-sm font-bold font-sans px-4 py-1"
         }
       >

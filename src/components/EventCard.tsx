@@ -42,11 +42,7 @@ const EventCard = ({
     : undefined;
 
   const tagElements: ReactElement[] = tags.map((t) => {
-    return (
-      <>
-        <EventTag tag={t} />
-      </>
-    );
+    return <EventTag tag={t} />;
   });
 
   return (
