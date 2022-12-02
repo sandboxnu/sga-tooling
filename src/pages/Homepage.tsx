@@ -20,7 +20,7 @@ const Homepage = (): ReactElement => {
   }
 
   function isSameDay(date1: Date, date2: Date) {
-    return date1.toDateString === date2.toDateString;
+    return date1.toDateString() === date2.toDateString();
   }
 
   const events: Event[] = EventsJSON.map((e) => {
@@ -40,10 +40,20 @@ const Homepage = (): ReactElement => {
   // Filters events into their corresponding status.
   events.reduce(
     function (result, curr, i) {
+      let component = (
+        <>
+          <EventCard key={curr.name} {...curr} />
+          {i > 0 &&
+          isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
+            <hr className="border-black home-mx" />
+          )}
+        </>
+      );
+
       if (curr.status === Status.Live) {
-        result[0].push(<EventCard key={curr.name} {...curr} />);
+        result[0].push(component);
       } else {
-        result[1].push(<EventCard key={curr.name} {...curr} />);
+        result[1].push(component);
       }
 
       return result;
