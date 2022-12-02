@@ -72,26 +72,28 @@ const EventCard = ({
         </div>
         <div className="flex flex-row items-start mb-4">
           <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
-          <span className="text-body-mobile pl-2 pr-12 pt-0.5 font-montserrat break-words w-full">
+          <span className="text-body-mobile pl-2 pr-8 pt-0.5 font-montserrat break-words w-full md:pr-64">
             {location}
           </span>
         </div>
-        <div className="flex flex-row items-start mb-6">
+        <div className="flex flex-row items-start mb-6 md:ml-4 md:mb-0">
           <img src={TextIconSVG} alt="TextIcon svg" className="p-1 pt-0" />
           <p className="text-body-mobile pl-2 pr-8 font-montserrat break-words w-full">
             {description}
           </p>
         </div>
 
-        <div className="flex flex-row flex-wrap">
+        <div className="flex flex-row flex-wrap justify-end md:justify-start md:mt-4">
           {color === "bg-sga-red" ? (
-            <button className="button-base-red px-4 my-2">Vote</button>
+            <button className="button-base-red px-4 my-2 md:px-6">Vote</button>
           ) : (
             <>
-              <button className="button-base-white px-2 my-2 mr-5">
+              <button className="button-base-white px-2 my-2 mr-5 md:mr-4 md:px-5">
                 Unregister
               </button>
-              <button className="button-base-red px-4 my-2">See More</button>
+              <button className="button-base-red px-4 my-2 md:px-7">
+                See More
+              </button>
             </>
           )}
         </div>
