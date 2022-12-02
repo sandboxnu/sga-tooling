@@ -89,7 +89,6 @@ const EventCard = ({
           </div>
         </div>
       </div>
-      <hr className="border-black home-mx" />
     </>
   );
 };

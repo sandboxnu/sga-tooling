@@ -19,6 +19,10 @@ const Homepage = (): ReactElement => {
     }
   }
 
+  function isSameDay(date1: Date, date2: Date) {
+    return date1.toDateString === date2.toDateString;
+  }
+
   const events: Event[] = EventsJSON.map((e) => {
     return {
       startTime: new Date(e.startTime),
