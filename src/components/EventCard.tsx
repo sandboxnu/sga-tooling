@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
@@ -44,6 +44,15 @@ const EventCard = ({
       })
     : undefined;
 
+  let [regStatus, setRegStatus] = useState(true);
+
+  let regButtonStyle = regStatus ? "button-base-white px-2 my-2 mr-5" : "button-base-red px-2 my-2 mr-5";
+
+  const toggleReg = () => {
+    setRegStatus(!regStatus);
+    // POST API Call Here
+  }
+
   return (
     <>
       <div className="flex my-8 md:my-10">
@@ -56,11 +65,23 @@ const EventCard = ({
             <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
               {name}
             </div>
-            <img
-              src={MeatballMenuSVG}
-              alt="Menu svg"
-              aria-label="Open Event Card details"
-            />
+            <details className="relative">
+              <summary className="list-none cursor-pointer">
+                <img
+                    src={MeatballMenuSVG}
+                    alt="Menu svg"
+                    aria-label="Open Event Card details"
+                  />
+              </summary>
+              <div className="absolute -ml-40 drop-shadow-[0_12px_12px_rgba(0,0,0,0.4)] px-4 py-4 rounded-xl bg-white">
+                  <ul>
+                    <li className="hover:underline">Save</li>
+                    <li className="hover:underline my-3">Enable Notifications</li>
+                    <li className="hover:underline">Add to Calendar</li>
+                  </ul>
+              </div>
+            </details>
+            
           </div>
           <div className="flex flex-row items-start mb-4">
             <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
@@ -80,8 +101,8 @@ const EventCard = ({
               <button className="button-base-red px-4 my-2">Vote</button>
             ) : (
               <>
-                <button className="button-base-white px-2 my-2 mr-5">
-                  Unregister
+                <button onClick={toggleReg} className={regButtonStyle}>
+                  {regStatus ? "Unregister" : "Register"}
                 </button>
                 <button className="button-base-red px-4 my-2">See More</button>
               </>
@@ -92,5 +113,6 @@ const EventCard = ({
     </>
   );
 };
+
 
 export default EventCard;
