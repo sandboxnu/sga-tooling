@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-import ErrorIconSVG from "../assets/ErrorIcon.svg";
+import ErrorIconSVG from "../assets/errorIcon.svg";
 
 const Error404 = (): ReactElement => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Error404 = (): ReactElement => {
       </div>
       <button
         onClick={() => navigate("/events")}
-        className="button-base-red rounded-xl py-3 px-14 md:[py-5 px-20]"
+        className="button-base-red rounded-xl py-3 px-14"
       >
         Return to home
       </button>
