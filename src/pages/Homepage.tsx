@@ -31,6 +31,7 @@ const Homepage = (): ReactElement => {
       location: e.location,
       description: e.description,
       status: getStatus(new Date(e.startTime), new Date(e.endTime)),
+      tags: e.tags,
     };
   });
 
