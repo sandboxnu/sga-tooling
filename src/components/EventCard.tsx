@@ -6,13 +6,19 @@ import ".././styles.css";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 
+export enum Status {
+  Live = "bg-sga-red",
+  Today = "bg-black",
+  Upcoming = "bg-white",
+}
+
 export type Event = {
   startTime: Date;
   endTime: Date;
   name: string;
   location: string;
   description: string;
-  color: string;
+  status: Status;
   tags: string[];
 };
 
@@ -25,7 +31,7 @@ const EventCard = ({
   name,
   location,
   description,
-  color,
+  status,
   tags,
 }: Event): ReactElement => {
   let startTimeString: string = startTime.toLocaleString("en-US", {
@@ -47,7 +53,7 @@ const EventCard = ({
 
   return (
     <div className="flex my-8 md:my-10">
-      <EventDate startTime={startTime} color={color} />
+      <EventDate startTime={startTime} status={status} />
       <div className="flex-1 px-6 md:px-10">
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
@@ -83,17 +89,15 @@ const EventCard = ({
           </p>
         </div>
 
-        <div className="flex flex-row flex-wrap justify-end md:justify-start md:mt-4">
-          {color === "bg-sga-red" ? (
-            <button className="button-base-red px-4 my-2 md:px-6">Vote</button>
+        <div className="flex flex-row flex-wrap">
+          {status === Status.Live ? (
+            <button className="button-base-red px-4 my-2">Vote</button>
           ) : (
             <>
-              <button className="button-base-white px-2 my-2 mr-5 md:mr-4 md:px-5">
+              <button className="button-base-white px-2 my-2 mr-5">
                 Unregister
               </button>
-              <button className="button-base-red px-4 my-2 md:px-7">
-                See More
-              </button>
+              <button className="button-base-red px-4 my-2">See More</button>
             </>
           )}
         </div>
