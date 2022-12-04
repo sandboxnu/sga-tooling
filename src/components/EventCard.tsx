@@ -47,6 +47,10 @@ const EventCard = ({
       })
     : undefined;
 
+  const tagElements: ReactElement[] = tags.map((t) => {
+    return <EventTag tag={t} />;
+  });
+
   let [regStatus, setRegStatus] = useState(true);
 
   let regButtonStyle = regStatus ? "button-base-white px-2 my-2 mr-5" : "button-base-red px-2 my-2 mr-5";
@@ -57,7 +61,6 @@ const EventCard = ({
   }
 
   return (
-    <>
       <div className="flex my-8 md:my-10">
         <EventDate startTime={startTime} status={status} />
         <div className="flex-1 px-6 md:px-10">
@@ -84,27 +87,8 @@ const EventCard = ({
                   </ul>
               </div>
             </details>
-            
           </div>
-          <div className="flex flex-row items-start mb-4">
-            <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
-            <span className="text-body-mobile pl-2 pr-12 pt-0.5 font-montserrat break-words w-full">
-              {location}
-            </span>
-          </div>
-          <div className="flex flex-row items-start mb-6">
-            <img src={TextIconSVG} alt="TextIcon svg" className="p-1 pt-0" />
-            <p className="text-body-mobile pl-2 pr-12 font-montserrat break-words w-full">
-              {description}
-            </p>
-          </div>
-          <img
-            src={MeatballMenuSVG}
-            alt="Menu svg"
-            aria-label="Open Event Card details"
-          />
-        </div>
-        <div
+          <div
           className={
             "flex flex-row flex-wrap gap-y-2 gap-x-2 w-full " +
             (tagElements.length > 0 ? "mb-4" : "")
@@ -124,6 +108,7 @@ const EventCard = ({
             {description}
           </p>
         </div>
+       
           <div className="flex flex-row flex-wrap">
             {status === Status.Live ? (
               <button className="button-base-red px-4 my-2">Vote</button>
@@ -138,7 +123,6 @@ const EventCard = ({
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
