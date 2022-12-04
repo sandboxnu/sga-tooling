@@ -73,11 +73,11 @@ const EventCard = ({
                     aria-label="Open Event Card details"
                   />
               </summary>
-              <div className="absolute -ml-40 drop-shadow-[0_12px_12px_rgba(0,0,0,0.4)] px-4 py-4 rounded-xl bg-white">
+              <div className="absolute -ml-40 drop-shadow-[0_12px_12px_rgba(0,0,0,0.4)] rounded-xl bg-white">
                   <ul>
-                    <li className="hover:underline">Save</li>
-                    <li className="hover:underline my-3">Enable Notifications</li>
-                    <li className="hover:underline">Add to Calendar</li>
+                    <li className="hover:underline pt-3 px-4">Save</li>
+                    <li className="hover:underline py-3 px-4">Enable Notifications</li>
+                    <li className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4">Add to Calendar</li>
                   </ul>
               </div>
             </details>
