@@ -8,7 +8,7 @@ import ".././styles.css";
 // Footer with source code and project information that goes at the bottom of each page
 const Footer = (props: { hideInfo: boolean }): ReactElement => {
   return (
-    <div className="w-full px-6 py-6 mt-4 flex flex-col justify-between bottom-0 bg-sga-red md:py-6 md:px-8 md:items-center">
+    <div className="w-full px-6 py-6 flex flex-col justify-between bottom-0 bg-sga-red md:py-6 md:px-8 md:items-center">
       <div className="flex flex-row justify-between items-center pb-1">
         <div className="font-montserrat text-xl font-bold text-white">
           Made by Sandbox
