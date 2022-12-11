@@ -45,7 +45,7 @@ function App() {
             <Route path="*" element={<Error404 />} />
           </Routes>
         </Router>
-        <Footer />
+        {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
       </div>
     </LoginContext.Provider>
   );
