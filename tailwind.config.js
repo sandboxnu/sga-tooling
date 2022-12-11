@@ -9,6 +9,8 @@ module.exports = {
         "sga-red-active": "#87121d",
         "transparent-gray": "#ECECEC52",
         "alert-yellow": "#FFEDC0",
+        "tag-blue": "#8DD8E6",
+        "tag-green": "#88BB77",
       },
       fontFamily: {
         montserrat: ["Montserrat"],

@@ -4,20 +4,31 @@
     "startTime": "December 25, 1995 23:15:30",
     "endTime": "December 26, 2023 23:15:30",
     "location": "WVF 020",
-    "description": "Sample text. Please don’t read this ar ea. If you do you may be subject to legal action. The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal."
+    "description": "Sample text. Please don’t read this ar ea. If you do you may be subject to legal action. The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal.",
+    "tags": ["Senate", "Committee", "Guest Speaker"]
   },
   {
     "name": "Sample Event 2",
     "startTime": "November 20, 2022 23:15:30",
     "endTime": "November 20, 2022 23:15:30",
     "location": "Afterhours, Curry Student Center",
-    "description": "The organizer of this event has chosen to notify you about it. The agenda is to vibe to Lil Nas X."
+    "description": "The organizer of this event has chosen to notify you about it. The agenda is to vibe to Lil Nas X.",
+    "tags": ["Senate"]
   },
   {
     "name": "Sample Event 3",
     "startTime": "December 25, 1995 23:15:30",
     "endTime": "December 26, 1995 23:15:30",
     "location": "Afterhours, Curry Student Center",
-    "description": "The organizer of this event has chosen to notify you about it. The agenda is to vibe to Lil Nas X."
+    "description": "The organizer of this event has chosen to notify you about it. The agenda is to vibe to Lil Nas X.",
+    "tags": []
+  },
+  {
+    "name": "Sample Event 4",
+    "startTime": "November 20, 2022 23:15:30",
+    "endTime": "November 20, 2022 23:15:30",
+    "location": "Afterhours, Curry Student Center",
+    "description": "The organizer of this event has chosen to notify you about it. The agenda is to vibe to Lil Nas X.",
+    "tags": ["Social Event"]
   }
 ]
