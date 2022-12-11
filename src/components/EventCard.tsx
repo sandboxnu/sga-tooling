@@ -51,12 +51,12 @@ const EventCard = ({
     return <EventTag tag={t} />;
   });
 
-  let [isRegistered, setisRegistered] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(true);
 
-  let regButtonStyle = isRegistered ? "button-base-white px-3 my-2 mr-5 w-32" : "button-base-red px-4 my-2 mr-5 w-32";
+  const regButtonStyle = isRegistered ? "button-base-white px-3 my-2 mr-5 w-32" : "button-base-red px-4 my-2 mr-5 w-32";
 
   const toggleReg = () => {
-    setisRegistered(!isRegistered);
+    setIsRegistered(!isRegistered);
     // POST API Call Here
   }
 
@@ -79,7 +79,7 @@ const EventCard = ({
                     aria-label="Open Event Card details"
                   />
               </summary>
-              <div className="absolute -ml-40 drop-shadow-[0_12px_12px_rgba(0,0,0,0.3)] rounded-xl bg-white">
+              <div className="absolute -ml-40 drop-shadow-event-dropdown rounded-xl bg-white">
                   <ul>
                     <li className="hover:underline pt-3 px-4">Save</li>
                     <li className="hover:underline py-3 px-4">Enable Notifications</li>
