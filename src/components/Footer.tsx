@@ -15,7 +15,7 @@ const Footer = (props: { hideInfo: boolean }): ReactElement => {
         </div>
 
         {props.hideInfo ? (
-          <div className="">
+          <div>
             <a
               href="https://github.com/sandboxnu/sga-tooling/issues"
               className="font-montserrat text-base font-medium text-white flex flex-row md:ml-6"
