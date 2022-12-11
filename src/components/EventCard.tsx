@@ -51,21 +51,12 @@ const EventCard = ({
     return <EventTag tag={t} />;
   });
 
-<<<<<<< HEAD
-  let [regStatus, setRegStatus] = useState(true);
-
-  let regButtonStyle = regStatus ? "button-base-white px-2 my-2 mr-5" : "button-base-red px-2 my-2 mr-5";
-
-  const toggleReg = () => {
-    setRegStatus(!regStatus);
-=======
   const [isRegistered, setIsRegistered] = useState(true);
 
   const regButtonStyle = isRegistered ? "button-base-white px-3 my-2 mr-5 w-32" : "button-base-red px-4 my-2 mr-5 w-32";
 
   const toggleReg = () => {
     setIsRegistered(!isRegistered);
->>>>>>> origin
     // POST API Call Here
   }
 
