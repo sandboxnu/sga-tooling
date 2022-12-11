@@ -117,7 +117,7 @@ const EventCard = ({
                 <button onClick={toggleReg} className={regButtonStyle}>
                   {isRegistered ? "Unregister" : "Register"}
                 </button>
-                <button className="button-base-red px-4 my-2">See More</button>
+                <button className="button-base-red px-4 my-2 w-32">See More</button>
               </>
             )}
           </div>
