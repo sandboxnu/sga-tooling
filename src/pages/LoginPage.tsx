@@ -57,7 +57,7 @@ const LoginPage = (): ReactElement => {
       </div>
       <div className="flex justify-center align-center h-64 lg:h-80">
         <img
-          className="max-w-[100%] max-h-[100%]"
+          className="object-contain max-w-[100%] max-h-[100%]"
           src="https://giving.northeastern.edu/live/image/gid/2/width/1260/height/630/crop/1/src_region/294,25,1751,1483/484_Club_-_Student_Government_Association.jpg"
           alt="Student Government Association Logo"
         />
