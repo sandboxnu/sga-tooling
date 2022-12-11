@@ -76,7 +76,7 @@ const Footer = (props: { hideInfo: boolean }): ReactElement => {
               <img src={InstagramIconSVG} alt="InstagramIcon svg" />
             </a>
             <a
-              href="https://github.com/sandboxnu"
+              href="https://github.com/sandboxnu/sga-tooling"
               target="_blank"
               rel="noopener noreferrer"
             >
