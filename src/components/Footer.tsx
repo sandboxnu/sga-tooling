@@ -12,7 +12,7 @@ const Footer = (): ReactElement => {
         Made by Sandbox
       </div>
 
-      <div className="flex md:flex-row md:gap-x-2">
+      <div className="flex flex-col md:flex-row md:gap-x-2">
         <a
           href="https://github.com/sandboxnu/sga-tooling"
           className="font-montserrat text-base font-medium text-white flex flex-row"
