@@ -17,7 +17,7 @@ const Error404 = (): ReactElement => {
       </div>
       <button
         onClick={() => navigate("/events")}
-        className="button-base-red rounded-xl py-3 px-14 md:[py-5 px-20]"
+        className="button-base-red rounded-xl py-3 px-14"
       >
         Return to home
       </button>
