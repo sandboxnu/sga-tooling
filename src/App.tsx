@@ -2,11 +2,11 @@ import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Alert from "./components/Alert";
-import Error404 from "./components/Error404";
 import Footer from "./components/Footer";
-import LoginPage from "./components/LoginPage";
 import Menu from "./components/Menu";
-import Homepage from "./Homepage";
+import Error404 from "./pages/Error404";
+import Homepage from "./pages/Homepage";
+import LoginPage from "./pages/LoginPage";
 
 export type User = string | null;
 
