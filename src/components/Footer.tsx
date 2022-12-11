@@ -1,28 +1,67 @@
 import { ReactElement } from "react";
-import ChevronRightSVG from ".././assets/ChevronRight.svg";
+import GithubIcon from ".././assets/GithubIcon.svg";
+import InstagramIcon from ".././assets/InstagramIcon.svg";
+import InternetWebIcon from ".././assets/InternetWebIcon.svg";
 import ".././styles.css";
 
 // Footer with source code and project information that goes at the bottom of each page
 const Footer = (): ReactElement => {
   return (
-    <div className="w-full px-6 py-4 mt-4 flex flex-row justify-between bottom-0 bg-sga-red md:py-6 md:px-8">
-      <div className="font-montserrat text-base font-bold text-white">
+    <div className="w-full px-6 py-6 mt-4 flex flex-col justify-between bottom-0 bg-sga-red md:py-6 md:px-8 md:items-center">
+      <div className="font-montserrat text-xl font-bold text-white pb-1">
         Made by Sandbox
       </div>
 
-      <div>
+      <div className="flex md:flex-row md:gap-x-2">
         <a
-          href="https://github.com/sandboxnu/office-hours/discussions"
+          href="https://github.com/sandboxnu/sga-tooling"
           className="font-montserrat text-base font-medium text-white flex flex-row"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn More
-          <img
-            src={ChevronRightSVG}
-            alt="ChevronRight svg"
-            aria-label="Learn More About Sandbox"
-          />
+          Source code
+        </a>
+        <p className="text-white hidden md:inline">|</p>
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSc_bunGiJFMXSaM4D9ojlcKMuyNqtAFDCUkxs9Ep2Z3sZh9aw/viewform?usp=sf_link"
+          className="font-montserrat text-base font-medium text-white flex flex-row"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Leave feedback
+        </a>
+        <p className="text-white hidden md:inline">|</p>
+        <a
+          href="https://github.com/sandboxnu/sga-tooling/issues"
+          className="font-montserrat text-base font-medium text-white flex flex-row"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Submit a bug
+        </a>
+      </div>
+
+      <div className="flex flex-row gap-x-6 mt-6">
+        <a
+          href="https://www.sandboxnu.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={InternetWebIcon} alt="InternetWebIcon svg" className="" />
+        </a>
+        <a
+          href="https://www.instagram.com/sandboxnu/?hl=en"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={InstagramIcon} alt="InstagramIcon svg" className="" />
+        </a>
+        <a
+          href="https://github.com/sandboxnu"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={GithubIcon} alt="GithubIcon svg" className="" />
         </a>
       </div>
     </div>
