@@ -15,9 +15,9 @@ module.exports = {
         "tag-green": "#88BB77",
       },
       backgroundImage: {
-        "cooper-mobile": "url(../src/assets/login-page-cooper.jpg)",
-        "cooper-mobile-festive": "url(../src/assets/login-page-cooper-festive.png)",
-        "cooper-big-boy": "url(../src/assets/login-page-cooper-big.jpg)",
+        "cooper-mobile": "url(../src/assets/cooper-mobile.jpg)",
+        "cooper-mobile-festive": "url(../src/assets/cooper-mobile-festive.png)",
+        "cooper-big-boy": "url(../src/assets/cooper-big-boy.jpg)",
       },
       fontFamily: {
         montserrat: ["Montserrat"],
