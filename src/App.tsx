@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "reflect-metadata";
 import "./App.css";
 import Alert from "./components/Alert";
 import Footer from "./components/Footer";
