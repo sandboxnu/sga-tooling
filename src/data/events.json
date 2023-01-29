@@ -2,36 +2,36 @@
     {
         "id": 1,
         "eventName": "Y2K Party",
-        "startTime": "December 31, 1999 20:00:00 GMT",
-        "endTime": "January 1, 2000 00:00:00 GMT",
+        "startTime": "1999-12-31 20:00:00",
+        "endTime": "2000-01-01 00:00:00",
         "signInClosed": true
     },
     {
         "id": 2,
         "eventName": "Sandbox GM",
-        "startTime": "January 22, 2022 14:00:00 UTC",
-        "endTime": "January 22, 2023 17:00:00 UTC",
+        "startTime": "2022-01-22 14:00:00",
+        "endTime": "2023-01-22 17:00:00",
         "signInClosed": true
     },
     {
         "id": 3,
         "eventName": "Christmas Day 2023",
-        "startTime": "December 25, 2023 18:15:23 UTC",
-        "endTime": "December 25, 2023 20:30:54 UTC",
+        "startTime": "2023-12-25 18:15:23",
+        "endTime": "2023-12-25 2023 20:30:54",
         "signInClosed": true
     },
     {
         "id": 4,
         "eventName": "Last Day of Classes 2024",
-        "startTime": "May 15, 2024 00:00:00 EST",
-        "endTime": "May 15, 2024 23:59:59 EST",
+        "startTime": "2024-05-15 00:00:00",
+        "endTime": "2024-05-15 23:59:59",
         "signInClosed": false
     },
     {
         "id": 5,
         "eventName": "Graduation Celebration 2024",
-        "startTime": "May 15, 2024 14:30:00 EST",
-        "endTime": "May 15, 2024 17:00:00 EST",
+        "startTime": "2024-05-15 14:30:00",
+        "endTime": "2024-05-15 17:00:00",
         "signInClosed": false
     }
 ]
