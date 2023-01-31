@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-import Hamburger from "../assets/Hamburger.svg"; 
+import HamburgerComponent from "./HamburgerComponent";
 
 /**
  * Creates a navbar menu with the SGA logo and a predetermined
@@ -9,6 +9,10 @@ import Hamburger from "../assets/Hamburger.svg";
  * @returns The navbar in a div
  */
 const Menu = (): ReactElement => {
+
+  const imageClick = () => {
+    console.log('Click');
+  }
 
   return (
     <div>
@@ -21,9 +25,9 @@ const Menu = (): ReactElement => {
           />
         </div>
 
-      <img className="w-11" src={Hamburger} />
+        <HamburgerComponent />
 
-        
+
       </div>
       <div id="detail">
         <Outlet />
