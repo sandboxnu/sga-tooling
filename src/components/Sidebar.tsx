@@ -9,7 +9,7 @@ const Sidebar = () => {
     <>
       {showSidebar ? (
         <button
-          className="flex text-4xl text-white items-center cursor-pointer fixed right-10 top-6 z-50"
+          className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-5"
           onClick={() => setShowSidebar(!showSidebar)}
         >
           <XMarkIcon className="w-12 fill-warning-dark flex-none stroke-white" />
