@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-import HamburgerComponent from "./HamburgerComponent";
+// import HamburgerComponent from "./HamburgerComponent";
+import Sidebar from "./Sidebar";
 
 /**
  * Creates a navbar menu with the SGA logo and a predetermined
@@ -25,7 +26,7 @@ const Menu = (): ReactElement => {
           />
         </div>
 
-        <HamburgerComponent />
+        <Sidebar />
 
 
       </div>
