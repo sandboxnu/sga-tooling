@@ -7,6 +7,7 @@ import Menu from "./components/Menu";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
+import Settings from "./components/Settings"; 
 
 export type User = string | null;
 
@@ -29,9 +30,9 @@ function App() {
 
   return (
     <LoginContext.Provider value={{ user, setUser }}>
-      <div className="flex min-h-screen flex-col justify-between">
-        {user ? <Menu /> : null}
+      <div className="flex min-h-screen flex-col justify-between">      
         <Router>
+        {user ? <Menu /> : null}
           <Routes>
             <Route
               path="/"
@@ -42,7 +43,7 @@ function App() {
               <Route path=":alertID" element={<Alert message="hi" />} />
               {/* alertID needs to be updated to display events */}
             </Route>
-            <Route path="*" element={<Error404 />} />
+            <Route path="*" element={<Error404 />} /> 
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}

@@ -1,5 +1,5 @@
 import { ReactElement, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { LoginContext } from "../App";
 // import { getUserInfo } from '../requests';
 
@@ -7,7 +7,7 @@ const LoginPage = (): ReactElement => {
   const { setUser } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
