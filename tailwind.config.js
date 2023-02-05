@@ -13,6 +13,7 @@ module.exports = {
         "alert-yellow": "#FFEDC0",
         "tag-blue": "#8DD8E6",
         "tag-green": "#88BB77",
+
       },
       fontFamily: {
         montserrat: ["Montserrat"],
@@ -21,6 +22,9 @@ module.exports = {
       dropShadow: {
         'event-dropdown': '0 12px 12px rgba(0, 0, 0, 0.3)',
       },
+      backgroundImage: {
+        'isec': "url('../src/assets/Isec.png')",
+      }
     },
   },
   plugins: [],

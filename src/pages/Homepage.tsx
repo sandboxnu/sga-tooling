@@ -4,36 +4,38 @@ import Alert from "../components/Alert";
 import EventCard, { Event, Status } from "../components/EventCard";
 import EventsJSON from "../events.json";
 
+export function getStatus(start: Date, end: Date) {
+  const today = new Date();
+  const timeNow = today.getTime();
+
+  if (start.getTime() < timeNow && timeNow < end.getTime()) {
+    return Status.Live;
+  } else if (today.toDateString() === start.toDateString()) {
+    return Status.Today;
+  } else {
+    return Status.Upcoming;
+  }
+}
+
+export const events: Event[] = EventsJSON.map((e) => {
+  return {
+    startTime: new Date(e.startTime),
+    endTime: new Date(e.endTime),
+    name: e.name,
+    location: e.location,
+    description: e.description,
+    status: getStatus(new Date(e.startTime), new Date(e.endTime)),
+    tags: e.tags,
+
+  };
+});
+
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
-  function getStatus(start: Date, end: Date) {
-    const today = new Date();
-    const timeNow = today.getTime();
-
-    if (start.getTime() < timeNow && timeNow < end.getTime()) {
-      return Status.Live;
-    } else if (today.toDateString() === start.toDateString()) {
-      return Status.Today;
-    } else {
-      return Status.Upcoming;
-    }
-  }
 
   function isSameDay(date1: Date, date2: Date) {
     return date1.toDateString() === date2.toDateString();
   }
-
-  const events: Event[] = EventsJSON.map((e) => {
-    return {
-      startTime: new Date(e.startTime),
-      endTime: new Date(e.endTime),
-      name: e.name,
-      location: e.location,
-      description: e.description,
-      status: getStatus(new Date(e.startTime), new Date(e.endTime)),
-      tags: e.tags,
-    };
-  });
 
   const liveEvents: ReactElement[] = [];
   const upcomingEvents: ReactElement[] = [];
@@ -45,7 +47,7 @@ const Homepage = (): ReactElement => {
         <>
           <EventCard key={curr.name} {...curr} />
           {i > 0 &&
-          isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
+            isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
             <hr className="border-black home-mx" />
           )}
         </>

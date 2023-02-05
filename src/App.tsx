@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Alert from "./components/Alert";
+import EventDetails from "./components/EventDetails";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import Error404 from "./pages/Error404";
@@ -25,7 +26,7 @@ function App() {
     if (nuid) {
       setUser(nuid);
     }
-  }, []);
+  }, [])
 
   return (
     <LoginContext.Provider value={{ user, setUser }}>
@@ -43,6 +44,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
+            <Route path="/eventdetails" element={<EventDetails />} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
