@@ -9,7 +9,7 @@ const Sidebar = () => {
     <>
       {showSidebar ? (
         <button
-          className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-5"
+          className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-6"
           onClick={() => setShowSidebar(!showSidebar)}
         >
           <XMarkIcon className="w-12 fill-warning-dark flex-none stroke-white" />
@@ -18,11 +18,8 @@ const Sidebar = () => {
         <Bars3Icon className="w-12 fill-warning-dark flex-none fill-white" onClick={() => setShowSidebar(!showSidebar)} />
       )}
 
-        
-
-
       <div
-        className={`top-0 right-0 w-[100vw] md:w-[35vw] bg-[#D41B2C] p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${showSidebar ? "translate-x-0 " : "translate-x-full"
+        className={`top-0 right-0 w-[100vw] md:w-[35vw] bg-[#D41B2C] p-10 pl-20 text-white fixed h-full z-40 ease-in-out duration-300 ${showSidebar ? "translate-x-0 " : "translate-x-full"
           }`}
       >
         <h3 className="mt-20 text-4xl font-semibold text-white">
