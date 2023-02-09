@@ -1,4 +1,3 @@
-//need to actually import the event
 import { ReactElement } from "react";
 import Frame from ".././assets/Frame.svg";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
@@ -8,18 +7,16 @@ export type EventDetailsProps = {
   event: Event;
 };
 
-//have to destructure fields when passing in props otherwise a bit weird
-//For future reference to pass in event props do this : { event }: EventDetailsProps
-const EventDetails = (): ReactElement => {
+const EventDetails = ( {event}:EventDetailsProps ): ReactElement => {
   return (
     <div
       className="flex h-screen w-screen flex-col p-10"
       style={{ gap: "2rem" }}
     >
-      <div className="flex flex-row items-center  " style={{ gap: "1rem" }}>
-        <img src={Frame} alt="Back arrow" className="p-1 pt-0 block" />
+      <div className="flex flex-row items-center" style={{ gap: "1rem" }}>
+        <img src={Frame} alt="Back arrow" className="p-1 pt-0" />
 
-        <h1 className="section-heading m-0 text-md text-left w-full md:w-2/12 ">
+        <h1 className="section-heading m-0 text-md text-left w-full md:w-2/12">
           <span>EVENT DETAILS</span>
         </h1>
         <img
@@ -61,8 +58,8 @@ const EventDetails = (): ReactElement => {
             </div>
           </div>
         </div>
-        <div className=" flex-col ">
-          <p className="text-body-mobile font-montserrat break-words w-full  ">
+        <div className="flex flex-col">
+          <p className="text-body-mobile font-montserrat break-words w-full">
             Sample text. Please don't read this area. If you do you may be
             subjet to legal action. Here's a bunch of random text that I'm
             typing to fill this area.
