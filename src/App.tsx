@@ -7,6 +7,7 @@ import Menu from "./components/Menu";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
+import UserPreference from "./pages/UserPreference";
 
 export type User = string | null;
 
@@ -43,6 +44,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
+            <Route path="/user/" element={ <UserPreference />}/>
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
