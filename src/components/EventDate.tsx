@@ -20,9 +20,7 @@ export const EventDate = (props: {
     "w-16 h-12 md:w-20 md:h-14 rounded-r-2xl flex justify-center items-center text-xl md:text-2xl font-bold text-white";
 
   const colorStyle = `${baseStyle} ${
-    props.status === Status.Upcoming
-      ? `${props.status} text-black`
-      : props.status
+    props.status === Status.Rest ? `${props.status} text-black` : props.status
   }`;
 
   return (
