@@ -1,16 +1,12 @@
 import { ReactElement, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
 import { LoginContext } from "../App";
 
 const Settings = (): ReactElement => {
-
-    const navigate = useNavigate();
     const { setUser } = useContext(LoginContext);
 
     function LogOut() {
         localStorage.removeItem("user");
-        setUser(null);
-        navigate("/");
+        setUser(null); 
     }
 
 
