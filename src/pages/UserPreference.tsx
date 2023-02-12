@@ -1,10 +1,13 @@
 import { ReactElement } from "react";
+import 'tw-elements';
 const UserPreference = () : ReactElement =>  {
 
     //some user validation.
 
+    //have this take in a peson prop, and then test this with actual data from there
+
     return (
-        <div className="flex flex-col w-screen h-screen p-4 font-sans md:p-10" style={{gap: "2rem"}}>
+        <div className="flex flex-col w-full h-full p-4 font-sans md:p-10" style={{gap: "2rem"}}>
             {/*The 2 rem here is to keep consistent with the rest of the padding in between sections below*/}
             <div className="flex flex-col font-sans font-bold ">
                 <span className="text-gray-600 text-xl"> Hello,</span>
@@ -54,12 +57,21 @@ const UserPreference = () : ReactElement =>  {
 
                 <div className="flex flex-col" style={{gap: "1.5rem"}}>
                     <span className="font-bold"> PREFERENCES </span>
-                    <div className="flex flex-row">
-                        Recieve Notifications before my events
+                    <div className="flex flex-row gap-x-">
+                        <span className="">Recieve Notifications before my events</span>
+
+                        <div className="form-check form-switch mb-7">
+                            <input className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault56"/>
+                        </div>
+
                     </div>
 
                     <div className="flex flex-row">
-                        Recieve Notifications when new events are made
+                        <span>Recieve Notifications when new events are made </span>
+
+                        <div className="form-check form-switch mb-7">
+                            <input className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault56"/>
+                        </div>
                     </div>
                 </div>
             </div>
