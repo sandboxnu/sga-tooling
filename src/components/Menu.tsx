@@ -11,10 +11,6 @@ import Sidebar from "./Sidebar";
  */
 const Menu = (): ReactElement => {
 
-  const imageClick = () => {
-    console.log('Click');
-  }
-
   return (
     <div>
       <div className="flex items-center justify-between space-x-16 md:space-x-0 lg:space-x-0 min-w-100 h-24 bg-sga-red px-5 shadow-md shadow-neutral-400">
