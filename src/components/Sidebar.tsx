@@ -9,6 +9,7 @@ const Sidebar = () => {
     <>
       {showSidebar ? (
         <button
+          aria-label="Settings Button"
           className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-6"
           onClick={() => setShowSidebar(!showSidebar)}
         >
@@ -19,7 +20,7 @@ const Sidebar = () => {
       )}
 
       <div
-        className={`top-0 right-0 w-[100vw] md:w-[35vw] bg-[#D41B2C] p-10 pl-20 text-white fixed h-full z-40 ease-in-out duration-300 ${showSidebar ? "translate-x-0 " : "translate-x-full"
+        className={`top-0 right-0 w-screen md:w-[35vw] bg-sga-red p-10 pl-20 text-white fixed h-full z-40 ease-in-out duration-300 ${showSidebar ? "translate-x-0 " : "translate-x-full"
           }`}
       >
         <h3 className="mt-20 text-4xl font-semibold text-white">
