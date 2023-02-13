@@ -18,7 +18,6 @@ const EventDetails = ( {event}:EventDetailsProps): ReactElement => {
     >
       <div className="flex flex-row items-center" style={{ gap: "1rem" }}>
         <img src={Frame} alt="Back arrow" className="p-1 pt-0" />
-
         <h1 className="section-heading m-0 text-md text-left w-full md:w-2/12">
           <span>EVENT DETAILS</span>
         </h1>
@@ -42,7 +41,7 @@ const EventDetails = ( {event}:EventDetailsProps): ReactElement => {
           <div
             className="w-1/2 h-52 bg-no-repeat bg-isec bg-cover margin-0 rounded-l-2xl object-cover md:h-96 md:w-full"
             style={{ gap: 0 }}
-          ></div>
+          />
           <div className="w-1/2 h-52 bg-sga-red rounded-r-2xl text-white text-right flex  md:w-full flex-col md:pr-5 md:h-96 justify-around md:justify-between p-3">
             <div className="flex flex-col justify-around md:justify-between md:py-4 h-full">
               <div>
