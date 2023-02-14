@@ -92,7 +92,7 @@ const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
 
           <div className="flex flex-row items-center">
             <img src={LinkSVG} alt="Link" className="px-3" />
-            kaljfdklajfkaljfakk
+            kaljfdklajfkaljfaj
           </div>
         </div>
       </div>
