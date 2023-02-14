@@ -13,10 +13,16 @@ export type EventDetailsProps = {
 //Displays detailed information about event.
 const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
   let startTimeString: string = event.startTime.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
     hour: "numeric",
     minute: "numeric",
     hour12: true,
   });
+
+  let startVariables = startTimeString.split(" ");
 
   let endTimeString: string | undefined = event.endTime
     ? event.endTime.toLocaleString("en-US", {
@@ -47,35 +53,30 @@ const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
         <div className="flex flex-row h-60 md:w-6/12 md:h-96">
           <div className="flex-1 bg-no-repeat bg-isec bg-cover rounded-l-2xl object-cover" />
           <div className="flex-1 bg-sga-red rounded-r-2xl text-white text-right p-4">
-            <div className="flex flex-col justify-around md:justify-between h-full">
+            <div className="flex flex-col justify-between h-full">
               <div>
                 <div className="font-sans font-bold text-5xl">
-                  {event.startTime.toLocaleDateString("en-US", {
-                    day: "numeric",
-                  })}
+                  {/* The slice removes the comma which comes from the toLocaleString function*/}
+                  {startVariables[2].slice(0, -1)}
                 </div>
                 <div className="text-l">
                   <span className="font-sans font-bold">
-                    {event.startTime.toLocaleDateString("en-US", {
-                      month: "long",
-                    })}
+                    {startVariables[1]}
                   </span>
                   <span className="font-montserrat pl-1">
-                    '
-                    {event.startTime.toLocaleDateString("en-US", {
-                      year: "numeric",
-                    })}
+                    '{startVariables[3]}
                   </span>
                   <br />
                   <span className="font-montserrat">
-                    {event.startTime.toLocaleDateString("en-US", {
-                      weekday: "long",
-                    })}
+                    {startVariables[0].slice(0, -1)}
                   </span>
                 </div>
               </div>
               <div className="font-sans font-bold text-l">
-                {startTimeString + (event.endTime ? " - " + endTimeString : "")}
+                {startVariables[5] +
+                  " " +
+                  startVariables[6] +
+                  (event.endTime ? " - " + endTimeString : "")}
               </div>
             </div>
           </div>
