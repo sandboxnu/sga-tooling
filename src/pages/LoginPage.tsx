@@ -28,7 +28,7 @@ const LoginPage = (): ReactElement => {
     }
   }
 
-  function isValidPassword(password:number) :boolean {
+  function isValidPassword(password: number): boolean {
     // first check the password using a REGEX
     // check the password using an API
     return true;
