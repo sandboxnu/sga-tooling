@@ -29,7 +29,7 @@ function App() {
     }
   }, [])
 
-  const SampleEvent = {
+  const SampleEvent: Event = {
     startTime: new Date(5000000),
     endTime: new Date(5000001),
     name: "Sample Event 5",
@@ -55,7 +55,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route path="/event-details" element={<EventDetails event={(SampleEvent as Event)}/>} />
+            <Route path="/event-details" element={<EventDetails event={SampleEvent}/>} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
