@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import EventDetailsPage from "./components/EventDetailsPage";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import Error404 from "./pages/Error404";
+import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 
