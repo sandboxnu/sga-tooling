@@ -1,8 +1,9 @@
 import { ReactElement } from "react";
 import SearchIcon from "../assets/SearchIcon.svg";
 import Alert from "../components/Alert";
-import EventCard, { Event, Status } from "../components/EventCard";
+import EventCard, { Status } from "../components/EventCard";
 import EventsJSON from "../events.json";
+import { Event } from "../util/Types";
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
@@ -25,6 +26,7 @@ const Homepage = (): ReactElement => {
 
   const events: Event[] = EventsJSON.map((e) => {
     return {
+      id: e.id,
       startTime: new Date(e.startTime),
       endTime: new Date(e.endTime),
       name: e.name,
