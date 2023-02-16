@@ -36,12 +36,7 @@ const UserPreference = (): ReactElement => {
     <div className="flex flex-col flex-1 p-4 font-sans md:p-10 gap-y-8">
       <div className="flex flex-col font-sans font-bold ">
         <span className="text-gray-600 text-xl"> Hello,</span>
-        <div className="flex flex-row justify-between">
-          <span className="section-heading m-0"> NORTHEASTERN SGA</span>
-          <button className="bg-gray-300 w-20 h-6 rounded text-gray-600">
-            Save
-          </button>
-        </div>
+        <span className="section-heading m-0"> NORTHEASTERN SGA</span>
       </div>
 
       <div className="flex flex-col px-7 " style={{ gap: "2rem" }}>
