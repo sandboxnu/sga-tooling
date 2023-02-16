@@ -12,9 +12,7 @@ const EventDetailsPage = ({ event }: EventDetailsPageProps): ReactElement => {
   const [eventToDisplay, setEventToDisplay] = useState(event);
 
   if (!eventToDisplay) {
-    console.log("No event handed");
     fetchEvent(Number(id)).then((e) => {
-      console.log("Event gotten");
       setEventToDisplay(e);
     });
     return <p>Loading</p>;
