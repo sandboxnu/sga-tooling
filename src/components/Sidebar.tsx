@@ -11,7 +11,17 @@ const Sidebar = () => {
   return (
     <>
       {showSidebar ? (
+<<<<<<< HEAD
         <></>
+=======
+        <button
+          aria-label="Open settings menu"
+          className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-6"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          <XMarkIcon className="w-12 fill-warning-dark flex-none stroke-white" />
+        </button>
+>>>>>>> 3cffb5d8037a9d8685d3fd8e42453354d6d46ebc
       ) : (
         <Bars3Icon className="w-12 fill-warning-dark flex-none fill-white" onClick={() => setShowSidebar(!showSidebar)} />
       )}
