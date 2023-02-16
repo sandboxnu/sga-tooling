@@ -12,7 +12,7 @@ export type EventDetailsProps = {
 
 //Displays detailed information about event.
 const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
-  let startTimeString: string = event.startTime.toLocaleString("en-US", {
+  const TimeString: string = event.startTime.toLocaleString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -22,9 +22,15 @@ const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
     hour12: true,
   });
 
-  let startVariables = startTimeString.split(" ");
+  //variables for displaying the date
+  const startVariables = TimeString.split(" ");
+  const month = startVariables[1];
+  const year = startVariables[3];
+  const dayOfWeek = startVariables[0].slice(0, -1);
+  const date = startVariables[2].slice(0, -1);
+  const startTimeString = startVariables[5] + " " + startVariables[6];
 
-  let endTimeString: string | undefined = event.endTime
+  const endTimeString: string | undefined = event.endTime
     ? event.endTime.toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
@@ -57,26 +63,17 @@ const EventDetails = ({ event }: EventDetailsProps): ReactElement => {
               <div>
                 <div className="font-sans font-bold text-5xl">
                   {/* The slice removes the comma which comes from the toLocaleString function*/}
-                  {startVariables[2].slice(0, -1)}
+                  {date}
                 </div>
                 <div className="text-l">
-                  <span className="font-sans font-bold">
-                    {startVariables[1]}
-                  </span>
-                  <span className="font-montserrat pl-1">
-                    '{startVariables[3]}
-                  </span>
+                  <span className="font-sans font-bold">{month}</span>
+                  <span className="font-montserrat pl-1">'{year}</span>
                   <br />
-                  <span className="font-montserrat">
-                    {startVariables[0].slice(0, -1)}
-                  </span>
+                  <span className="font-montserrat">{dayOfWeek}</span>
                 </div>
               </div>
               <div className="font-sans font-bold text-l">
-                {startVariables[5] +
-                  " " +
-                  startVariables[6] +
-                  (event.endTime ? " - " + endTimeString : "")}
+                {startTimeString + (event.endTime ? " - " + endTimeString : "")}
               </div>
             </div>
           </div>
