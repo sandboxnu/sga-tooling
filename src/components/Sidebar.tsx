@@ -9,7 +9,7 @@ const Sidebar = () => {
     <>
       {showSidebar ? (
         <button
-          aria-label="Settings Button"
+          aria-label="Open settings menu"
           className="flex text-3xl text-white items-center cursor-pointer fixed right-10 top-6 z-50 right-6"
           onClick={() => setShowSidebar(!showSidebar)}
         >
