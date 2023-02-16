@@ -44,7 +44,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route path="/user/" element={ <UserPreference />}/>
+            <Route path="/user/" element={<UserPreference />} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
