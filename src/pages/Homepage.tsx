@@ -1,8 +1,9 @@
 import { ReactElement } from "react";
 import SearchIcon from "../assets/SearchIcon.svg";
 import Alert from "../components/Alert";
-import EventCard, { Event, Status } from "../components/EventCard";
+import EventCard, { Status } from "../components/EventCard";
 import EventsJSON from "../events.json";
+import { Event } from "../util/Types";
 
 export function getStatus(start: Date, end: Date) {
   const today = new Date();
@@ -17,25 +18,22 @@ export function getStatus(start: Date, end: Date) {
   }
 }
 
-export const events: Event[] = EventsJSON.map((e) => {
-  return {
-    startTime: new Date(e.startTime),
-    endTime: new Date(e.endTime),
-    name: e.name,
-    location: e.location,
-    description: e.description,
-    status: getStatus(new Date(e.startTime), new Date(e.endTime)),
-    tags: e.tags,
-
-  };
-});
-
-// Renders homepage with events.
-const Homepage = (): ReactElement => {
-
   function isSameDay(date1: Date, date2: Date) {
     return date1.toDateString() === date2.toDateString();
   }
+
+  const events: Event[] = EventsJSON.map((e) => {
+    return {
+      id: e.id,
+      startTime: new Date(e.startTime),
+      endTime: new Date(e.endTime),
+      name: e.name,
+      location: e.location,
+      description: e.description,
+      status: getStatus(new Date(e.startTime), new Date(e.endTime)),
+      tags: e.tags,
+    };
+  });
 
   const liveEvents: ReactElement[] = [];
   const upcomingEvents: ReactElement[] = [];

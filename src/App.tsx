@@ -1,12 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Alert from "./components/Alert";
-import { Event, Status } from "./components/EventCard";
-import EventDetails from "./components/EventDetails";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import Error404 from "./pages/Error404";
+import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 
@@ -27,17 +25,7 @@ function App() {
     if (nuid) {
       setUser(nuid);
     }
-  }, [])
-
-  const SampleEvent: Event = {
-    startTime: new Date(5000000),
-    endTime: new Date(5000001),
-    name: "Sample Event 5",
-    location: "Steast",
-    description: "Sample Data to try and get my component to not error :-)",
-    status: Status.Live,
-    tags: ["Sample Event"]
-  }
+  }, []);
 
   return (
     <LoginContext.Provider value={{ user, setUser }}>
@@ -50,12 +38,9 @@ function App() {
               element={<LoginPage />}
               errorElement={<Error404 />}
             />
-            <Route path="/events" element={<Homepage />}>
-              <Route path=":alertID" element={<Alert message="hi" />} />
-              {/* alertID needs to be updated to display events */}
-            </Route>
+            <Route path="/events" element={<Homepage />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
             <Route path="*" element={<Error404 />} />
-            <Route path="/event-details" element={<EventDetails event={SampleEvent}/>} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
