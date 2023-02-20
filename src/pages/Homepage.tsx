@@ -2,8 +2,7 @@ import { ReactElement } from "react";
 import SearchIcon from "../assets/SearchIcon.svg";
 import Alert from "../components/Alert";
 import EventCard, { Status } from "../components/EventCard";
-import EventsJSON from "../events.json";
-import { Event } from "../util/Types";
+import { mockEvents } from "../data/events";
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
@@ -24,18 +23,7 @@ const Homepage = (): ReactElement => {
     return date1.toDateString() === date2.toDateString();
   }
 
-  const events: Event[] = EventsJSON.map((e) => {
-    return {
-      id: e.id,
-      startTime: new Date(e.startTime),
-      endTime: new Date(e.endTime),
-      name: e.name,
-      location: e.location,
-      description: e.description,
-      status: getStatus(new Date(e.startTime), new Date(e.endTime)),
-      tags: e.tags,
-    };
-  });
+  const events = mockEvents;
 
   const liveEvents: ReactElement[] = [];
   const upcomingEvents: ReactElement[] = [];
@@ -45,7 +33,7 @@ const Homepage = (): ReactElement => {
     function (result, curr, i) {
       let component = (
         <>
-          <EventCard key={curr.name} {...curr} />
+          <EventCard key={curr.eventName} {...curr} />
           {i > 0 &&
           isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
             <hr className="border-black home-mx" />

@@ -4,7 +4,7 @@ import { Status } from "./EventCard";
 // Renders an event's day of the month numerically, month, and day of the week.
 export const EventDate = (props: {
   startTime: Date;
-  status: Status;
+  status?: Status;
 }): ReactElement => {
   const date = {
     num: props.startTime.getDate(),

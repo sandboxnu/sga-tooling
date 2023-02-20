@@ -1,6 +1,8 @@
-[
+import { Member } from "../util/Types"
+
+export const mockMembers : Member[] = [
     {
-        "id": "1",
+        "id": 1,
         "firstName": "Raveesh",
         "lastName": "Mehta",
         "email": "Mehta.R@northeastern.edu",
@@ -11,7 +13,7 @@
         "signInBlocked": false
     },
     {
-        "id": "2",
+        "id": 2,
         "firstName": "Chanmi",
         "lastName": "Oh",
         "email": "Oh.C@northeastern.edu",
@@ -22,7 +24,7 @@
         "signInBlocked": false
     },
     {
-        "id": "3",
+        "id": 3,
         "firstName": "Melody",
         "lastName": "Liu",
         "email": "Liu.M@northeastern.edu",
@@ -33,7 +35,7 @@
         "signInBlocked": true
     },
     {
-        "id": "4",
+        "id": 4,
         "firstName": "Josh",
         "lastName": "Wang",
         "email": "Wang.J@northeastern.edu",
@@ -44,7 +46,7 @@
         "signInBlocked": false
     },
     {
-        "id": "5",
+        "id": 5,
         "firstName": "Dylan",
         "lastName": "Cerenov",
         "email": "Cerenov.D@northeastern.edu",
@@ -55,7 +57,7 @@
         "signInBlocked": true
     },
     {
-        "id": "6",
+        "id": 6,
         "firstName": "Nathan",
         "lastName": "Harvey",
         "email": "Harvey.N@northeastern.edu",
@@ -66,7 +68,7 @@
         "signInBlocked": false
     },
     {
-        "id": "7",
+        "id": 7,
         "firstName": "Suli",
         "lastName": "Rashidzada",
         "email": "Rashidzada.S@northeastern.edu",
