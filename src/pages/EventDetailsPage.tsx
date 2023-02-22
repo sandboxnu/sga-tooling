@@ -9,13 +9,36 @@ import { fetchEvent } from "../client/client";
 import { Event } from "../util/Types";
 
 export type EventDetailsPageProps = {
-  e?: Event;
+  Event?: Event;
 };
 
 //if time is not defined make it all day
-const EventDetailsPage = ({ e }: EventDetailsPageProps): ReactElement => {
+const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
   const { id } = useParams();
-  const [event, setEvent] = useState(e);
+  const [event, setEvent] = useState(Event);
 
   if (!event) {
     fetchEvent(Number(id)).then((e) => {
@@ -24,16 +47,19 @@ const EventDetailsPage = ({ e }: EventDetailsPageProps): ReactElement => {
     return <p>Loading</p>;
   }
 
-  const timeString: string = new Date(event.startTime).toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
+  const startDate = new Date(event.startTime);
+  const month = months[startDate.getMonth()];
+  const dayOfWeek = days[startDate.getDay()];
+  const date = startDate.getDate();
+  const year = startDate.getFullYear();
+
+  const startTimeString: string = startDate.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
   });
 
+  /*
   //variables for displaying the date
   const startVariables = timeString.split(" ");
   const month = startVariables[1];
@@ -41,6 +67,7 @@ const EventDetailsPage = ({ e }: EventDetailsPageProps): ReactElement => {
   const dayOfWeek = startVariables[0].replace(",", "");
   const date = startVariables[2].replace(",", "");
   const startTimeString = startVariables[5] + " " + startVariables[6];
+  */
 
   const endTimeString: string | undefined = event.endTime
     ? new Date(event.endTime).toLocaleString("en-US", {
