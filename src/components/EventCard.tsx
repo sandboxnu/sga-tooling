@@ -7,10 +7,14 @@ import { Event } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 
+// Defines the BG color when displaying the date of the event card.
 export enum Status {
+  // Events that are currently occurring
   Live = "bg-sga-red",
-  Today = "bg-black",
-  Upcoming = "bg-white",
+  // The first event that occurs in a day
+  First = "bg-black",
+  // The rest of the events that occurs in a day
+  Rest = "bg-white",
 }
 
 /**

@@ -17,27 +17,24 @@ export const EventDate = (props: {
   };
 
   const baseStyle =
-    "w-16 h-12 md:w-20 md:h-14 rounded-r-2xl flex justify-center items-center text-xl md:text-2xl font-bold text-white";
+    "w-full h-12 md:h-14 flex justify-center items-center rounded-r-2xl text-xl md:text-2xl font-bold text-white";
 
-  const colorStyle = `${baseStyle} ${
-    props.status === Status.Upcoming
-      ? `${props.status} text-black`
-      : props.status
-  }`;
+  // Assigns a background color for this date.
+  const bgColor = baseStyle + " " + props.status;
 
   return (
-    <div>
+    <div className="w-16 md:w-20 flex flex-col items-center">
       {props.status === Status.Live ? (
-        <div className={colorStyle}>LIVE</div>
-      ) : (
+        <div className={bgColor}>LIVE</div>
+      ) : props.status === Status.First ? (
         <>
-          <div className={colorStyle}>{date.num}</div>
+          <div className={bgColor}>{date.num}</div>
           <div className="mt-1 flex flex-col items-center text-lg md:text-xl">
             <p>{date.month}</p>
             <p>{date.day}</p>
           </div>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

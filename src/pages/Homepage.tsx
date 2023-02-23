@@ -6,22 +6,22 @@ import EventsJSON from "../events.json";
 import { Event } from "../util/Types";
 
 const Homepage = (): ReactElement => {
+  // Returns the given event's status based on the date and time of the event.
   function getStatus(start: Date, end: Date) {
     const today = new Date();
     const timeNow = today.getTime();
 
     if (start.getTime() < timeNow && timeNow < end.getTime()) {
       return Status.Live;
-    } else if (today.toDateString() === start.toDateString()) {
-      return Status.Today;
     } else {
-      return Status.Upcoming;
+      return Status.Rest;
     }
   }
 
-  function isSameDay(date1: Date, date2: Date) {
-    return date1.toDateString() === date2.toDateString();
-  }
+  // Sorts the events by start time (earliest to latest)
+  EventsJSON.sort((a, b) => {
+    return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
+  });
 
   const events: Event[] = (EventsJSON as unknown as Event[]).map((e) => {
     return {
@@ -36,32 +36,37 @@ const Homepage = (): ReactElement => {
     };
   });
 
-  const liveEvents: ReactElement[] = [];
-  const upcomingEvents: ReactElement[] = [];
-
   // Filters events into their corresponding status.
-  events.reduce(
-    function (result, curr, i) {
-      let component = (
-        <>
-          <EventCard key={curr.name} {...curr} />
-          {i > 0 &&
-          isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
-            <hr className="border-black home-mx" />
-          )}
-        </>
-      );
+  const liveEvents: ReactElement[] = events
+    .filter((e) => e.status === Status.Live)
+    .map((e) => (
+      <>
+        <EventCard key={e.name} {...e} />
+        <hr className="border-black home-mx" />
+      </>
+    ));
 
-      if (curr.status === Status.Live) {
-        result[0].push(component);
+  const upcomingEvents: ReactElement[] = events
+    .filter((e) => e.status === Status.Rest)
+    .map((e, i) => {
+      const prevDate = events[i - 1]
+        ? events[i - 1].startTime.toDateString()
+        : null;
+      const currDate = events[i].startTime.toDateString();
+
+      // Checks if this event is the first event of the day, and updates its status accordingly
+      if (i === 0 || prevDate !== currDate) {
+        e.status = Status.First;
+        return <EventCard key={e.name} {...e} />;
       } else {
-        result[1].push(component);
+        return (
+          <>
+            <EventCard key={e.name} {...e} />
+            <hr className="border-black home-mx" />
+          </>
+        );
       }
-
-      return result;
-    },
-    [liveEvents, upcomingEvents]
-  );
+    });
 
   return (
     <>
