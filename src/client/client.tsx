@@ -1,4 +1,4 @@
-import EventsJSON from "../data/events.json";
+import EventsJSON from "../events.json";
 import { Event } from "../util/Types";
 
 export function fetchEvent(id: Number): Promise<Event> {

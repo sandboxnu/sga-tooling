@@ -5,7 +5,6 @@ import EventCard, { Status } from "../components/EventCard";
 import EventsJSON from "../events.json";
 import { Event } from "../util/Types";
 
-// Renders homepage with events.
 const Homepage = (): ReactElement => {
   function getStatus(start: Date, end: Date) {
     const today = new Date();
@@ -24,7 +23,7 @@ const Homepage = (): ReactElement => {
     return date1.toDateString() === date2.toDateString();
   }
 
-  const events: Event[] = EventsJSON.map((e) => {
+  const events: Event[] = (EventsJSON as unknown as Event[]).map((e) => {
     return {
       id: e.id,
       startTime: new Date(e.startTime),
