@@ -6,7 +6,7 @@ const Settings = (): ReactElement => {
 
     function logout() {
         localStorage.removeItem("user");
-        setUser(null); 
+        setUser(null);
     }
 
     return (

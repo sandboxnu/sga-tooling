@@ -10,12 +10,12 @@ const Sidebar = () => {
 
   return (
     <>
-      {showSidebar ? (
-        <></>
-      ) : (
-        <Bars3Icon className="w-12 fill-warning-dark flex-none fill-white" onClick={() => setShowSidebar(!showSidebar)} />
-      )}
+      {/* This boolean statement decides whether to show the sidebar or not. */}
+      {!showSidebar && <Bars3Icon className="w-12 fill-warning-dark flex-none fill-white"
+        onClick={() => setShowSidebar(!showSidebar)}
+      />}
 
+      {/* Div for the sidebar and how it looks */}
       <div
         className={`flex flex-col fixed top-0 right-0 h-screen w-screen md:w-[35vw] bg-sga-red text-white z-40 ease-in-out duration-300 ${showSidebar ? "translate-x-0 " : "translate-x-full"
           }`}

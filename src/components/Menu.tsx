@@ -1,6 +1,5 @@
 import { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-// import HamburgerComponent from "./HamburgerComponent";
 import Sidebar from "./Sidebar";
 
 /**
