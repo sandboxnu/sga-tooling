@@ -5,7 +5,6 @@ import EventCard, { Status } from "../components/EventCard";
 import EventsJSON from "../events.json";
 import { Event } from "../util/Types";
 
-// Renders homepage with events.
 const Homepage = (): ReactElement => {
   // Returns the given event's status based on the date and time of the event.
   function getStatus(start: Date, end: Date) {
@@ -24,8 +23,7 @@ const Homepage = (): ReactElement => {
     return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
   });
 
-  // Map events from JSON to Event type.
-  const events: Event[] = EventsJSON.map((e, i) => {
+  const events: Event[] = (EventsJSON as unknown as Event[]).map((e) => {
     return {
       id: e.id,
       startTime: new Date(e.startTime),
