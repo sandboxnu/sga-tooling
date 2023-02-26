@@ -3,24 +3,19 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
+import { Event } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 
+// Defines the BG color when displaying the date of the event card.
 export enum Status {
+  // Events that are currently occurring
   Live = "bg-sga-red",
-  Today = "bg-black",
-  Upcoming = "bg-white",
+  // The first event that occurs in a day
+  First = "bg-black",
+  // The rest of the events that occurs in a day
+  Rest = "bg-white",
 }
-
-export type Event = {
-  startTime: Date;
-  endTime: Date;
-  name: string;
-  location: string;
-  description: string;
-  status: Status;
-  tags: string[];
-};
 
 /**
  * Renders a single event in the feed
@@ -41,10 +36,12 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      month: "short",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   const tagElements: ReactElement[] = tags.map((t) => {

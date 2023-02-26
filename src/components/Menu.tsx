@@ -1,6 +1,5 @@
 import { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-// import HamburgerComponent from "./HamburgerComponent";
 import Sidebar from "./Sidebar";
 
 /**
@@ -10,10 +9,6 @@ import Sidebar from "./Sidebar";
  * @returns The navbar in a div
  */
 const Menu = (): ReactElement => {
-
-  const imageClick = () => {
-    console.log('Click');
-  }
 
   return (
     <div>

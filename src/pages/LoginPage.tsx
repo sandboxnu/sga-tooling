@@ -1,37 +1,40 @@
 import { ReactElement, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
+import { fetchMember } from "../client/client";
 // import { getUserInfo } from '../requests';
 
 const LoginPage = (): ReactElement => {
   const { setUser } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
-    if (nuid && isValidPassword(parseInt(nuid))) {
+    if (nuid) {
       navigate("/events");
     }
   }
 
-  function login() {
-    if (input) {
+  async function login() {
+    console.log("hi");
+    const rez = await isValidLogin(input);
+    console.log(rez);
+    if (true) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
       setUser(input);
-      if (isValidPassword(parseInt(input))) {
-        navigate("/events");
-      }
+      navigate("/events");
     } else {
-      alert("Error: Invalid NUID");
+      //alert("Error: Invalid NUID");
     }
   }
 
-  function isValidPassword(password:number) :boolean {
-    // first check the password using a REGEX
-    // check the password using an API
-    return true;
+  async function isValidLogin(nuid: string): Promise<boolean> {
+    const member = await fetchMember(nuid);
+    console.log("PLEASEEEEE");
+    return nuid.length === 9 && isNaN(parseInt(nuid)) && member.activeMember
+      && !member.signInBlocked;
   }
 
   return (

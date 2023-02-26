@@ -1,29 +1,39 @@
-import { ReactElement, useContext} from "react";
-import { useNavigate } from 'react-router-dom';
+import { ReactElement, useContext } from "react";
 import { LoginContext } from "../App";
 
 const Settings = (): ReactElement => {
+    const { setUser } = useContext(LoginContext);
 
-    const navigate = useNavigate();
-    const { setUser } = useContext(LoginContext); 
-
-    function LogOut() {
-        localStorage.removeItem("user");  
-        setUser(null); 
-        navigate("/"); 
+    function logout() {
+        localStorage.removeItem("user");
+        setUser(null);
     }
-    
 
     return (
-        <div className="flex items-start flex-col h-full text-2xl absolute left-10 top-7 z-50 right-5">
-            <h1 className="text-4xl">SETTINGS</h1>
-            <button>Home</button>                         
-            <button>Profile</button>
-            <button>Preferences</button>
-            <button>Voting</button>
-            <button className="absolute bottom-20" onClick={() => LogOut()}>Logout</button>
-        </div>
-    ); 
+        <div className="font-sans font-bold text-xl h-full">
+
+            <div className="flex flex-col h-full">
+
+                <div className="flex flex-col gap-3 px-8 items-start flex-1">
+                    <button className="text-slate-400" disabled>Home</button>
+                    <button className="text-slate-400" disabled>Profile</button>
+                    <button className="text-slate-400" disabled>Preferences</button>
+                    <button className="text-slate-400" disabled>Voting</button>
+                </div>
+
+                {/* <div> */}
+                <hr className="h-px bg-white border-0 dark:bg-white-700 w-full"></hr>
+
+                <div className="flex p-8">
+                    <button onClick={() => logout()}>Logout</button>
+                </div>
+                {/* </div> */}
+            </div>
+
+
+
+        </div >
+    );
 }
 
 export default Settings; 
