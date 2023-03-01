@@ -4,10 +4,11 @@ import "./App.css";
 import Alert from "./components/Alert";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
+import Users from "./data/users.json";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import UserPreference from "./pages/UserPreference";
+import UserPreference, { Person } from "./pages/UserPreference";
 
 export type User = string | null;
 
@@ -44,7 +45,10 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route path="/user/" element={<UserPreference />} />
+            <Route
+              path="/user/"
+              element={<UserPreference member={Users[0] as Person} />}
+            />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
