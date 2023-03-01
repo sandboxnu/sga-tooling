@@ -8,7 +8,7 @@ import Users from "./data/users.json";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import UserPreference, { Person } from "./pages/UserPreference";
+import UserPreference, { Member } from "./pages/UserPreference";
 
 export type User = string | null;
 
@@ -21,6 +21,7 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const Member: Member = Users[0];
 
   useEffect(() => {
     const nuid = localStorage.getItem("user");
@@ -45,10 +46,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route
-              path="/user/"
-              element={<UserPreference member={Users[0] as Person} />}
-            />
+            <Route path="/user/" element={<UserPreference member={Member} />} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}

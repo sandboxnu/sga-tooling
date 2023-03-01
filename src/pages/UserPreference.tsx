@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import "tw-elements";
 
-export type Person = {
+export type Member = {
   id: String;
   firstName: String;
   lastName: String;
@@ -9,12 +9,12 @@ export type Person = {
   activeMember: Boolean;
   votingRights: Boolean;
   receiveNotPresentEmail: Boolean;
-  includeInQuorum: false;
-  signInBlocked: false;
+  includeInQuorum: Boolean;
+  signInBlocked: Boolean;
 };
 
 export type UserPreferenceProp = {
-  member: Person;
+  member: Member;
 };
 
 const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {

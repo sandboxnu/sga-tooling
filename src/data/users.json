@@ -25,6 +25,7 @@
         "id": "3",
         "firstName": "Melody",
         "lastName": "Liu",
+        "email": "sampleemail@email.com",
         "activeMember": true,
         "votingRights": false,
         "receiveNotPresentEmail": true,
