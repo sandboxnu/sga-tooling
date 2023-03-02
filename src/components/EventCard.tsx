@@ -3,15 +3,9 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
-import { Event } from "../util/Types";
+import { Event, EventStatus } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
-
-export enum Status {
-  Live = "bg-sga-red",
-  Today = "bg-black",
-  Upcoming = "bg-white",
-}
 
 /**
  * Renders a single event in the feed
@@ -109,7 +103,7 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap">
-          {status === Status.Live ? (
+          {status === EventStatus.Live ? (
             <button className="button-base-red px-4 my-2">Vote</button>
           ) : (
             <>

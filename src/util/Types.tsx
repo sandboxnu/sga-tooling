@@ -1,5 +1,3 @@
-import { Status } from "../components/EventCard";
-
 export type Event = {
   id: number;
   eventName: string;
@@ -7,8 +5,8 @@ export type Event = {
   endTime: Date;
   signInClosed: boolean;
   location?: string;
-  description?: string;
-  status?: Status;
+  description: string;
+  status?: EventStatus;
   tags?: string[];
 };
 
@@ -23,3 +21,9 @@ export type Member = {
   includeInQuorum: boolean;
   signInBlocked: boolean;
 };
+
+export enum EventStatus {
+  Live = "bg-sga-red",
+  Today = "bg-black",
+  Upcoming = "bg-white",
+}

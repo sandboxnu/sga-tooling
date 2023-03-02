@@ -11,6 +11,14 @@ export function fetchEvent(id: Number): Promise<Event> {
   });
 }
 
+export function fetchAllEvents(): Promise<Event[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      mockEvents ? resolve(mockEvents) : reject("404 Not found");
+    }, 1000);
+  });
+}
+
 export function fetchMember(id: Number): Promise<Member> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -19,10 +27,3 @@ export function fetchMember(id: Number): Promise<Member> {
     }, 1000);
   });
 }
-
-// TODO
-// 1. change the mock data to be ts files NOT json, look into why it's being annoying
-// 2. add more mock data and helpers to match the database
-
-// 3. add them where appropriate (i.e. events was in the events page)
-// 4. add loading to those pages as well like st-26
