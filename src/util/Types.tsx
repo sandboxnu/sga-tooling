@@ -24,6 +24,6 @@ export type Member = {
 
 export enum EventStatus {
   Live = "bg-sga-red",
-  Today = "bg-black",
-  Upcoming = "bg-white",
+  First = "bg-black",
+  Rest = "bg-white",
 }

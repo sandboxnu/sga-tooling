@@ -12,9 +12,9 @@ function getStatus(start: Date, end: Date) {
   if (start.getTime() < timeNow && timeNow < end.getTime()) {
     return EventStatus.Live;
   } else if (today.toDateString() === start.toDateString()) {
-    return EventStatus.Today;
+    return EventStatus.First;
   } else {
-    return EventStatus.Upcoming;
+    return EventStatus.Rest;
   }
 }
 
