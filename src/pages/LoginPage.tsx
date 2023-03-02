@@ -1,5 +1,5 @@
 import { ReactElement, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { LoginContext } from "../App";
 import { fetchMember } from "../client/client";
 // import { getUserInfo } from '../requests';
@@ -8,7 +8,7 @@ const LoginPage = (): ReactElement => {
   const { setUser } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
@@ -30,11 +30,18 @@ const LoginPage = (): ReactElement => {
     }
   }
 
+<<<<<<< HEAD
   async function isValidLogin(nuid: string): Promise<boolean> {
     const member = await fetchMember(nuid);
     console.log("PLEASEEEEE");
     return nuid.length === 9 && isNaN(parseInt(nuid)) && member.activeMember
       && !member.signInBlocked;
+=======
+  function isValidPassword(password: number): boolean {
+    // first check the password using a REGEX
+    // check the password using an API
+    return true;
+>>>>>>> cc6132dda6b405a318b753a34f6e30137a7f34a4
   }
 
   return (
