@@ -56,19 +56,16 @@ const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
 
         <div className="flex flex-col gap-y-6">
           <span className="font-bold"> PREFERENCES </span>
-          <div className="flex">
-            <div className="flex gap-x-12">
-              <span>Recieve Notifications before my events</span>
-
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input appearance-none w-9 -ml-10 rounded-full h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
-                  type="checkbox"
-                  role="switch"
-                  checked={member.receiveNotPresentEmail as boolean}
-                  id="flexSwitchCheckDefault56"
-                />
-              </div>
+          <div className="flex gap-x-12">
+            <span>Recieve Notifications before my events</span>
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input appearance-none w-9 -ml-10 rounded-full h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+                type="checkbox"
+                role="switch"
+                checked={member.receiveNotPresentEmail as boolean}
+                id="flexSwitchCheckDefault56"
+              />
             </div>
           </div>
         </div>
