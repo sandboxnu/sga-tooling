@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import "tw-elements";
 
 export type Member = {
   id: String;
@@ -8,7 +7,7 @@ export type Member = {
   email: String;
   activeMember: Boolean;
   votingRights: Boolean;
-  receiveNotPresentEmail: Boolean;
+  receiveNotPresentEmail: boolean;
   includeInQuorum: Boolean;
   signInBlocked: Boolean;
 };
@@ -18,6 +17,11 @@ export type UserPreferenceProp = {
 };
 
 const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
+  /*
+  const [notPresentPreference, setPreference] = useState(
+    member.receiveNotPresentEmail
+  );
+  */
   return (
     <div className="flex flex-col flex-1 p-4 font-sans md:p-10 gap-y-8">
       <div className="flex flex-col font-sans font-bold">
@@ -36,11 +40,11 @@ const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
           <span>{member.email}</span>
         </div>
 
-        <hr className="border-black home-mx -ml-7 -mr-7" />
+        <hr className="border-black" />
 
         <div className="flex flex-col font-sans font-bold">
           <span>YOUR GROUPS</span>
-          <div className="flex flex-row flex-wrap gap-6 p-4 text-sm">
+          <div className="flex flex-row flex-wrap gap-6 py-4 text-sm">
             <div className="bg-tag-green rounded-lg px-4 py-1">Steast</div>
             <br />
             <div className="bg-tag-blue rounded-lg px-4 py-1">
@@ -52,18 +56,22 @@ const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
             </span>
           </div>
         </div>
-        <hr className="border-black -ml-7 -mr-7" />
+        <hr className="border-black" />
 
         <div className="flex flex-col gap-y-6">
           <span className="font-bold"> PREFERENCES </span>
           <div className="flex gap-x-12">
-            <span>Recieve Notifications before my events</span>
+            <span>Receive Notifications before my events</span>
             <div className="form-check form-switch">
               <input
                 className="form-check-input appearance-none w-9 -ml-10 rounded-full h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
                 type="checkbox"
                 role="switch"
-                checked={member.receiveNotPresentEmail as boolean}
+                checked={
+                  member.receiveNotPresentEmail
+                    ? member.receiveNotPresentEmail
+                    : undefined
+                }
                 id="flexSwitchCheckDefault56"
               />
             </div>

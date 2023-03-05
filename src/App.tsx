@@ -21,7 +21,7 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  const Member: Member = Users[0];
+  const member: Member = Users[0];
 
   useEffect(() => {
     const nuid = localStorage.getItem("user");
@@ -46,7 +46,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route path="/user/" element={<UserPreference member={Member} />} />
+            <Route path="/user/" element={<UserPreference member={member} />} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
