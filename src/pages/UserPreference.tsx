@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import "tw-elements";
 
 export type Member = {
   id: String;
@@ -17,11 +18,6 @@ export type UserPreferenceProp = {
 };
 
 const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
-  /*
-  const [notPresentPreference, setPreference] = useState(
-    member.receiveNotPresentEmail
-  );
-  */
   return (
     <div className="flex flex-col flex-1 p-4 font-sans md:p-10 gap-y-8">
       <div className="flex flex-col font-sans font-bold">
