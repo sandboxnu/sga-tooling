@@ -4,10 +4,11 @@ import "./App.css";
 import Alert from "./components/Alert";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
+import Users from "./data/users.json";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import UserPreference from "./pages/UserPreference";
+import UserPreference, { Member } from "./pages/UserPreference";
 
 export type User = string | null;
 
@@ -20,6 +21,7 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const member: Member = (Users as unknown as Member[])[0];
 
   useEffect(() => {
     const nuid = localStorage.getItem("user");
@@ -44,7 +46,7 @@ function App() {
               {/* alertID needs to be updated to display events */}
             </Route>
             <Route path="*" element={<Error404 />} />
-            <Route path="/user/" element={ <UserPreference />}/>
+            <Route path="/user/" element={<UserPreference member={member} />} />
           </Routes>
         </Router>
         {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
