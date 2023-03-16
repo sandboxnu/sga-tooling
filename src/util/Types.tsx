@@ -12,13 +12,13 @@ export type Event = {
 };
 
 export type Member = {
-  id: string,
-  nuid: string,
-  firstName: string,
-  lastName: string,
-  activeMember: boolean,
-  votingRights: boolean,
-  receiveNotPresentEmail: boolean,
-  includeInQuorum: boolean,
-  signInBlocked: boolean
-}
+  id: string;
+  nuid: string;
+  firstName: string;
+  lastName: string;
+  activeMember: boolean;
+  votingRights: boolean;
+  receiveNotPresentEmail: boolean;
+  includeInQuorum: boolean;
+  signInBlocked: boolean;
+};

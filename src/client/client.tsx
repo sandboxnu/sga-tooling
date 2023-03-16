@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import UserJSON from "../data/users.json";
 import EventsJSON from "../events.json";
 import { Event, Member } from "../util/Types";
-=======
-import EventsJSON from "../events.json";
-import { Event } from "../util/Types";
->>>>>>> cc6132dda6b405a318b753a34f6e30137a7f34a4
 
 export function fetchEvent(id: Number): Promise<Event> {
   return new Promise((resolve, reject) => {
@@ -15,16 +10,12 @@ export function fetchEvent(id: Number): Promise<Event> {
     }, 1000);
   });
 }
-<<<<<<< HEAD
 
-export function fetchMember(id: String): Promise<Member> {
-  console.log("PLEASEEEEE");
+export function fetchMember(nuid: String): Promise<Member> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const member = (UserJSON as unknown as Member[]).find((m) => m.id === id);
+      const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
       member ? resolve(member) : reject("404 Not found");
     }, 1000);
   });
 }
-=======
->>>>>>> cc6132dda6b405a318b753a34f6e30137a7f34a4

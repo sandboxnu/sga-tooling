@@ -8,7 +8,6 @@ import RequireAuth from "./components/RequireAuth";
 import Error404 from "./pages/Error404";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import Settings from "./components/Settings"; 
 
 export type User = string | null;
 
