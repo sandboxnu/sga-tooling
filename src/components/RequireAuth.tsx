@@ -6,7 +6,7 @@ import { LoginContext } from "../App";
 
 const RequireAuth = (): ReactElement => {
     const { user } = useContext(LoginContext);
-    return user ? <Outlet /> : <Navigate to="/" />; //yuh 
+    return user ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default RequireAuth; 

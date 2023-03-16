@@ -71,10 +71,10 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
 
   const endTimeString: string | undefined = event.endTime
     ? new Date(event.endTime).toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   return (
@@ -126,7 +126,6 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
 
           <div className="flex flex-row items-center">
             <img src={LinkSVG} alt="Link" className="px-3" />
-            kaljfdklajfkaljfaj
           </div>
         </div>
       </div>

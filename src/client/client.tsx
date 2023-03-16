@@ -11,9 +11,12 @@ export function fetchEvent(id: Number): Promise<Event> {
   });
 }
 
-export function fetchMember(nuid: String): Promise<Member> {
+export function fetchMember(nuid: string): Promise<Member> {
+  console.log("hello whateve");
   return new Promise((resolve, reject) => {
+    console.log("is promise happening");
     setTimeout(() => {
+      console.log("hello");
       const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
       member ? resolve(member) : reject("404 Not found");
     }, 1000);

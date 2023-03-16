@@ -2,7 +2,6 @@ import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import { fetchMember } from "../client/client";
-// import { getUserInfo } from '../requests';
 
 const LoginPage = (): ReactElement => {
   const { setUser } = useContext(LoginContext);
@@ -18,8 +17,8 @@ const LoginPage = (): ReactElement => {
   }
 
   async function login() {
-    const rez = await isValidLogin(input);
-    console.log(rez);
+    //const rez = await isValidLogin(input);
+    console.log("is login working");
     if (true) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
       setUser(input);
