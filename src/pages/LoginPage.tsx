@@ -4,7 +4,7 @@ import { LoginContext } from "../App";
 import { fetchMember } from "../client/client";
 
 const LoginPage = (): ReactElement => {
-  const { setUser } = useContext(LoginContext);
+  const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
   const navigate = useNavigate();
@@ -17,11 +17,11 @@ const LoginPage = (): ReactElement => {
   }
 
   async function login() {
-    //const rez = await isValidLogin(input);
+    const rez = await isValidLogin(input);
     console.log("is login working");
-    if (true) {
+    if (rez) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
-      setUser(input);
+      setUserID(input);
       navigate("/events");
     } else {
       //alert("Error: Invalid NUID");

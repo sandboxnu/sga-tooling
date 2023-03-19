@@ -36,8 +36,6 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-      month: "short",
-      day: "2-digit",
       hour: "numeric",
       minute: "numeric",
       hour12: true,
