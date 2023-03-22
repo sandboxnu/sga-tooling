@@ -4,6 +4,7 @@ import Frame from ".././assets/Frame.svg";
 import LinkSVG from ".././assets/Link.svg";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
+import LoadingGIF from "../assets/Loading.gif"
 import TextIconSVG from ".././assets/TextIcon.svg";
 import { fetchEvent } from "../client/client";
 import { Event } from "../util/Types";
@@ -44,7 +45,11 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
     fetchEvent(Number(id)).then((e) => {
       setEvent(e);
     });
-    return <p>Loading</p>;
+    return (
+      <div className="w-100 h-100 my-1 flex justify-center">
+        <img src={LoadingGIF} alt="Loading" className="w-1/5" />
+      </div>
+    );
   }
 
   const startDate = new Date(event.startTime);

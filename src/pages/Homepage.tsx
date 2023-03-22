@@ -1,4 +1,5 @@
 import { ReactElement, useState } from "react";
+import LoadingGIF from "../assets/Loading.gif";
 import SearchIcon from "../assets/SearchIcon.svg";
 import { fetchAllEvents } from "../client/client";
 import Alert from "../components/Alert";
@@ -30,7 +31,11 @@ const Homepage = (): ReactElement => {
     fetchAllEvents().then((e) => {
       setEventsToDisplay(e);
     });
-    return <p>Loading</p>;
+    return (
+      <div className="w-100 h-100 my-1 flex justify-center">
+        <img src={LoadingGIF} alt="Loading" className="w-1/5" />
+      </div>
+    );
   } else {
     const liveEvents: ReactElement[] = [];
     const upcomingEvents: ReactElement[] = [];
