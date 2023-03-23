@@ -21,7 +21,7 @@ export const LoginContext = createContext<UserContext>({} as UserContext);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  const member: Member = Users[0];
+  const member: Member = (Users as unknown as Member[])[0];
 
   useEffect(() => {
     const nuid = localStorage.getItem("user");

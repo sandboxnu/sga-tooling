@@ -1,5 +1,6 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import "tw-elements";
+import Switch from "../components/Switch";
 
 export type Member = {
   id: String;
@@ -18,6 +19,10 @@ export type UserPreferenceProp = {
 };
 
 const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
+  const [notPresentEmail, setNotPresentEmail] = useState<boolean>(
+    member.receiveNotPresentEmail
+  );
+
   return (
     <div className="flex flex-col flex-1 p-4 font-sans md:p-10 gap-y-8">
       <div className="flex flex-col font-sans font-bold">
@@ -57,19 +62,9 @@ const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
         <div className="flex flex-col gap-y-6">
           <span className="font-bold"> PREFERENCES </span>
           <div className="flex gap-x-12">
-            <span>Receive Notifications before my events</span>
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input appearance-none w-9 -ml-10 rounded-full h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
-                type="checkbox"
-                role="switch"
-                checked={
-                  member.receiveNotPresentEmail
-                    ? member.receiveNotPresentEmail
-                    : undefined
-                }
-                id="flexSwitchCheckDefault56"
-              />
+            <span className="w-96">Receive Notifications before my events</span>
+            <div>
+              <Switch toggle={notPresentEmail} setToggle={setNotPresentEmail} />
             </div>
           </div>
         </div>
