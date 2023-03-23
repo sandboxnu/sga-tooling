@@ -2,11 +2,11 @@ import { ReactElement, useContext } from "react";
 import { LoginContext } from "../App";
 
 const Settings = (): ReactElement => {
-    const { setUser } = useContext(LoginContext);
+    const { setUserID } = useContext(LoginContext);
 
     function logout() {
         localStorage.removeItem("user");
-        setUser(null);
+        setUserID(null);
     }
 
     return (

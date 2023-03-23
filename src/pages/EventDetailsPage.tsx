@@ -60,22 +60,12 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
     hour12: true,
   });
 
-  /*
-  //variables for displaying the date
-  const startVariables = timeString.split(" ");
-  const month = startVariables[1];
-  const year = startVariables[3];
-  const dayOfWeek = startVariables[0].replace(",", "");
-  const date = startVariables[2].replace(",", "");
-  const startTimeString = startVariables[5] + " " + startVariables[6];
-  */
-
   const endTimeString: string | undefined = event.endTime
     ? new Date(event.endTime).toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   return (
