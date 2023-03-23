@@ -24,8 +24,8 @@ function App() {
   return (
     <LoginContext.Provider value={{ userID, setUserID }}>
       <div className="flex min-h-screen flex-col justify-between">
+        {userID ? <Menu /> : null}
         <Router>
-          {userID ? <Menu /> : null}
           <Routes>
             <Route
               path="/"

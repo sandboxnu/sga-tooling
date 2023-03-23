@@ -30,15 +30,14 @@ const LoginPage = (): ReactElement => {
 
   async function isValidLogin(nuid: string): Promise<boolean> {
     const member = await fetchMember(nuid);
-    console.log("PLEASEEEEE");
-    return nuid.length === 9 && isNaN(parseInt(nuid)) && member.activeMember
+    return nuid.length === 9 && !isNaN(parseInt(nuid)) && member.activeMember
       && !member.signInBlocked;
   }
 
   return (
     <div onLoad={checkIfLoginSaved}>
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
-        <form className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
+        <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
             value={input}
             type="text"
@@ -54,7 +53,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-        </form>
+        </div>
       </div>
       <div className="flex justify-center align-center h-64 lg:h-80">
         <img
@@ -62,7 +61,7 @@ const LoginPage = (): ReactElement => {
           src="https://giving.northeastern.edu/live/image/gid/2/width/1260/height/630/crop/1/src_region/294,25,1751,1483/484_Club_-_Student_Government_Association.jpg"
           alt="Student Government Association Logo"
         />
-        <form className="hidden lg:flex flex-col px-20 py-14">
+        <div className="hidden lg:flex flex-col px-20 py-14">
           <input
             value={input}
             type="text"
@@ -78,7 +77,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

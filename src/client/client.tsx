@@ -17,6 +17,7 @@ export function fetchMember(nuid: string): Promise<Member> {
     setTimeout(() => {
       console.log("in promise");
       const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
+      console.log(member);
       member ? resolve(member) : reject("404 Not found");
     }, 1000);
   });
