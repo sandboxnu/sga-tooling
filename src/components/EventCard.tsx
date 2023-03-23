@@ -3,19 +3,9 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
-import { Event } from "../util/Types";
+import { Event, EventStatus } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
-
-// Defines the BG color when displaying the date of the event card.
-export enum Status {
-  // Events that are currently occurring
-  Live = "bg-sga-red",
-  // The first event that occurs in a day
-  First = "bg-black",
-  // The rest of the events that occurs in a day
-  Rest = "bg-white",
-}
 
 /**
  * Renders a single event in the feed
@@ -23,7 +13,7 @@ export enum Status {
 const EventCard = ({
   startTime,
   endTime,
-  name,
+  eventName,
   location,
   description,
   status,
@@ -42,9 +32,11 @@ const EventCard = ({
     })
     : undefined;
 
-  const tagElements: ReactElement[] = tags.map((t) => {
-    return <EventTag tag={t} />;
-  });
+  const tagElements: ReactElement[] = tags
+    ? tags.map((t) => {
+        return <EventTag tag={t} />;
+      })
+    : [];
 
   const [isRegistered, setIsRegistered] = useState(true);
 
@@ -59,14 +51,14 @@ const EventCard = ({
 
   return (
     <div className="flex my-8 md:my-10">
-      <EventDate startTime={startTime} status={status} />
+      <EventDate startTime={startTime} />
       <div className="flex-1 px-6 md:px-10">
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
         <div className="flex flex-row justify-between items-start mb-4">
           <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
-            {name}
+            {eventName}
           </div>
           <details className="relative">
             <summary className="list-none cursor-pointer">
@@ -111,7 +103,7 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap">
-          {status === Status.Live ? (
+          {status === EventStatus.Live ? (
             <button className="button-base-red px-4 my-2">Vote</button>
           ) : (
             <>

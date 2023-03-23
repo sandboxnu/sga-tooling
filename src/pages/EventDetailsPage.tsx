@@ -6,6 +6,7 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import { fetchEvent } from "../client/client";
+import Loading from "../components/Loading";
 import { Event } from "../util/Types";
 
 export type EventDetailsPageProps = {
@@ -44,7 +45,7 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
     fetchEvent(Number(id)).then((e) => {
       setEvent(e);
     });
-    return <p>Loading</p>;
+    return <Loading />;
   }
 
   const startDate = new Date(event.startTime);
@@ -82,7 +83,7 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
       </div>
       <hr className="border-black" />
       <div className="font-bold text-2xl leading-8 font-sans break-words">
-        {event.name}
+        {event.eventName}
       </div>
       <div className="flex flex-col w-full md:flex-row gap-12">
         <div className="flex flex-row h-60 md:w-6/12 md:h-96">

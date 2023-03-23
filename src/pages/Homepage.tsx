@@ -1,90 +1,90 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import SearchIcon from "../assets/SearchIcon.svg";
+import { fetchAllEvents } from "../client/client";
 import Alert from "../components/Alert";
-import EventCard, { Status } from "../components/EventCard";
-import EventsJSON from "../events.json";
-import { Event } from "../util/Types";
+import EventCard from "../components/EventCard";
+import Loading from "../components/Loading";
+import { Event, EventStatus } from "../util/Types";
 
-const Homepage = (): ReactElement => {
-  // Returns the given event's status based on the date and time of the event.
-  function getStatus(start: Date, end: Date) {
-    const today = new Date();
-    const timeNow = today.getTime();
+function getStatus(start: Date, end: Date) {
+  const today = new Date();
+  const timeNow = today.getTime();
 
-    if (start.getTime() < timeNow && timeNow < end.getTime()) {
-      return Status.Live;
-    } else {
-      return Status.Rest;
-    }
+  if (start.getTime() < timeNow && timeNow < end.getTime()) {
+    return EventStatus.Live;
+  } else if (today.toDateString() === start.toDateString()) {
+    return EventStatus.First;
+  } else {
+    return EventStatus.Rest;
   }
+}
 
-  // Sorts the events by start time (earliest to latest)
-  EventsJSON.sort((a, b) => {
-    return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
-  });
+function isSameDay(date1: Date, date2: Date) {
+  return date1.toDateString() === date2.toDateString();
+}
 
-  const events: Event[] = (EventsJSON as unknown as Event[]).map((e) => {
-    return {
-      id: e.id,
-      startTime: new Date(e.startTime),
-      endTime: new Date(e.endTime),
-      name: e.name,
-      location: e.location,
-      description: e.description,
-      status: getStatus(new Date(e.startTime), new Date(e.endTime)),
-      tags: e.tags,
-    };
-  });
+// Renders homepage with events.
+const Homepage = (): ReactElement => {
+  const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>(null);
 
-  // Filters events into their corresponding status.
-  const liveEvents: ReactElement[] = events
-    .filter((e) => e.status === Status.Live)
-    .map((e) => (
-      <>
-        <EventCard key={e.name} {...e} />
-        <hr className="border-black home-mx" />
-      </>
-    ));
+  if (!eventsToDisplay) {
+    fetchAllEvents().then((e) => {
+      setEventsToDisplay(e);
+    });
+    return <Loading />;
+  } else {
+    const liveEvents: ReactElement[] = [];
+    const upcomingEvents: ReactElement[] = [];
 
-  const upcomingEvents: ReactElement[] = events
-    .filter((e) => e.status === Status.Rest)
-    .map((e, i) => {
-      const prevDate = events[i - 1]
-        ? events[i - 1].startTime.toDateString()
-        : null;
-      const currDate = events[i].startTime.toDateString();
-
-      // Checks if this event is the first event of the day, and updates its status accordingly
-      if (i === 0 || prevDate !== currDate) {
-        e.status = Status.First;
-        return <EventCard key={e.name} {...e} />;
-      } else {
-        return (
-          <>
-            <EventCard key={e.name} {...e} />
-            <hr className="border-black home-mx" />
-          </>
-        );
-      }
+    const events: Event[] = eventsToDisplay.map((e) => {
+      return {
+        ...e,
+        status: getStatus(new Date(e.startTime), new Date(e.endTime)),
+      };
     });
 
-  return (
-    <>
-      <h1 className="section-heading">HAPPENING NOW</h1>
-      {liveEvents}
+    // Filters events into their corresponding status.
+    events.reduce(
+      function (result, curr, i) {
+        let component = (
+          <>
+            <EventCard key={curr.id} {...curr} />
+            {i > 0 &&
+            isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
+              <hr className="border-black home-mx" />
+            )}
+          </>
+        );
 
-      <Alert
-        message="Your standing in SGA may be affected if you miss the next event."
-        className="home-mx mt-5"
-      />
+        if (curr.status === EventStatus.Live) {
+          result[0].push(component);
+        } else {
+          result[1].push(component);
+        }
 
-      <div className="section-heading flex justify-between items-center">
-        <h1>UPCOMING EVENTS</h1>
-        <img src={SearchIcon} aria-label="Search for an event"></img>
-      </div>
-      {upcomingEvents}
-    </>
-  );
+        return result;
+      },
+      [liveEvents, upcomingEvents]
+    );
+
+    return (
+      <>
+        <h1 className="section-heading">HAPPENING NOW</h1>
+        {liveEvents}
+
+        <Alert
+          message="Your standing in SGA may be affected if you miss the next event."
+          className="home-mx mt-5"
+        />
+
+        <div className="section-heading flex justify-between items-center">
+          <h1>UPCOMING EVENTS</h1>
+          <img src={SearchIcon} aria-label="Search for an event"></img>
+        </div>
+        {upcomingEvents}
+      </>
+    );
+  }
 };
 
 export default Homepage;
