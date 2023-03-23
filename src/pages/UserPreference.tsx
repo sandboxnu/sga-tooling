@@ -1,18 +1,7 @@
 import { ReactElement, useState } from "react";
 import "tw-elements";
 import Switch from "../components/Switch";
-
-export type Member = {
-  id: String;
-  firstName: String;
-  lastName: String;
-  email: String;
-  activeMember: Boolean;
-  votingRights: Boolean;
-  receiveNotPresentEmail: boolean;
-  includeInQuorum: Boolean;
-  signInBlocked: Boolean;
-};
+import { Member } from "../util/Types";
 
 export type UserPreferenceProp = {
   member: Member;

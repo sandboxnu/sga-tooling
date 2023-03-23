@@ -1,53 +1,55 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
-import Users from "./data/users.json";
+import RequireAuth from "./components/RequireAuth";
+import { mockMembers } from "./data/members";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
-import UserPreference, { Member } from "./pages/UserPreference";
+import UserPreference from "./pages/UserPreference";
 
-export type User = string | null;
+export type UserID = string | null;
 
 type UserContext = {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  userID: UserID;
+  setUserID: React.Dispatch<React.SetStateAction<UserID>>;
 };
 
-export const LoginContext = createContext<UserContext>({} as UserContext);
+export const LoginContext = createContext<UserContext>({
+  userID: null,
+  setUserID: () => {},
+});
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const member: Member = (Users as unknown as Member[])[0];
-
-  useEffect(() => {
-    const nuid = localStorage.getItem("user");
-    if (nuid) {
-      setUser(nuid);
-    }
-  }, []);
+  const [userID, setUserID] = useState<UserID>(localStorage.getItem("user"));
 
   return (
-    <LoginContext.Provider value={{ user, setUser }}>
+    <LoginContext.Provider value={{ userID, setUserID }}>
       <div className="flex min-h-screen flex-col justify-between">
-        {user ? <Menu /> : null}
         <Router>
+          {userID ? <Menu /> : null}
           <Routes>
             <Route
               path="/"
               element={<LoginPage />}
               errorElement={<Error404 />}
             />
-            <Route path="/events" element={<Homepage />} />
-            <Route path="/events/:id" element={<EventDetailsPage />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/events" element={<Homepage />} />
+              <Route path="/events/:id" element={<EventDetailsPage />} />
+            </Route>
+
             <Route path="*" element={<Error404 />} />
-            <Route path="/user/" element={<UserPreference member={member} />} />
+            <Route
+              path="/user/"
+              element={<UserPreference member={mockMembers[0]} />}
+            />
           </Routes>
         </Router>
-        {user ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
+        {userID ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
       </div>
     </LoginContext.Provider>
   );

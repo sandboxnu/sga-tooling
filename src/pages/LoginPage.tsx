@@ -4,7 +4,7 @@ import { LoginContext } from "../App";
 // import { getUserInfo } from '../requests';
 
 const LoginPage = (): ReactElement => {
-  const { setUser } = useContext(LoginContext);
+  const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const LoginPage = (): ReactElement => {
   function login() {
     if (input) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
-      setUser(input);
+      setUserID(input);
       if (isValidPassword(parseInt(input))) {
         navigate("/events");
       }
@@ -28,7 +28,7 @@ const LoginPage = (): ReactElement => {
     }
   }
 
-  function isValidPassword(password:number) :boolean {
+  function isValidPassword(password: number): boolean {
     // first check the password using a REGEX
     // check the password using an API
     return true;
