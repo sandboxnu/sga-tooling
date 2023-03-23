@@ -1,11 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Alert from "./components/Alert";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import Users from "./data/users.json";
 import Error404 from "./pages/Error404";
+import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import UserPreference, { Member } from "./pages/UserPreference";
@@ -41,10 +41,8 @@ function App() {
               element={<LoginPage />}
               errorElement={<Error404 />}
             />
-            <Route path="/events" element={<Homepage />}>
-              <Route path=":alertID" element={<Alert message="hi" />} />
-              {/* alertID needs to be updated to display events */}
-            </Route>
+            <Route path="/events" element={<Homepage />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
             <Route path="*" element={<Error404 />} />
             <Route path="/user/" element={<UserPreference member={member} />} />
           </Routes>

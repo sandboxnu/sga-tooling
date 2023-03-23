@@ -3,6 +3,7 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
+import { Event } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 
@@ -11,16 +12,6 @@ export enum Status {
   Today = "bg-black",
   Upcoming = "bg-white",
 }
-
-export type Event = {
-  startTime: Date;
-  endTime: Date;
-  name: string;
-  location: string;
-  description: string;
-  status: Status;
-  tags: string[];
-};
 
 /**
  * Renders a single event in the feed
