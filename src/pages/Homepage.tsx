@@ -1,9 +1,9 @@
 import { ReactElement, useState } from "react";
-import LoadingGIF from "../assets/Loading.gif";
 import SearchIcon from "../assets/SearchIcon.svg";
 import { fetchAllEvents } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
+import Loading from "../components/Loading";
 import { Event, EventStatus } from "../util/Types";
 
 function getStatus(start: Date, end: Date) {
@@ -31,11 +31,7 @@ const Homepage = (): ReactElement => {
     fetchAllEvents().then((e) => {
       setEventsToDisplay(e);
     });
-    return (
-      <div className="w-100 h-100 my-1 flex justify-center">
-        <img src={LoadingGIF} alt="Loading" className="w-1/5" />
-      </div>
-    );
+    return <Loading />;
   } else {
     const liveEvents: ReactElement[] = [];
     const upcomingEvents: ReactElement[] = [];
