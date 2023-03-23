@@ -4,10 +4,12 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import RequireAuth from "./components/RequireAuth";
+import { mockMembers } from "./data/members";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
+import UserPreference from "./pages/UserPreference";
 
 export type UserID = string | null;
 
@@ -16,7 +18,10 @@ type UserContext = {
   setUserID: React.Dispatch<React.SetStateAction<UserID>>;
 };
 
-export const LoginContext = createContext<UserContext>({ userID: null, setUserID: () => { } });
+export const LoginContext = createContext<UserContext>({
+  userID: null,
+  setUserID: () => {},
+});
 
 function App() {
   const [userID, setUserID] = useState<UserID>(localStorage.getItem("user"));
@@ -38,6 +43,10 @@ function App() {
             </Route>
 
             <Route path="*" element={<Error404 />} />
+            <Route
+              path="/user/"
+              element={<UserPreference member={mockMembers[0]} />}
+            />
           </Routes>
         </Router>
         {userID ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
