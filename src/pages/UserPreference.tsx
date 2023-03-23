@@ -1,6 +1,6 @@
 import { ReactElement, useState } from "react";
 import "tw-elements";
-import Slider from "../components/slider";
+import Switch from "../components/Switch";
 
 export type Member = {
   id: String;
@@ -62,10 +62,9 @@ const UserPreference = ({ member }: UserPreferenceProp): ReactElement => {
         <div className="flex flex-col gap-y-6">
           <span className="font-bold"> PREFERENCES </span>
           <div className="flex gap-x-12">
-            <span>Receive Notifications before my events</span>
+            <span className="w-96">Receive Notifications before my events</span>
             <div>
-              {" "}
-              <Slider toggle={notPresentEmail} setToggle={setNotPresentEmail} />
+              <Switch toggle={notPresentEmail} setToggle={setNotPresentEmail} />
             </div>
           </div>
         </div>
