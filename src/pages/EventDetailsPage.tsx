@@ -34,7 +34,7 @@ const EventDetailsPage = (): ReactElement => {
     "Sunday",
   ];
   const { id } = useParams();
-  const [event, setEvent] = useState(useLocation().state.event);
+  const [event, setEvent] = useState(useLocation().state?.event);
 
   if (!event) {
     fetchEvent(Number(id)).then((e) => {
@@ -43,6 +43,7 @@ const EventDetailsPage = (): ReactElement => {
     return <Loading />;
   }
 
+  console.log(`The value of event is ${event}`);
   const startDate = new Date(event.startTime);
   const month = months[startDate.getMonth()];
   const dayOfWeek = days[startDate.getDay()];
