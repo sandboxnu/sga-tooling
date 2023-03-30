@@ -1,4 +1,5 @@
 import { ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
@@ -10,15 +11,18 @@ import EventTag from "./EventTag";
 /**
  * Renders a single event in the feed
  */
-const EventCard = ({
-  startTime,
-  endTime,
-  eventName,
-  location,
-  description,
-  status,
-  tags,
-}: Event): ReactElement => {
+const EventCard = (event: Event): ReactElement => {
+  const {
+    id,
+    startTime,
+    endTime,
+    eventName,
+    location,
+    description,
+    status,
+    tags,
+  } = event;
+
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -26,10 +30,10 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   const tagElements: ReactElement[] = tags
@@ -110,9 +114,11 @@ const EventCard = ({
               <button onClick={toggleReg} className={regButtonStyle}>
                 {isRegistered ? "Unregister" : "Register"}
               </button>
-              <button className="button-base-red px-4 my-2 w-32">
-                See More
-              </button>
+              <Link to={`/events/${id}`} state={{ event }}>
+                <button className="button-base-red px-4 my-2 w-32">
+                  See More
+                </button>
+              </Link>
             </>
           )}
         </div>
