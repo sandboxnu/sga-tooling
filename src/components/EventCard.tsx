@@ -108,7 +108,9 @@ const EventCard = (event: Event): ReactElement => {
 
         <div className="flex flex-row flex-wrap">
           {status === EventStatus.Live ? (
-            <button className="button-base-disabled px-4 my-2">Vote</button>
+            <button className="button-base-disabled px-4 my-2" disabled={true}>
+              Vote
+            </button>
           ) : (
             <>
               <button onClick={toggleReg} className={regButtonStyle}>
