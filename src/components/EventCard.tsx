@@ -30,10 +30,10 @@ const EventCard = (event: Event): ReactElement => {
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    })
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
     : undefined;
 
   const tagElements: ReactElement[] = tags
@@ -108,7 +108,7 @@ const EventCard = (event: Event): ReactElement => {
 
         <div className="flex flex-row flex-wrap">
           {status === EventStatus.Live ? (
-            <button className="button-base-red px-4 my-2">Vote</button>
+            <button className="button-base-disabled px-4 my-2">Vote</button>
           ) : (
             <>
               <button onClick={toggleReg} className={regButtonStyle}>
