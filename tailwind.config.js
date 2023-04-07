@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "btn-disabled": "#696969",
         "sga-red": "#D41B2C",
         "sga-red-hover": "#b51727",
         "sga-red-active": "#87121d",
