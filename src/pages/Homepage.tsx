@@ -25,7 +25,7 @@ function isSameDay(date1: Date, date2: Date) {
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
-  const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>(null);
+  const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>();
 
   if (!eventsToDisplay) {
     fetchAllEvents().then((e) => {
