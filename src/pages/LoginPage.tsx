@@ -18,7 +18,7 @@ const LoginPage = (): ReactElement => {
 
   function login() {
     if (input) {
-      localStorage.setItem("user", JSON.stringify(`${input}`));
+      localStorage.setItem("user", input);
       setUserID(input);
       if (isValidPassword(parseInt(input))) {
         navigate("/events");

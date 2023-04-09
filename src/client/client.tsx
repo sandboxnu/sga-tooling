@@ -20,6 +20,7 @@ export function fetchAllEvents(): Promise<Event[]> {
 }
 
 export function fetchMember(id: Number): Promise<Member> {
+  console.log(id);
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const member = mockMembers.find((m) => m.id === id);
