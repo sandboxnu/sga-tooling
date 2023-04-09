@@ -1,11 +1,15 @@
 import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
+import ErrorSvg from "../assets/ErrorBubble.svg";
+import TriangleError from "../assets/TriangleError.svg";
 import { fetchMember } from "../client/client";
+import PopUp from "../components/PopUp";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
+  const [error, setError] = useState(0); // type of error that occured when we log in 0-3
 
   const navigate = useNavigate();
 
@@ -18,13 +22,20 @@ const LoginPage = (): ReactElement => {
 
   async function login() {
     const rez = await isValidLogin(input);
-    console.log("is login working");
+    console.log("yuh?");
     if (rez) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
       setUserID(input);
       navigate("/events");
     } else {
-      //alert("Error: Invalid NUID");
+      if (input.length !== 9) {
+        console.log("yuh");
+        setError(1);
+      }
+      else if (true) {
+
+      }
+      else { }
     }
   }
 
@@ -36,6 +47,7 @@ const LoginPage = (): ReactElement => {
 
   return (
     <div onLoad={checkIfLoginSaved}>
+      <PopUp source={TriangleError} message1="Haha you can't login" message2="ask someone for help" />
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
@@ -77,6 +89,12 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
+          {error === 1 ?
+            <div className="flex flex-start">
+              <img src={ErrorSvg} alt="Error icon" className="h-5" />
+              <p className="font-sans text-sga-red px-2">Error: NUID must be 9 digits long</p>
+            </div>
+            : null}
         </div>
       </div>
     </div>
