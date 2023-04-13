@@ -1,9 +1,12 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
+import { LoginContext } from "../App";
+import { mockAttendanceChange } from "../data/attendanceChange";
+import { mockReports } from "../data/reports";
 import { Event, EventStatus } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
@@ -43,6 +46,29 @@ const EventCard = (event: Event): ReactElement => {
     : [];
 
   const [isRegistered, setIsRegistered] = useState(true);
+  //console.log(event.id);
+  const { userID } = useContext(LoginContext);
+  //console.log(userID);
+  const findMatchingReport = () => {
+    for (const item of mockReports) {
+      if (item.event_id === event.id) {
+        if (item.member_id === Number(userID)) {
+          console.log("made it here");
+          console.log(item.request_id);
+          for (const attendances of mockAttendanceChange) {
+            if (attendances.id === item.request_id) {
+              //we do here something here:
+              setIsRegistered(!isRegistered);
+            }
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    findMatchingReport();
+  }, []);
 
   const regButtonStyle = isRegistered
     ? "button-base-white px-3 my-2 mr-5 w-32"
