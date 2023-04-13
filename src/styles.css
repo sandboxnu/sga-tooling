@@ -19,6 +19,10 @@
     @apply flex flex-row justify-center items-center rounded h-fit not-italic font-bold text-xl font-sans py-1 md:text-lg md:py-1;
   }
 
+  .button-base-disabled {
+    @apply button-base border border-solid border-btn-disabled bg-btn-disabled text-white shadow-md shadow-black/20;
+  }
+
   .button-base-red {
     @apply button-base border border-solid border-sga-red bg-sga-red text-white shadow-md shadow-black/20;
   }

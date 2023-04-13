@@ -9,6 +9,7 @@ const Settings = (): ReactElement => {
   function logout() {
     localStorage.removeItem("user");
     setUserID(null);
+    navigate("/");
   }
 
   return (

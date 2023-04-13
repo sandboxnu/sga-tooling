@@ -4,6 +4,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import RequireAuth from "./components/RequireAuth";
+import { mockMembers } from "./data/members";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
