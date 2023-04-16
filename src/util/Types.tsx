@@ -36,15 +36,34 @@ export type Report = {
 
 export type AttendanceChange = {
   id: Number;
-  //make enum
-  request_type: string;
+  request_type: RequestType;
   submit_time: Date;
-  //make enum
-  change_status: string;
+  change_status: ChangeStatus;
   reason: string;
   arrive_time?: Date;
   leave_time?: Date;
 };
+
+// Represents the types that a request type can be. 
+// Enum used for the AttendanceChangeRequest type.
+// Attendance change requests are typically only generated when someone clicks unregister, 
+// and they can be the following types:
+export enum RequestType {
+  ABSENT = "absent",
+  ARRIVING_LATE = "arriving late",
+  LEAVING_EARLY = "dismissal",
+}
+
+// Represents the different statuses a request can be. 
+// Enum used for the AttendanceChangeRequest type.
+// If someone reregisters for an event after unregistering, 
+// the initial request is current set to dismissed. 
+export enum ChangeStatus {
+  EXCUSED = "excused",
+  UNEXCUSED = "unexcused",
+  DISMISSED = "dismissed",
+  NOT_REVIEWED = "pending"
+}
 
 export enum EventStatus {
   Live = "bg-sga-red",
@@ -53,8 +72,8 @@ export enum EventStatus {
 }
 
 export enum ReportReason {
-  Dismised = "dismissed",
-  Discussion = "discussion",
-  Warning = "warning",
-  Removed = "removed",
+  DISMISSED = "dismissed",
+  DISCUSSION = "discussion",
+  WARNING = "warning",
+  REMOVED = "removed",
 }
