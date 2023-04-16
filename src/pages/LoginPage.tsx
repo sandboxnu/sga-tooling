@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
+import UnknownError from "../assets/UnknownError.svg";
 import { fetchMember } from "../client/client";
 import PopUp from "../components/PopUp";
+import { Member } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
-  const [error, setError] = useState(0); // type of error that occured when we log in 0-3
+  const [errorType, setError] = useState(0); // type of error that occured when we log in 0-3
 
   const navigate = useNavigate();
 
@@ -21,33 +23,46 @@ const LoginPage = (): ReactElement => {
   }
 
   async function login() {
-    const rez = await isValidLogin(input);
-    console.log("yuh?");
-    if (rez) {
+    if (input.length !== 9) {
+      setError(1);
+    }
+    let member = undefined;
+    try {
+      member = await fetchMember(input);
+    }
+    catch (e) {
+      console.log("YUH");
+      return;
+    }
+    const validMember = await isValidLogin(input, member);
+    if (validMember) {
       localStorage.setItem("user", JSON.stringify(`${input}`));
       setUserID(input);
       navigate("/events");
     } else {
-      if (input.length !== 9) {
-        console.log("yuh");
-        setError(1);
+      if (!member.activeMember) {
+        setError(2);
       }
-      else if (true) {
-
+      else if (member.signInBlocked) {
+        setError(3);
       }
-      else { }
+      else {
+        console.log("in 4?");
+        setError(4);
+      }
     }
   }
 
-  async function isValidLogin(nuid: string): Promise<boolean> {
-    const member = await fetchMember(nuid);
+  async function isValidLogin(nuid: string, member: Member): Promise<boolean> {
     return nuid.length === 9 && !isNaN(parseInt(nuid)) && member.activeMember
       && !member.signInBlocked;
   }
 
   return (
     <div onLoad={checkIfLoginSaved}>
-      <PopUp source={TriangleError} message1="Haha you can't login" message2="ask someone for help" />
+      {errorType === 2 ? <PopUp source={TriangleError} message1="Haha you inactive" message2="ask someone for help" useState={setError} /> : null}
+      {errorType === 3 ? <PopUp source={TriangleError} message1="Yo you got banned" message2="L" useState={setError} /> : null}
+      {errorType === 4 ? <PopUp source={UnknownError} message1="ion even know whats wrong" link="shiiiii" useState={setError} /> : null}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
@@ -89,7 +104,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {error === 1 ?
+          {errorType === 1 ?
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">Error: NUID must be 9 digits long</p>

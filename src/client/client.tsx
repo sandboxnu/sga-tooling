@@ -12,10 +12,8 @@ export function fetchEvent(id: Number): Promise<Event> {
 }
 
 export function fetchMember(nuid: string): Promise<Member> {
-  console.log("in fetch member");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("in promise");
       const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
       console.log(member);
       member ? resolve(member) : reject(false);
