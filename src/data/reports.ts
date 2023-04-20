@@ -1,19 +1,4 @@
 import { Report, ReportReason } from "../util/Types";
-
-/*
-
-id: Number,
-member_id: Number,
-reported_time: Date,
-report_reason: string,
-report_description?: ReportReason,
-event_id?: Number,
-request_id?: Number,
-resolution_time: Date,
-resolution_action: Date,
-
-*/
-
 export const mockReports: Report[] = [
   {
     id: 1,
