@@ -11,7 +11,8 @@ import { Member } from "../util/Types";
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
-  const [errorType, setError] = useState(0); // type of error that occured when we log in 0-3
+  const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
+  const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
   const navigate = useNavigate();
 
@@ -23,46 +24,58 @@ const LoginPage = (): ReactElement => {
   }
 
   async function login() {
-    if (input.length !== 9) {
-      setError(1);
+    setErrorType(0) // No error message before they get a response back
+    if (!isValidNuid(input)) {
+      console.log("Invalid NUID when log in pressed.")
+      setSmallErrMsg("Should be 9 digits.");
+      setErrorType(1);
+      return;
     }
     let member = undefined;
     try {
       member = await fetchMember(input);
     }
     catch (e) {
-      console.log("YUH");
+      setErrorType(4)
       return;
     }
-    const validMember = await isValidLogin(input, member);
-    if (validMember) {
-      localStorage.setItem("user", JSON.stringify(`${input}`));
-      setUserID(input);
-      navigate("/events");
+    if (!member) {
+      setErrorType(1)
+      setSmallErrMsg("Member does not exist.");
     } else {
-      if (!member.activeMember) {
-        setError(2);
-      }
-      else if (member.signInBlocked) {
-        setError(3);
-      }
-      else {
-        console.log("in 4?");
-        setError(4);
+      const memberHasAccess = await whetherHasAccess(member);
+      if (memberHasAccess) {
+        localStorage.setItem("user", JSON.stringify(`${input}`));
+        setUserID(input);
+        navigate("/events");
+      } else {
+        if (!member.activeMember) {
+          setErrorType(2);
+        }
+        else if (member.signInBlocked) {
+          setErrorType(3);
+        }
+        else {
+          console.log("in 4?");
+          setErrorType(4);
+        }
       }
     }
   }
 
-  async function isValidLogin(nuid: string, member: Member): Promise<boolean> {
-    return nuid.length === 9 && !isNaN(parseInt(nuid)) && member.activeMember
-      && !member.signInBlocked;
+  function isValidNuid(nuid: string): boolean {
+    return nuid.length === 9 && !isNaN(parseInt(nuid));
+  }
+
+  function whetherHasAccess(member: Member): boolean {
+    return member.activeMember && !member.signInBlocked;
   }
 
   return (
     <div onLoad={checkIfLoginSaved}>
-      {errorType === 2 ? <PopUp source={TriangleError} message1="Your account has been inactivated." message2="Please contact your administrator if this is a mistake." useState={setError} /> : null}
-      {errorType === 3 ? <PopUp source={TriangleError} message1="You are not allowed to log in." message2="Please contact your administrator if this is a mistake." useState={setError} /> : null}
-      {errorType === 4 ? <PopUp source={UnknownError} message1="We ran into an unknown error." link="Please report this bug." useState={setError} /> : null}
+      {errorType === 2 ? <PopUp source={TriangleError} message1="Your account has been inactivated." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
+      {errorType === 3 ? <PopUp source={TriangleError} message1="You are not allowed to log in." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
+      {errorType === 4 ? <PopUp source={UnknownError} message1="We ran into an unknown error." link="Please report this bug." useState={setErrorType} /> : null}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
@@ -80,6 +93,11 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
+          {errorType == 1 && smallErrMsg &&
+            <div className="flex flex-start">
+              <img src={ErrorSvg} alt="Error icon" className="h-5" />
+              <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
+            </div>}
         </div>
       </div>
       <div className="flex justify-center align-center h-64 lg:h-80">
@@ -104,12 +122,11 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType === 1 ?
+          {errorType == 1 && smallErrMsg &&
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
-              <p className="font-sans text-sga-red px-2">Error: NUID must be 9 digits long</p>
-            </div>
-            : null}
+              <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
+            </div>}
         </div>
       </div>
     </div>

@@ -11,12 +11,12 @@ export function fetchEvent(id: Number): Promise<Event> {
   });
 }
 
-export function fetchMember(nuid: string): Promise<Member> {
+export function fetchMember(nuid: string): Promise<Member | undefined> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
-      console.log(member);
-      member ? resolve(member) : reject(false);
+      console.log("fetchMember", member);
+      resolve(member);
     }, 1000);
   });
 }
