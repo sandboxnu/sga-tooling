@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
@@ -17,10 +17,7 @@ type UserContext = {
   setUserID: React.Dispatch<React.SetStateAction<UserID>>;
 };
 
-export const LoginContext = createContext<UserContext>({
-  userID: null,
-  setUserID: () => { },
-});
+export const LoginContext = createContext<UserContext>({ userID: null, setUserID: () => { } });
 
 function App() {
   const [userID, setUserID] = useState<UserID>(localStorage.getItem("user"));
@@ -28,7 +25,6 @@ function App() {
   return (
     <LoginContext.Provider value={{ userID, setUserID }}>
       <div className="flex min-h-screen flex-col justify-between">
-        {userID ? <Menu /> : null}
         <Router>
           {userID ? <Menu /> : null}
           <Routes>
