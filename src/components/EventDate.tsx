@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
-import { Status } from "./EventCard";
+import { EventStatus } from "../util/Types";
 
 // Renders an event's day of the month numerically, month, and day of the week.
 export const EventDate = (props: {
   startTime: Date;
-  status: Status;
+  status?: EventStatus;
 }): ReactElement => {
   const date = {
     num: props.startTime.getDate(),
@@ -24,9 +24,9 @@ export const EventDate = (props: {
 
   return (
     <div className="w-16 md:w-20 flex flex-col items-center">
-      {props.status === Status.Live ? (
+      {props.status === EventStatus.Live ? (
         <div className={bgColor}>LIVE</div>
-      ) : props.status === Status.First ? (
+      ) : props.status === EventStatus.First ? (
         <>
           <div className={bgColor}>{date.num}</div>
           <div className="mt-1 flex flex-col items-center text-lg md:text-xl">

@@ -6,6 +6,7 @@ import { LoginContext } from "../App";
 
 const RequireAuth = () => {
     const { userID } = useContext(LoginContext);
+    console.log("RequireAuth")
     if (!userID) {
         console.log("User ID does not exist. Redirecting.");
     }

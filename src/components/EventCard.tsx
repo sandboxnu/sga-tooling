@@ -1,34 +1,28 @@
 import { ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
-import { Event } from "../util/Types";
+import { Event, EventStatus } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
-
-// Defines the BG color when displaying the date of the event card.
-export enum Status {
-  // Events that are currently occurring
-  Live = "bg-sga-red",
-  // The first event that occurs in a day
-  First = "bg-black",
-  // The rest of the events that occurs in a day
-  Rest = "bg-white",
-}
 
 /**
  * Renders a single event in the feed
  */
-const EventCard = ({
-  startTime,
-  endTime,
-  name,
-  location,
-  description,
-  status,
-  tags,
-}: Event): ReactElement => {
+const EventCard = (event: Event): ReactElement => {
+  const {
+    id,
+    startTime,
+    endTime,
+    eventName,
+    location,
+    description,
+    status,
+    tags,
+  } = event;
+
   let startTimeString: string = startTime.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -36,15 +30,17 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    })
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
     : undefined;
 
-  const tagElements: ReactElement[] = tags.map((t) => {
-    return <EventTag tag={t} />;
-  });
+  const tagElements: ReactElement[] = tags
+    ? tags.map((t) => {
+        return <EventTag tag={t} />;
+      })
+    : [];
 
   const [isRegistered, setIsRegistered] = useState(true);
 
@@ -59,14 +55,14 @@ const EventCard = ({
 
   return (
     <div className="flex my-8 md:my-10">
-      <EventDate startTime={startTime} status={status} />
+      <EventDate startTime={startTime} />
       <div className="flex-1 px-6 md:px-10">
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
         </span>
         <div className="flex flex-row justify-between items-start mb-4">
           <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
-            {name}
+            {eventName}
           </div>
           <details className="relative">
             <summary className="list-none cursor-pointer">
@@ -111,16 +107,20 @@ const EventCard = ({
         </div>
 
         <div className="flex flex-row flex-wrap">
-          {status === Status.Live ? (
-            <button className="button-base-red px-4 my-2">Vote</button>
+          {status === EventStatus.Live ? (
+            <button className="button-base-disabled px-4 my-2" disabled={true}>
+              Vote
+            </button>
           ) : (
             <>
               <button onClick={toggleReg} className={regButtonStyle}>
                 {isRegistered ? "Unregister" : "Register"}
               </button>
-              <button className="button-base-red px-4 my-2 w-32">
-                See More
-              </button>
+              <Link to={`/events/${id}`} state={{ event }}>
+                <button className="button-base-red px-4 my-2 w-32">
+                  See More
+                </button>
+              </Link>
             </>
           )}
         </div>

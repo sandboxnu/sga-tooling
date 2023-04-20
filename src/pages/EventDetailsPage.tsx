@@ -1,19 +1,15 @@
 import { ReactElement, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Frame from ".././assets/Frame.svg";
 import LinkSVG from ".././assets/Link.svg";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import { fetchEvent } from "../client/client";
-import { Event } from "../util/Types";
-
-export type EventDetailsPageProps = {
-  Event?: Event;
-};
+import Loading from "../components/Loading";
 
 //if time is not defined make it all day
-const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
+const EventDetailsPage = (): ReactElement => {
   const months = [
     "January",
     "February",
@@ -38,15 +34,16 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
     "Sunday",
   ];
   const { id } = useParams();
-  const [event, setEvent] = useState(Event);
+  const [event, setEvent] = useState(useLocation().state?.event);
 
   if (!event) {
     fetchEvent(Number(id)).then((e) => {
       setEvent(e);
     });
-    return <p>Loading</p>;
+    return <Loading />;
   }
 
+  console.log(`The value of event is ${event}`);
   const startDate = new Date(event.startTime);
   const month = months[startDate.getMonth()];
   const dayOfWeek = days[startDate.getDay()];
@@ -70,7 +67,9 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
   return (
     <div className="flex flex-1 flex-col p-10 gap-8">
       <div className="flex flex-row items-center gap-4">
-        <img src={Frame} alt="Back arrow" />
+        <Link to={`../`}>
+          <img src={Frame} alt="Back arrow" />
+        </Link>
         <h1 className="section-heading m-0 text-md text-left flex-1 md:flex-0">
           <span>EVENT DETAILS</span>
         </h1>
@@ -82,7 +81,7 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
       </div>
       <hr className="border-black" />
       <div className="font-bold text-2xl leading-8 font-sans break-words">
-        {event.name}
+        {event.eventName}
       </div>
       <div className="flex flex-col w-full md:flex-row gap-12">
         <div className="flex flex-row h-60 md:w-6/12 md:h-96">
@@ -110,13 +109,16 @@ const EventDetailsPage = ({ Event }: EventDetailsPageProps): ReactElement => {
             <span> {event.location}</span>
           </div>
           <div className="flex flex-row items-center">
-            <img src={TextIconSVG} alt="Cool icon" className="px-3" />
+            <img
+              src={TextIconSVG}
+              alt="Cool icon"
+              className="self-start px-3"
+            />
             <span className="break-words">{event.description}</span>
           </div>
-
           <div className="flex flex-row items-center">
-            <img src={LinkSVG} alt="Link" className="px-3" />
-            kaljfdklajfkaljfaj
+            <img src={LinkSVG} alt="Attachment" className="px-3" />
+            Lorem ipsum.
           </div>
         </div>
       </div>

@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", './src/**/*.{html,js}', "./node_modules/tw-elements/dist/js/**/*.js"],
   theme: {
     extend: {
       colors: {
+        "btn-disabled": "#696969",
         "sga-red": "#D41B2C",
         "sga-red-hover": "#b51727",
         "sga-red-active": "#87121d",
@@ -27,5 +28,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tw-elements/dist/plugin')
+  ],
 };
