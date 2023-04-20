@@ -58,10 +58,10 @@ const EventDetailsPage = (): ReactElement => {
 
   const endTimeString: string | undefined = event.endTime
     ? new Date(event.endTime).toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   return (

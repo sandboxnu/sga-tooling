@@ -17,10 +17,7 @@ type UserContext = {
   setUserID: React.Dispatch<React.SetStateAction<UserID>>;
 };
 
-export const LoginContext = createContext<UserContext>({
-  userID: null,
-  setUserID: () => {},
-});
+export const LoginContext = createContext<UserContext>({ userID: null, setUserID: () => { } });
 
 function App() {
   const [userID, setUserID] = useState<UserID>(localStorage.getItem("user"));

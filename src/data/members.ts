@@ -2,7 +2,8 @@ import { Member } from "../util/Types";
 
 export const mockMembers: Member[] = [
   {
-    id: 1,
+    id: "1",
+    nuid: "111111111",
     firstName: "Raveesh",
     lastName: "Mehta",
     email: "Mehta.R@northeastern.edu",
@@ -13,7 +14,8 @@ export const mockMembers: Member[] = [
     signInBlocked: false,
   },
   {
-    id: 2,
+    id: "2",
+    nuid: "222222222",
     firstName: "Chanmi",
     lastName: "Oh",
     email: "Oh.C@northeastern.edu",
@@ -24,7 +26,8 @@ export const mockMembers: Member[] = [
     signInBlocked: false,
   },
   {
-    id: 3,
+    id: "3",
+    nuid: "333333333",
     firstName: "Melody",
     lastName: "Liu",
     email: "Liu.M@northeastern.edu",
@@ -35,7 +38,8 @@ export const mockMembers: Member[] = [
     signInBlocked: true,
   },
   {
-    id: 4,
+    id: "4",
+    nuid: "444444444",
     firstName: "Josh",
     lastName: "Wang",
     email: "Wang.J@northeastern.edu",
@@ -46,7 +50,8 @@ export const mockMembers: Member[] = [
     signInBlocked: false,
   },
   {
-    id: 5,
+    id: "5",
+    nuid: "555555555",
     firstName: "Dylan",
     lastName: "Cerenov",
     email: "Cerenov.D@northeastern.edu",
@@ -57,7 +62,8 @@ export const mockMembers: Member[] = [
     signInBlocked: true,
   },
   {
-    id: 6,
+    id: '6',
+    nuid: "666666666",
     firstName: "Nathan",
     lastName: "Harvey",
     email: "Harvey.N@northeastern.edu",
@@ -68,7 +74,8 @@ export const mockMembers: Member[] = [
     signInBlocked: false,
   },
   {
-    id: 7,
+    id: '7',
+    nuid: "777777777",
     firstName: "Suli",
     lastName: "Rashidzada",
     email: "Rashidzada.S@northeastern.edu",

@@ -1,43 +1,83 @@
 import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
-// import { getUserInfo } from '../requests';
+import ErrorSvg from "../assets/ErrorBubble.svg";
+import TriangleError from "../assets/TriangleError.svg";
+import UnknownError from "../assets/UnknownError.svg";
+import { fetchMember } from "../client/client";
+import PopUp from "../components/PopUp";
+import { Member } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
+  const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
+  const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
   const navigate = useNavigate();
 
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
-    if (nuid && isValidPassword(parseInt(nuid))) {
+    if (nuid) {
       navigate("/events");
     }
   }
 
-  function login() {
-    if (input) {
-      localStorage.setItem("user", input);
-      setUserID(input);
-      if (isValidPassword(parseInt(input))) {
-        navigate("/events");
-      }
+  async function login() {
+    setErrorType(0) // No error message before they get a response back
+    if (!isValidNuid(input)) {
+      console.log("Invalid NUID when log in pressed.")
+      setSmallErrMsg("Should be 9 digits.");
+      setErrorType(1);
+      return;
+    }
+    let member = undefined;
+    try {
+      member = await fetchMember(input);
+    }
+    catch (e) {
+      setErrorType(4)
+      return;
+    }
+    if (!member) {
+      setErrorType(1)
+      setSmallErrMsg("Member does not exist.");
     } else {
-      alert("Error: Invalid NUID");
+      const memberHasAccess = await whetherHasAccess(member);
+      if (memberHasAccess) {
+        localStorage.setItem("user", JSON.stringify(`${input}`));
+        setUserID(input);
+        navigate("/events");
+      } else {
+        if (!member.activeMember) {
+          setErrorType(2);
+        }
+        else if (member.signInBlocked) {
+          setErrorType(3);
+        }
+        else {
+          console.log("in 4?");
+          setErrorType(4);
+        }
+      }
     }
   }
 
-  function isValidPassword(password: number): boolean {
-    // first check the password using a REGEX
-    // check the password using an API
-    return true;
+  function isValidNuid(nuid: string): boolean {
+    return nuid.length === 9 && !isNaN(parseInt(nuid));
+  }
+
+  function whetherHasAccess(member: Member): boolean {
+    return member.activeMember && !member.signInBlocked;
   }
 
   return (
     <div onLoad={checkIfLoginSaved}>
+      {errorType === 2 ? <PopUp source={TriangleError} message1="Your account has been inactivated." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
+      {errorType === 3 ? <PopUp source={TriangleError} message1="You are not allowed to log in." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
+      {errorType === 4 ? <PopUp source={UnknownError} message1="We ran into an unknown error." link="Please report this bug." useState={setErrorType} /> : null}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
-        <form className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
+        <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
             value={input}
             type="text"
@@ -53,7 +93,12 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-        </form>
+          {errorType == 1 && smallErrMsg &&
+            <div className="flex flex-start">
+              <img src={ErrorSvg} alt="Error icon" className="h-5" />
+              <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
+            </div>}
+        </div>
       </div>
       <div className="flex justify-center align-center h-64 lg:h-80">
         <img
@@ -61,7 +106,7 @@ const LoginPage = (): ReactElement => {
           src="https://giving.northeastern.edu/live/image/gid/2/width/1260/height/630/crop/1/src_region/294,25,1751,1483/484_Club_-_Student_Government_Association.jpg"
           alt="Student Government Association Logo"
         />
-        <form className="hidden lg:flex flex-col px-20 py-14">
+        <div className="hidden lg:flex flex-col px-20 py-14">
           <input
             value={input}
             type="text"
@@ -77,7 +122,12 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-        </form>
+          {errorType == 1 && smallErrMsg &&
+            <div className="flex flex-start">
+              <img src={ErrorSvg} alt="Error icon" className="h-5" />
+              <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
+            </div>}
+        </div>
       </div>
     </div>
   );
