@@ -5,9 +5,8 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import { LoginContext } from "../App";
-import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockReports } from "../data/reports";
-import { Event, EventStatus } from "../util/Types";
+import { Event, EventStatus, ReportReason } from "../util/Types";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 
@@ -33,51 +32,97 @@ const EventCard = (event: Event): ReactElement => {
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   const tagElements: ReactElement[] = tags
     ? tags.map((t) => {
-        return <EventTag tag={t} />;
-      })
+      return <EventTag tag={t} />;
+    })
     : [];
 
+  // Default for an event is registered 
   const [isRegistered, setIsRegistered] = useState(true);
-  //console.log(event.id);
+  const [flag, setFlag] = useState(false);
   const { userID } = useContext(LoginContext);
-  //console.log(userID);
-  const findMatchingReport = () => {
-    for (const item of mockReports) {
-      if (item.event_id === event.id) {
-        if (item.member_id === Number(userID)) {
-          console.log("made it here");
-          console.log(item.request_id);
-          for (const attendances of mockAttendanceChange) {
-            if (attendances.id === item.request_id) {
-              //we do here something here:
-              setIsRegistered(!isRegistered);
-            }
-          }
-        }
-      }
-    }
-  };
 
-  useEffect(() => {
-    findMatchingReport();
-  }, []);
+
+  // const findMatchingReport = () => {
+  //   for (const item of mockReports) {
+  //     if (item.event_id === event.id) {
+  //       if (item.member_id === Number(userID)) {
+  //         console.log("made it here");
+  //         console.log(item.request_id);
+  //         for (const attendances of mockAttendanceChange) {
+  //           if (attendances.id === item.request_id) {
+  //             //we do here something here:
+  //             setIsRegistered(!isRegistered);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   findMatchingReport();
+  // }, []);
 
   const regButtonStyle = isRegistered
     ? "button-base-white px-3 my-2 mr-5 w-32"
     : "button-base-red px-4 my-2 mr-5 w-32";
 
+  // Called whenever the Register/Unregister button is pressed; 
   const toggleReg = () => {
+    console.log("original    : " + isRegistered);
+
+
     setIsRegistered(!isRegistered);
+    setFlag(!flag);
+
+    console.log("toggleReg   : " + isRegistered);
     // POST API Call Here
+
   };
+
+  useEffect(() => {
+    // setIsRegistered is an async function and you cannot get the state value immediately after update.
+    // If you want to get the updated state value then use useEffect hook with dependency array. 
+    // React will execute this hook after each state update.
+    console.log("useEffect   : " + isRegistered);
+    console.log("flag        : " + flag);
+    if (flag) {
+      setFlag(!flag);
+      mockReportCall();
+      console.log(mockReports.length);
+    }
+  }, [isRegistered, setFlag]);
+
+  const mockReportCall = () => {
+    console.log("making mock call");
+
+    let rprt = {
+      id: 100,
+      member_id: 25,
+      reported_time: new Date("2000-01-01 00:00:00"),
+      report_reason: "Reasonable reason 1",
+      report_description: ReportReason.DISMISSED,
+      event_id: 1,
+      request_id: 1,
+      resolution_time: new Date("2000-01-02 00:00:00"),
+      resolution_action: new Date("2000-01-03 00:00:00"),
+    };
+
+    mockReports.push(rprt);
+  }
+
+  // To mock a request, in client.ts add an async mock request helper that pulls from example data and waits 1 second to send a success or failure.
+  // Look at the other helper functions for reference.
+
+
 
   return (
     <div className="flex my-8 md:my-10">
