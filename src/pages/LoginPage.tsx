@@ -60,9 +60,9 @@ const LoginPage = (): ReactElement => {
 
   return (
     <div onLoad={checkIfLoginSaved}>
-      {errorType === 2 ? <PopUp source={TriangleError} message1="Haha you inactive" message2="ask someone for help" useState={setError} /> : null}
-      {errorType === 3 ? <PopUp source={TriangleError} message1="Yo you got banned" message2="L" useState={setError} /> : null}
-      {errorType === 4 ? <PopUp source={UnknownError} message1="ion even know whats wrong" link="shiiiii" useState={setError} /> : null}
+      {errorType === 2 ? <PopUp source={TriangleError} message1="Your account has been inactivated." message2="Please contact your administrator if this is a mistake." useState={setError} /> : null}
+      {errorType === 3 ? <PopUp source={TriangleError} message1="You are not allowed to log in." message2="Please contact your administrator if this is a mistake." useState={setError} /> : null}
+      {errorType === 4 ? <PopUp source={UnknownError} message1="We ran into an unknown error." link="Please report this bug." useState={setError} /> : null}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
