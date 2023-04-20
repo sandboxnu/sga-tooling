@@ -12,15 +12,9 @@ function getStatus(start: Date, end: Date) {
 
   if (start.getTime() < timeNow && timeNow < end.getTime()) {
     return EventStatus.Live;
-  } else if (today.toDateString() === start.toDateString()) {
-    return EventStatus.First;
   } else {
     return EventStatus.Rest;
   }
-}
-
-function isSameDay(date1: Date, date2: Date) {
-  return date1.toDateString() === date2.toDateString();
 }
 
 // Renders homepage with events.
@@ -29,13 +23,16 @@ const Homepage = (): ReactElement => {
 
   if (!eventsToDisplay) {
     fetchAllEvents().then((e) => {
+      e.sort((a, b) => {
+        return (
+          new Date(b.startTime).getTime() - new Date(a.startTime).getTime()
+        );
+      });
       setEventsToDisplay(e);
     });
+
     return <Loading />;
   } else {
-    const liveEvents: ReactElement[] = [];
-    const upcomingEvents: ReactElement[] = [];
-
     const events: Event[] = eventsToDisplay.map((e) => {
       return {
         ...e,
@@ -43,29 +40,37 @@ const Homepage = (): ReactElement => {
       };
     });
 
-    // Filters events into their corresponding status.
-    events.reduce(
-      function (result, curr, i) {
-        let component = (
-          <>
-            <EventCard key={curr.id} {...curr} />
-            {i > 0 &&
-            isSameDay(curr.startTime, events[i - 1].startTime) ? null : (
+    const liveEvents: ReactElement[] = events
+      .filter((e) => e.status === EventStatus.Live)
+      .map((e) => (
+        <>
+          <EventCard key={e.eventName} {...e} />
+          <hr className="border-black home-mx" />
+        </>
+      ));
+
+    const upcomingEvents: ReactElement[] = events
+      .filter((e) => e.status === EventStatus.Rest)
+      .map((e, i) => {
+        const prevDate = events[i - 1]
+          ? events[i - 1].startTime.toDateString()
+          : null;
+        const currDate = events[i].startTime.toDateString();
+
+        // Checks if this event is the first event of the day, and updates its status accordingly
+        if (i === 0) {
+          e.status = EventStatus.First;
+        } else if (prevDate !== currDate) {
+          e.status = EventStatus.First;
+          return (
+            <>
               <hr className="border-black home-mx" />
-            )}
-          </>
-        );
-
-        if (curr.status === EventStatus.Live) {
-          result[0].push(component);
-        } else {
-          result[1].push(component);
+              <EventCard key={e.eventName} {...e} />
+            </>
+          );
         }
-
-        return result;
-      },
-      [liveEvents, upcomingEvents]
-    );
+        return <EventCard key={e.eventName} {...e} />;
+      });
 
     return (
       <>
