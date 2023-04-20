@@ -11,10 +11,12 @@ const UserPreference = (): ReactElement => {
   const [notPresentEmail, setNotPresentEmail] = useState<boolean>(false);
   const { userID: id } = useContext(LoginContext);
 
-  if (id && parseInt(id, 10)) {
-    fetchMember(parseInt(id, 10)).then((m) => {
-      setMember(m);
-      setNotPresentEmail(m.receiveNotPresentEmail);
+  if (id) {
+    fetchMember(id).then((m) => {
+      if (m) {
+        setMember(m);
+        setNotPresentEmail(m.receiveNotPresentEmail);
+      }
     });
   }
 
