@@ -11,7 +11,8 @@ export type Event = {
 };
 
 export type Member = {
-  id: number;
+  id: string;
+  nuid: string;
   firstName: string;
   lastName: string;
   email: string;

@@ -1,5 +1,5 @@
 import { mockEvents } from "../data/events";
-import { mockMembers } from "../data/members";
+import UserJSON from "../data/users.json";
 import { Event, Member } from "../util/Types";
 
 export function fetchEvent(id: Number): Promise<Event> {
@@ -19,11 +19,12 @@ export function fetchAllEvents(): Promise<Event[]> {
   });
 }
 
-export function fetchMember(id: Number): Promise<Member> {
+export function fetchMember(nuid: string): Promise<Member | undefined> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const member = mockMembers.find((m) => m.id === id);
-      member ? resolve(member) : reject("404 Not found");
-    }, 1000);
-  });
+      const member = (UserJSON as unknown as Member[]).find((m) => m.nuid === nuid);
+      console.log("fetchMember", member);
+      resolve(member);
+    });
+  })
 }

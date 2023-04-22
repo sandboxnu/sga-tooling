@@ -126,7 +126,7 @@ const EventCard = (event: Event): ReactElement => {
 
   return (
     <div className="flex my-8 md:my-10">
-      <EventDate startTime={startTime} />
+      <EventDate startTime={startTime} status={status} />
       <div className="flex-1 px-6 md:px-10">
         <span className="font-sans">
           {startTimeString + (endTime ? " to " + endTimeString : "")}
