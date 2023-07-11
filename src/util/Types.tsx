@@ -23,21 +23,14 @@ export type Member = {
   signInBlocked: boolean;
 };
 
-export type Report = {
-  id: Number;
-  member_id: Number;
-  reported_time: Date;
-  report_reason: string;
-  report_description?: ReportReason;
-  event_id?: Number;
-  request_id?: Number;
-  resolution_time: Date;
-  resolution_action: Date;
-};
-
 export type AttendanceChange = {
+  //ids are technically a uuid for each of these, so it should be a string, but Number is easier to work with
   id: Number;
+  //id of the member who submitted this request
+  memberID: Number;
   request_type: RequestType;
+  //id of the event the attendance change corresponds to
+  eventID: Number;
   submit_time: Date;
   change_status: ChangeStatus;
   reason: string;
@@ -45,9 +38,9 @@ export type AttendanceChange = {
   leave_time?: Date;
 };
 
-// Represents the types that a request type can be. 
+// Represents the types that a request type can be.
 // Enum used for the AttendanceChangeRequest type.
-// Attendance change requests are typically only generated when someone clicks unregister, 
+// Attendance change requests are typically only generated when someone clicks unregister,
 // and they can be the following types:
 export enum RequestType {
   ABSENT = "absent",
@@ -55,15 +48,15 @@ export enum RequestType {
   LEAVING_EARLY = "dismissal",
 }
 
-// Represents the different statuses a request can be. 
+// Represents the different statuses a request can be.
 // Enum used for the AttendanceChangeRequest type.
-// If someone reregisters for an event after unregistering, 
-// the initial request is current set to dismissed. 
+// If someone reregisters for an event after unregistering,
+// the initial request is current set to dismissed.
 export enum ChangeStatus {
   EXCUSED = "excused",
   UNEXCUSED = "unexcused",
   DISMISSED = "dismissed",
-  NOT_REVIEWED = "pending"
+  NOT_REVIEWED = "pending",
 }
 
 export enum EventStatus {
