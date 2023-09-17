@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started with SGA-Tooling
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The following scripts are to run the project locally.
 
 ## Available Scripts
 
