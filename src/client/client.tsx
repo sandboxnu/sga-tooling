@@ -44,12 +44,25 @@ export function findAttendanceChangeRequests(
   eventID: Number
 ) {
   return new Promise((resolve, reject) => {
-    console.log("currently logged in user's id is: " + memberID);
-
     //set a timeout after 1000 seconds
     setTimeout(() => {
       const attendanceChange = mockAttendanceChange.find(
         (ac) => ac.memberID === parseInt(memberID) && ac.eventID === eventID
+      );
+      attendanceChange
+        ? resolve(attendanceChange)
+        : reject("No attendance Change for this member for this event");
+    }, 1000);
+  });
+}
+
+export function findAttendanceChangeRequestForMember(
+  memberID: string
+): Promise<AttendanceChange[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const attendanceChange = mockAttendanceChange.filter(
+        (ac) => ac.memberID !== parseInt(memberID)
       );
       attendanceChange
         ? resolve(attendanceChange)
@@ -75,7 +88,7 @@ export function createAttendanceChange(
         change_status: ChangeStatus.EXCUSED,
       };
       mockAttendanceChange.push(newAttendance);
-      //randomly reject at times
+      //randomly reject at times (this was for the erorr handling part of ticket, if you don't want this just resolve normally)
       const randomNumber = Math.floor(Math.random() * 4);
       console.log(randomNumber);
       randomNumber > 1 ? resolve(newAttendance) : reject("500 server Error");

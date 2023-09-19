@@ -6,20 +6,24 @@ import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import { LoginContext } from "../App";
 import TriangleError from "../assets/TriangleError.svg";
-import {
-  createAttendanceChange,
-  fetchMember,
-  findAttendanceChangeRequests,
-} from "../client/client";
-import { Event, EventStatus } from "../util/Types";
+import { createAttendanceChange, fetchMember } from "../client/client";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
+import AttendanceChangeModal from "./AttendanceChangeModal";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
 import PopUp from "./PopUp";
 
+interface EventCardProps {
+  event: Event;
+  attendanceChange?: AttendanceChange;
+}
 /**
  * Renders a single event in the feed
  */
-const EventCard = (event: Event): ReactElement => {
+const EventCard = ({
+  event,
+  attendanceChange,
+}: EventCardProps): ReactElement => {
   const {
     id,
     startTime,
@@ -50,57 +54,66 @@ const EventCard = (event: Event): ReactElement => {
       })
     : [];
 
-  // Default for an event is registered
-  const [isRegistered, setIsRegistered] = useState(true);
-  const [errorType, setErrorType] = useState(0);
   //nuid of the corrently loggedIn user
   const { userID } = useContext(LoginContext);
+  console.log(attendanceChange);
+  const [isRegistered, setIsRegistered] = useState(
+    attendanceChange ? false : true
+  );
+  const [errorType, setErrorType] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [createdAttendanceChange, setCreatedAttendanceChange] = useState({});
+
+  const openModal = () => {
+    // need to make sure they don't already have an existing attendanceChange for this event
+    isRegistered ? setIsOpen(true) : setIsOpen(false);
+    //it would be cool if there was an indicator that they cannot register again(idk)
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const regButtonStyle = isRegistered
     ? "button-base-white px-3 my-2 mr-5 w-32"
     : "button-base-red px-4 my-2 mr-5 w-32";
 
-  // Called whenever the Register/Unregister button is pressed;
-  const toggleReg = async () => {
-    //try to make the Attendance Change
-    try {
-      await makeAttendanceRequest();
-      setIsRegistered(!isRegistered);
-    } catch (e) {
-      //if the request fails show the pop up and don't set the registered flag yet
-      setErrorType(1);
+  // for some great reason {} is not empty to adding this check before
+  const isObjectEmpty = (object: any) => {
+    for (const x in object) {
+      return false;
     }
+    return true;
   };
-  //loading state for the button:
 
-  //in this useEffect, we check whether this corresponding member and event has an attendance change
+  //idk why but refreshing my dev server springs this useEffect, not sure if this is an issue though
   useEffect(() => {
-    const getAttendanceChanges = async () => {
-      if (userID) {
-        const member = await fetchMember(userID);
-        const memberID = member?.id;
-        if (memberID) {
-          await findAttendanceChangeRequests(memberID, id);
+    const makeAttendanceChange = async () => {
+      // in the future this is how the JSON should look, for now for simplicity just using the memberID for the promise
+      // const combinedAttendanceChange = {
+      //   memberid: userID,
+      //   eventid: id,
+      //   ...createdAttendanceChange,
+      // };
+
+      try {
+        //using non-null assertion since it's assumed the user is logged in to make it past the home page
+        const member = await fetchMember(userID!);
+        if (member) {
+          await createAttendanceChange(member.id, id);
           setIsRegistered(false);
         }
+      } catch (e) {
+        //something weird happened, so just show error :(
+        setErrorType(1);
       }
     };
 
-    getAttendanceChanges().catch(console.error);
-  }, []);
-
-  const makeAttendanceRequest = async () => {
-    //first have to make sure that we are able to create one/register is true:
-    if (isRegistered) {
-      //is there a better way to do this check to make sure that we are logged in and there is a userID?
-      if (userID) {
-        const member = await fetchMember(userID);
-        if (member) {
-          await createAttendanceChange(member.id, id);
-        }
-      }
+    //on Mount this runs, so only want this to run when we actually have something/ this json is not empty
+    if (!isObjectEmpty(createdAttendanceChange)) {
+      makeAttendanceChange();
+      console.log(createdAttendanceChange);
     }
-  };
+  }, [createdAttendanceChange]);
 
   return (
     <>
@@ -173,7 +186,7 @@ const EventCard = (event: Event): ReactElement => {
               </button>
             ) : (
               <>
-                <button onClick={toggleReg} className={regButtonStyle}>
+                <button onClick={openModal} className={regButtonStyle}>
                   {isRegistered ? "Unregister" : "Register"}
                 </button>
                 <Link to={`/events/${id}`} state={{ event }}>
@@ -185,6 +198,11 @@ const EventCard = (event: Event): ReactElement => {
             )}
           </div>
         </div>
+        <AttendanceChangeModal
+          isOpen={isOpen}
+          onClose={() => closeModal()}
+          setAttendanceChange={setCreatedAttendanceChange}
+        />
       </div>
     </>
   );
