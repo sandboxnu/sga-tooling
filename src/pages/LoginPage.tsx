@@ -111,7 +111,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType == 1 && smallErrMsg && (
+          {errorType === 1 && smallErrMsg && (
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
@@ -141,7 +141,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType == 1 && smallErrMsg && (
+          {errorType === 1 && smallErrMsg && (
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
