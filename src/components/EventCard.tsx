@@ -54,9 +54,8 @@ const EventCard = ({
       })
     : [];
 
-  //nuid of the corrently loggedIn user
+  // nuid of the currently loggedIn user
   const { userID } = useContext(LoginContext);
-  console.log(attendanceChange);
   const [isRegistered, setIsRegistered] = useState(
     attendanceChange ? false : true
   );
@@ -65,53 +64,34 @@ const EventCard = ({
   const [createdAttendanceChange, setCreatedAttendanceChange] = useState({});
 
   const openModal = () => {
-    // need to make sure they don't already have an existing attendanceChange for this event
     isRegistered ? setIsOpen(true) : setIsOpen(false);
-    //it would be cool if there was an indicator that they cannot register again(idk)
   };
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const makeAttendanceChange = async () => {
+    try {
+      //using non-null assertion since it's assumed the user is logged in to make it past the home page
+      const member = await fetchMember(userID!);
+      if (member) {
+        await createAttendanceChange(member.id, id);
+        setIsRegistered(false);
+      }
+    } catch (e) {
+      setErrorType(1);
+    }
   };
 
   const regButtonStyle = isRegistered
     ? "button-base-white px-3 my-2 mr-5 w-32"
     : "button-base-red px-4 my-2 mr-5 w-32";
 
-  // for some great reason {} is not empty to adding this check before
-  const isObjectEmpty = (object: any) => {
-    for (const x in object) {
-      return false;
-    }
-    return true;
-  };
-
-  //idk why but refreshing my dev server springs this useEffect, not sure if this is an issue though
   useEffect(() => {
-    const makeAttendanceChange = async () => {
-      // in the future this is how the JSON should look, for now for simplicity just using the memberID for the promise
-      // const combinedAttendanceChange = {
-      //   memberid: userID,
-      //   eventid: id,
-      //   ...createdAttendanceChange,
-      // };
-
-      try {
-        //using non-null assertion since it's assumed the user is logged in to make it past the home page
-        const member = await fetchMember(userID!);
-        if (member) {
-          await createAttendanceChange(member.id, id);
-          setIsRegistered(false);
-        }
-      } catch (e) {
-        //something weird happened, so just show error :(
-        setErrorType(1);
-      }
-    };
-
-    //on Mount this runs, so only want this to run when we actually have something/ this json is not empty
-    if (!isObjectEmpty(createdAttendanceChange)) {
+    //on Mount this useEffect starts,
+    //so only want this makeAttendanceChange function to start when we actually have something/ this json is not empty
+    if (!(Object.keys(createdAttendanceChange).length === 0)) {
       makeAttendanceChange();
-      console.log(createdAttendanceChange);
     }
   }, [createdAttendanceChange]);
 

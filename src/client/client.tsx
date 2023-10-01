@@ -32,19 +32,17 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
       const member = (UserJSON as unknown as Member[]).find(
         (m) => m.nuid === nuid
       );
-      console.log("fetchMember", member);
       resolve(member);
     });
   });
 }
 
 //sample function to fetch all attendance change requests
-export function findAttendanceChangeRequests(
+export const findAttendanceChangeRequests = (
   memberID: string,
   eventID: Number
-) {
+) => {
   return new Promise((resolve, reject) => {
-    //set a timeout after 1000 seconds
     setTimeout(() => {
       const attendanceChange = mockAttendanceChange.find(
         (ac) => ac.memberID === parseInt(memberID) && ac.eventID === eventID
@@ -54,11 +52,11 @@ export function findAttendanceChangeRequests(
         : reject("No attendance Change for this member for this event");
     }, 1000);
   });
-}
+};
 
-export function findAttendanceChangeRequestForMember(
+export const findAttendanceChangeRequestForMember = (
   memberID: string
-): Promise<AttendanceChange[]> {
+): Promise<AttendanceChange[]> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceChange = mockAttendanceChange.filter(
@@ -69,12 +67,12 @@ export function findAttendanceChangeRequestForMember(
         : reject("No attendance Change for this member for this event");
     }, 1000);
   });
-}
+};
 
-export function createAttendanceChange(
+export const createAttendanceChange = (
   memberID: string,
   eventID: Number
-): Promise<AttendanceChange | undefined> {
+): Promise<AttendanceChange | undefined> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       //Sample Attendance Change being added
@@ -88,10 +86,7 @@ export function createAttendanceChange(
         change_status: ChangeStatus.EXCUSED,
       };
       mockAttendanceChange.push(newAttendance);
-      //randomly reject at times (this was for the erorr handling part of ticket, if you don't want this just resolve normally)
-      const randomNumber = Math.floor(Math.random() * 4);
-      console.log(randomNumber);
-      randomNumber > 1 ? resolve(newAttendance) : reject("500 server Error");
+      resolve(newAttendance);
     }, 1000);
   });
-}
+};

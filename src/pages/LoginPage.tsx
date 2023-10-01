@@ -44,7 +44,6 @@ const LoginPage = (): ReactElement => {
     } else {
       const memberHasAccess = await whetherHasAccess(member);
       if (memberHasAccess) {
-        //localStorage.setItem("user", JSON.stringify(`${input}`));
         localStorage.setItem("user", input);
         setUserID(input);
         navigate("/events");

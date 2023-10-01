@@ -1,53 +1,63 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
+import { AttendanceData, RequestType } from "../util/Types";
 
-type attendanceChangeProps = {
+type AttendanceChangeModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  //TODO: add a type to this :|
-  setAttendanceChange: any;
+  setAttendanceChange: React.Dispatch<React.SetStateAction<AttendanceData>>;
 };
 
 const AttendanceChangeModal = ({
   isOpen,
   onClose,
   setAttendanceChange,
-}: attendanceChangeProps) => {
-  // depending on the attendanceChange (give them the option to update arrive_time/leave_time)
-
-  // I want to use the input values from the user typing in their reason for attendanceCHange, but doing this and updating every onChange
-  // seems pretty terrible ...
-  const [reason, setReason] = useState("");
-  const [requestType, setRequestType] = useState("");
-  const [newTime, setNewTime] = useState("");
+}: AttendanceChangeModalProps) => {
+  const [reason, setReason] = useState<string>("");
+  const [requestType, setRequestType] = useState<RequestType>(
+    RequestType.ABSENT
+  );
+  const [lateArrivalTime, setLateArrivalTime] = useState<Date | null>(null);
+  const [earlyDepartureTime, setEarlyDepatureTime] = useState<Date | null>(
+    null
+  );
 
   const requestOptionHandler = (event: React.FormEvent<HTMLSelectElement>) => {
-    setRequestType(event.currentTarget.value);
+    const eventValue: RequestType = event.currentTarget.value as RequestType;
+    setRequestType(eventValue);
   };
 
   const availableOptions = [
-    { value: "arrive_late", label: "Arrive Late" },
-    { value: "leave_early", label: "Leave Early" },
-    { value: "absent", label: "Absent" },
+    { value: RequestType.ARRIVING_LATE, label: "Arrive Late" },
+    { value: RequestType.LEAVING_EARLY, label: "Leave Early" },
+    { value: RequestType.ABSENT, label: "Absent" },
   ];
 
   const submitForm = () => {
-    //update the variables the json
-    const submissonJson = {
+    const submissonJson: AttendanceData = {
       reason: reason,
       request_type: requestType,
-      submission_time: Date.now(),
+      submission_time: new Date(),
     };
 
-    setAttendanceChange({ submissonJson });
-    // close the modal
+    if (lateArrivalTime) {
+      submissonJson.time_arriving = lateArrivalTime;
+    }
+
+    if (earlyDepartureTime) {
+      submissonJson.time_leaving = earlyDepartureTime;
+    }
+
+    setAttendanceChange(submissonJson);
     onClose();
   };
 
   const resetFields = () => {
     setReason("");
-    setRequestType("");
-    setNewTime("");
+    setRequestType(RequestType.ABSENT);
+    setEarlyDepatureTime(null);
+    setLateArrivalTime(null);
+    onClose();
   };
 
   return isOpen ? (
@@ -57,7 +67,7 @@ const AttendanceChangeModal = ({
           <span>Submit Attendance Form</span>
           <button className="float-right">
             {" "}
-            <XMarkIcon onClick={() => onClose()} className="w-5" />{" "}
+            <XMarkIcon onClick={() => resetFields()} className="w-5" />{" "}
           </button>
         </div>
         <form onSubmit={submitForm}>
@@ -81,23 +91,23 @@ const AttendanceChangeModal = ({
                 onChange={(e) => setReason(e.target.value)}
               />
             </div>
-            {requestType === "arrive_late" && (
+            {requestType === RequestType.ARRIVING_LATE && (
               <div>
                 <label>What will be your new arrival time?</label>
                 <input
                   style={{ border: "1px solid" }}
-                  type="text"
-                  onChange={(e) => setNewTime(e.target.value)}
+                  type="time"
+                  onChange={(e) => setLateArrivalTime(e.target.valueAsDate)}
                 />
               </div>
             )}
-            {requestType === "leave_early" && (
+            {requestType === RequestType.LEAVING_EARLY && (
               <div>
                 <label>What will be your new departure time?</label>
                 <input
                   style={{ border: "1px solid" }}
-                  type="text"
-                  onChange={(e) => setNewTime(e.target.value)}
+                  type="time"
+                  onChange={(e) => setEarlyDepatureTime(e.target.valueAsDate)}
                 />
               </div>
             )}

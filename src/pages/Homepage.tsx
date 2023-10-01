@@ -43,11 +43,8 @@ const Homepage = (): ReactElement => {
     };
 
     loadAttendanceChanges();
-    console.log("in here again");
-  }, []);
+  }, [userID]);
 
-  //Typescript was being a bit weird with adding in the attendanceChanges in this parameter so adding
-  // a use Effect to still keep the loading animation
   if (!eventsToDisplay) {
     fetchAllEvents().then((e) => {
       e.sort((a, b) => {

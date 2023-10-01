@@ -24,12 +24,9 @@ export type Member = {
 };
 
 export type AttendanceChange = {
-  //ids are technically a uuid for each of these, so it should be a string, but Number is easier to work with
   id: Number;
-  //id of the member who submitted this request
   memberID: Number;
   request_type: RequestType;
-  //id of the event the attendance change corresponds to
   eventID: Number;
   submit_time: Date;
   change_status: ChangeStatus;
@@ -38,20 +35,12 @@ export type AttendanceChange = {
   leave_time?: Date;
 };
 
-// Represents the types that a request type can be.
-// Enum used for the AttendanceChangeRequest type.
-// Attendance change requests are typically only generated when someone clicks unregister,
-// and they can be the following types:
 export enum RequestType {
   ABSENT = "absent",
   ARRIVING_LATE = "arriving late",
   LEAVING_EARLY = "dismissal",
 }
 
-// Represents the different statuses a request can be.
-// Enum used for the AttendanceChangeRequest type.
-// If someone reregisters for an event after unregistering,
-// the initial request is current set to dismissed.
 export enum ChangeStatus {
   EXCUSED = "excused",
   UNEXCUSED = "unexcused",
@@ -71,3 +60,11 @@ export enum ReportReason {
   WARNING = "warning",
   REMOVED = "removed",
 }
+
+export type AttendanceData = {
+  reason: string;
+  request_type: RequestType;
+  submission_time: Date;
+  time_arriving?: Date;
+  time_leaving?: Date;
+};
