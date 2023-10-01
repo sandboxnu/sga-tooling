@@ -9,24 +9,24 @@ import {
   RequestType,
 } from "../util/Types";
 
-export function fetchEvent(id: Number): Promise<Event> {
+export const fetchEvent = (id: Number): Promise<Event> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const event = mockEvents.find((e) => e.id === id);
       event ? resolve(event) : reject("404 Not found");
     }, 1000);
   });
-}
+};
 
-export function fetchAllEvents(): Promise<Event[]> {
+export const fetchAllEvents = (): Promise<Event[]> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       mockEvents ? resolve(mockEvents) : reject("404 Not found");
     }, 1000);
   });
-}
+};
 
-export function fetchMember(nuid: string): Promise<Member | undefined> {
+export const fetchMember = (nuid: string): Promise<Member | undefined> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const member = (UserJSON as unknown as Member[]).find(
@@ -35,7 +35,7 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
       resolve(member);
     });
   });
-}
+};
 
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
