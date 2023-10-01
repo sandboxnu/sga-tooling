@@ -70,30 +70,29 @@ const EventCard = ({
     setIsOpen(false);
   };
 
-  const makeAttendanceChange = async () => {
-    try {
-      //using non-null assertion since it's assumed the user is logged in to make it past the home page
-      const member = await fetchMember(userID!);
-      if (member) {
-        await createAttendanceChange(member.id, id);
-        setIsRegistered(false);
-      }
-    } catch (e) {
-      setErrorType(1);
-    }
-  };
-
   const regButtonStyle = isRegistered
     ? "button-base-white px-3 my-2 mr-5 w-32"
     : "button-base-red px-4 my-2 mr-5 w-32";
 
   useEffect(() => {
+    const makeAttendanceChange = async () => {
+      try {
+        //using non-null assertion since it's assumed the user is logged in to make it past the home page
+        const member = await fetchMember(userID!);
+        if (member) {
+          await createAttendanceChange(member.id, id);
+          setIsRegistered(false);
+        }
+      } catch (e) {
+        setErrorType(1);
+      }
+    };
     //on Mount this useEffect starts,
     //so only want this makeAttendanceChange function to start when we actually have something/ this json is not empty
     if (!(Object.keys(createdAttendanceChange).length === 0)) {
       makeAttendanceChange();
     }
-  }, [createdAttendanceChange]);
+  }, [createdAttendanceChange, userID, id]);
 
   return (
     <>
