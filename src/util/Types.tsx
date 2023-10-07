@@ -39,6 +39,7 @@ export enum RequestType {
   ABSENT = "absent",
   ARRIVING_LATE = "arriving late",
   LEAVING_EARLY = "dismissal",
+  BOTH = "both",
 }
 
 export enum ChangeStatus {
