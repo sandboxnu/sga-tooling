@@ -69,24 +69,9 @@ const AttendanceChangeModal = ({
     onClose();
   };
 
-  //TODO: on change to a disabled input, if you input something in the first input, it will remain in the other input
-  const isTesting = false;
-
-  if (isTesting) {
-    return isOpen ? (
-      <div className="fixed top-0 right-0 bottom-0  left-0 m-auto bg-[hsla(0,0%,0%,.5)] h-screen w-screen flex justify-center items-center z-50">
-        <div className="flex items-center flex-col h-2/4 w-2/4 my-2.5 bg-white text-2xl font-semibold rounded-lg px-4 py-4">
-          Hello there
-        </div>
-      </div>
-    ) : (
-      <></>
-    );
-  }
-
   return isOpen ? (
     <div className="fixed top-0 right-0 bottom-0  left-0 m-auto bg-[hsla(0,0%,0%,.5)] h-screen w-screen flex justify-center items-center z-50">
-      <div className="flex bg-white rounded-3xl max-w-2xl">
+      <div className="flex bg-white rounded-3xl max-w-2xl text-sm">
         <div>
           <XMarkIcon
             onClick={() => resetFields()}
@@ -101,7 +86,7 @@ const AttendanceChangeModal = ({
               submitted and approved.
             </span>
 
-            <span className="font-bold text-base">
+            <span className="font-bold text-base text-center">
               Describe reason for filling out form
             </span>
 
@@ -125,40 +110,66 @@ const AttendanceChangeModal = ({
                   </select>
                 </div>
 
-                <div className="flex flex-col">
-                  <label htmlFor="arrivalTime"> Arrival Time</label>
-                  {!isArrivalTimeDisabled ? (
-                    <input
-                      className="rounded-md py-2 w-32 border border-solid border-black"
-                      id="arrivalTime"
-                      type={"time"}
-                    ></input>
-                  ) : (
-                    <input
-                      className="rounded-md py-2 bg-gray-300 w-32 border border-solid border-black"
-                      id="arrivalTime"
-                      disabled
-                    ></input>
-                  )}
-                </div>
+                <div className="flex gap-2">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="arrivalTime"
+                      className={` ${
+                        isArrivalTimeDisabled ? "text-gray-500" : "text-black"
+                      }`}
+                    >
+                      {" "}
+                      Arrival Time
+                    </label>
+                    {!isArrivalTimeDisabled ? (
+                      <input
+                        className="rounded-md py-2 w-32 border border-solid border-black"
+                        id="arrivalTime"
+                        type={"time"}
+                        onChange={(e) =>
+                          setLateArrivalTime(e.target.valueAsDate)
+                        }
+                      ></input>
+                    ) : (
+                      <input
+                        className="rounded-md py-2 bg-gray-300 w-32 border border-solid border-black"
+                        id="arrivalTime"
+                        disabled
+                        value=""
+                      ></input>
+                    )}
+                  </div>
 
-                <div className="w-5 border h-0.5 self-center border-black bg-black mt-4" />
+                  <div className="w-5 border h-0.5 self-center border-black bg-black mt-4" />
 
-                <div className="flex flex-col">
-                  <label htmlFor="depatureTime"> Departure Time </label>
-                  {!isDepatureTimeDisabled ? (
-                    <input
-                      className="rounded-md py-2 w-32 border border-solid border-black"
-                      id="depatureTime"
-                      type={"time"}
-                    ></input>
-                  ) : (
-                    <input
-                      className="rounded-md py-2 bg-gray-300 w-32  border border-solid border-black"
-                      id="depatureTime"
-                      disabled
-                    ></input>
-                  )}
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="depatureTime"
+                      className={` ${
+                        isDepatureTimeDisabled ? "text-gray-500" : "text-black"
+                      }`}
+                    >
+                      {" "}
+                      Departure Time{" "}
+                    </label>
+                    {!isDepatureTimeDisabled ? (
+                      <input
+                        className="rounded-md py-2 w-32 border border-solid border-black"
+                        id="depatureTime"
+                        type={"time"}
+                        onChange={(e) =>
+                          setEarlyDepatureTime(e.target.valueAsDate)
+                        }
+                      ></input>
+                    ) : (
+                      <input
+                        className="rounded-md py-2 bg-gray-300 w-32  border border-solid border-black"
+                        id="depatureTime"
+                        disabled
+                        value={""}
+                      ></input>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -168,6 +179,7 @@ const AttendanceChangeModal = ({
                   <textarea
                     id="Reason"
                     className="resize-none border border-solid rounded-md w-full h-40 border-black"
+                    onChange={(e) => setReason(e.target.value)}
                   ></textarea>
                 </div>
                 <button className="text-white self-center button-base-red px-4 my-2 w-32 rounded-md font-sans font-bold py-2">
@@ -185,7 +197,4 @@ const AttendanceChangeModal = ({
   );
 };
 
-/*
-bg-white rounded-3xl max-w-2xl
-*/
 export default AttendanceChangeModal;

@@ -38,7 +38,7 @@ export type AttendanceChange = {
 export enum RequestType {
   ABSENT = "absent",
   ARRIVING_LATE = "arriving late",
-  LEAVING_EARLY = "dismissal",
+  LEAVING_EARLY = "leaving early",
   BOTH = "both",
 }
 
