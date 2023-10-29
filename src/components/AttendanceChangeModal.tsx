@@ -138,8 +138,8 @@ const AttendanceChangeModal = ({
                 e.preventDefault();
               }}
             >
-              <div className="flex flex-col items-center md:flex-row gap-2">
-                <div className="flex flex-col pr-2">
+              <div className="flex flex-col items-center sm:flex-row gap-2">
+                <div className="flex flex-col pr-2 w-full">
                   <label htmlFor="option">Request</label>
                   <select
                     id="option"
