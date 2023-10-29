@@ -132,7 +132,7 @@ const LoginPage = (): ReactElement => {
             type="text"
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-3 mt-2"
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-1 mt-1"
             placeholder="NUID"
             required
           />
@@ -141,7 +141,7 @@ const LoginPage = (): ReactElement => {
             type="text"
             id="nuid-entry"
             onChange={(e) => setLastName(e.target.value)}
-            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-3 mt-2"
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-1 mt-1"
             placeholder="Last name"
             required
           />
