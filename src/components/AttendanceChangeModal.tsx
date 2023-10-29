@@ -14,13 +14,14 @@ const AttendanceChangeModal = ({
   setAttendanceChange,
 }: AttendanceChangeModalProps) => {
   const [reason, setReason] = useState<string>("");
-  const [requestType, setRequestType] = useState<RequestType>(
-    RequestType.ABSENT
+  const [requestType, setRequestType] = useState<RequestType | undefined>(
+    undefined
   );
   const [lateArrivalTime, setLateArrivalTime] = useState<Date | null>(null);
   const [earlyDepartureTime, setEarlyDepatureTime] = useState<Date | null>(
     null
   );
+  const [error, setError] = useState<boolean>(false);
 
   const isDepatureTimeDisabled =
     requestType !== RequestType.LEAVING_EARLY &&
@@ -33,6 +34,8 @@ const AttendanceChangeModal = ({
   const requestOptionHandler = (event: React.FormEvent<HTMLSelectElement>) => {
     const eventValue: RequestType = event.currentTarget.value as RequestType;
     setRequestType(eventValue);
+    setEarlyDepatureTime(null);
+    setLateArrivalTime(null);
   };
 
   const availableOptions = [
@@ -41,6 +44,27 @@ const AttendanceChangeModal = ({
     { value: RequestType.ABSENT, label: "Absent" },
     { value: RequestType.BOTH, label: "Arrive Late and Leave Early" },
   ];
+
+  const validateSubmission = (submission: AttendanceData) => {
+    //reason must always be filled out -> must not be empty(what we started with)
+    if (!submission.reason || submission.request_type === undefined) {
+      return false;
+    }
+    if (submission.request_type === RequestType.ARRIVING_LATE) {
+      return submission.time_arriving !== undefined;
+    }
+    if (submission.request_type === RequestType.LEAVING_EARLY) {
+      return submission.time_leaving !== undefined;
+    }
+    if (submission.request_type === RequestType.BOTH) {
+      return (
+        submission.time_leaving !== undefined &&
+        submission.time_arriving !== undefined
+      );
+    }
+
+    return true;
+  };
 
   const submitForm = () => {
     const submissonJson: AttendanceData = {
@@ -57,13 +81,20 @@ const AttendanceChangeModal = ({
       submissonJson.time_leaving = earlyDepartureTime;
     }
 
-    setAttendanceChange(submissonJson);
-    onClose();
+    const isValid = validateSubmission(submissonJson);
+    console.log(isValid);
+
+    if (isValid) {
+      setAttendanceChange(submissonJson);
+      onClose();
+    } else {
+      setError(true);
+    }
   };
 
   const resetFields = () => {
     setReason("");
-    setRequestType(RequestType.ABSENT);
+    setRequestType(undefined);
     setEarlyDepatureTime(null);
     setLateArrivalTime(null);
     onClose();
@@ -71,7 +102,11 @@ const AttendanceChangeModal = ({
 
   return isOpen ? (
     <div className="fixed top-0 right-0 bottom-0  left-0 m-auto bg-[hsla(0,0%,0%,.5)] h-screen w-screen flex justify-center items-center z-50">
-      <div className="flex bg-white rounded-3xl max-w-2xl text-sm">
+      <div
+        className={`flex bg-white rounded-3xl max-w-2xl text-sm ${
+          error ? "border-2 border-red-600" : ""
+        }`}
+      >
         <div>
           <XMarkIcon
             onClick={() => resetFields()}
@@ -90,7 +125,13 @@ const AttendanceChangeModal = ({
               Describe reason for filling out form
             </span>
 
-            <form onSubmit={() => submitForm()}>
+            <form
+              onFocus={() => setError(false)}
+              onSubmit={(e) => {
+                submitForm();
+                e.preventDefault();
+              }}
+            >
               <div className="flex flex-col items-center md:flex-row gap-2">
                 <div className="flex flex-col pr-2">
                   <label htmlFor="option">Request</label>
@@ -172,6 +213,13 @@ const AttendanceChangeModal = ({
                   </div>
                 </div>
               </div>
+              {error && (
+                <div className="flex justify-center">
+                  <p className={"text-red-600 pt-2 text-center"}>
+                    Please input required fields before submission
+                  </p>
+                </div>
+              )}
 
               <div className="flex flex-col py-2">
                 <div>
