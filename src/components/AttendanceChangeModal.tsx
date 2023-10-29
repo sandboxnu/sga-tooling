@@ -23,19 +23,26 @@ const AttendanceChangeModal = ({
   );
   const [error, setError] = useState<boolean>(false);
 
-  const isDepatureTimeDisabled =
-    requestType !== RequestType.LEAVING_EARLY &&
-    requestType !== RequestType.BOTH;
+  const depatureTimeEnabled =
+    requestType === RequestType.LEAVING_EARLY ||
+    requestType === RequestType.BOTH;
 
-  const isArrivalTimeDisabled =
-    requestType !== RequestType.ARRIVING_LATE &&
-    requestType !== RequestType.BOTH;
+  const arrivalTimeEnabled =
+    requestType === RequestType.ARRIVING_LATE ||
+    requestType === RequestType.BOTH;
 
   const requestOptionHandler = (event: React.FormEvent<HTMLSelectElement>) => {
     const eventValue: RequestType = event.currentTarget.value as RequestType;
+    // there's some weirdness when switching from both to different request type since
+    // it doesn't clear the fields, so conditionally have to clear them to not cause incorrect errors
+    if (requestType === RequestType.BOTH) {
+      if (eventValue === RequestType.ARRIVING_LATE) setEarlyDepatureTime(null);
+      if (eventValue === RequestType.LEAVING_EARLY) setLateArrivalTime(null);
+    } else if (eventValue !== RequestType.BOTH) {
+      setEarlyDepatureTime(null);
+      setLateArrivalTime(null);
+    }
     setRequestType(eventValue);
-    setEarlyDepatureTime(null);
-    setLateArrivalTime(null);
   };
 
   const availableOptions = [
@@ -46,7 +53,6 @@ const AttendanceChangeModal = ({
   ];
 
   const validateSubmission = (submission: AttendanceData) => {
-    //reason must always be filled out -> must not be empty(what we started with)
     if (!submission.reason || submission.request_type === undefined) {
       return false;
     }
@@ -82,7 +88,6 @@ const AttendanceChangeModal = ({
     }
 
     const isValid = validateSubmission(submissonJson);
-    console.log(isValid);
 
     if (isValid) {
       setAttendanceChange(submissonJson);
@@ -97,6 +102,7 @@ const AttendanceChangeModal = ({
     setRequestType(undefined);
     setEarlyDepatureTime(null);
     setLateArrivalTime(null);
+    setError(false);
     onClose();
   };
 
@@ -156,13 +162,13 @@ const AttendanceChangeModal = ({
                     <label
                       htmlFor="arrivalTime"
                       className={` ${
-                        isArrivalTimeDisabled ? "text-gray-500" : "text-black"
+                        arrivalTimeEnabled ? "text-gray-500" : "text-black"
                       }`}
                     >
                       {" "}
                       Arrival Time
                     </label>
-                    {!isArrivalTimeDisabled ? (
+                    {arrivalTimeEnabled ? (
                       <input
                         className="rounded-md py-2 w-32 border border-solid border-black"
                         id="arrivalTime"
@@ -187,13 +193,13 @@ const AttendanceChangeModal = ({
                     <label
                       htmlFor="depatureTime"
                       className={` ${
-                        isDepatureTimeDisabled ? "text-gray-500" : "text-black"
+                        depatureTimeEnabled ? "text-gray-500" : "text-black"
                       }`}
                     >
                       {" "}
                       Departure Time{" "}
                     </label>
-                    {!isDepatureTimeDisabled ? (
+                    {depatureTimeEnabled ? (
                       <input
                         className="rounded-md py-2 w-32 border border-solid border-black"
                         id="depatureTime"
@@ -223,7 +229,7 @@ const AttendanceChangeModal = ({
 
               <div className="flex flex-col py-2">
                 <div>
-                  <label htmlFor="Reason"> Reason for request</label>
+                  <label htmlFor="Reason">Reason for request</label>
                   <textarea
                     id="Reason"
                     className="resize-none border border-solid rounded-md w-full h-40 border-black"
