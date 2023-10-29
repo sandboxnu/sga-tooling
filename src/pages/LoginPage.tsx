@@ -101,8 +101,17 @@ const LoginPage = (): ReactElement => {
             type="text"
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-4"
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
             placeholder="Hello"
+            required
+          />
+          <input
+            value={lastName}
+            type="text"
+            id="nuid-entry"
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
+            placeholder="Last name"
             required
           />
           <button
