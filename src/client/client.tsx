@@ -2,6 +2,11 @@ import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
 import { Event, Member } from "../util/Types";
 
+/**
+ * Gets an event with the given id
+ * @param id The id of the event being fetched
+ * @returns The event if it can be found, or an error
+ */
 export function fetchEvent(id: Number): Promise<Event> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -11,6 +16,10 @@ export function fetchEvent(id: Number): Promise<Event> {
   });
 }
 
+/**
+ * Gets all the events
+ * @returns An array of events if they can be found, or an error
+ */
 export function fetchAllEvents(): Promise<Event[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -19,6 +28,11 @@ export function fetchAllEvents(): Promise<Event[]> {
   });
 }
 
+/**
+ * Gets the member with the associated nuid
+ * @param nuid The nuid of the member
+ * @returns The Member with that nuid or undefined
+ */
 export function fetchMember(nuid: string): Promise<Member | undefined> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
