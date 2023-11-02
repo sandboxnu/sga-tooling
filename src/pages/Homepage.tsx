@@ -1,10 +1,15 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
+import { LoginContext } from "../App";
 import SearchIcon from "../assets/SearchIcon.svg";
-import { fetchAllEvents } from "../client/client";
+import {
+  fetchAllEvents,
+  fetchMember,
+  findAttendanceChangeRequestForMember,
+} from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
-import { Event, EventStatus } from "../util/Types";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
 /**
  * Compares the current time to a given start and end date to return the associated event status
@@ -26,6 +31,25 @@ function getStatus(start: Date, end: Date) {
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
   const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>();
+  const [attendanceChanges, setAttendanceChanges] = useState<
+    AttendanceChange[] | null
+  >();
+  const { userID } = useContext(LoginContext);
+
+  useEffect(() => {
+    //only go on load
+    const loadAttendanceChanges = async () => {
+      const Member = await fetchMember(userID!);
+      if (Member) {
+        const attendance = await findAttendanceChangeRequestForMember(
+          Member.id
+        );
+        if (attendance) setAttendanceChanges(attendance);
+      }
+    };
+
+    loadAttendanceChanges();
+  }, [userID]);
 
   if (!eventsToDisplay) {
     fetchAllEvents().then((e) => {
@@ -36,7 +60,6 @@ const Homepage = (): ReactElement => {
       });
       setEventsToDisplay(e);
     });
-
     return <Loading />;
   } else {
     const events: Event[] = eventsToDisplay.map((e) => {
@@ -46,11 +69,15 @@ const Homepage = (): ReactElement => {
       };
     });
 
+    if (!attendanceChanges) return <Loading />;
+
+    // for each element, we then look at each eventid and try to match with the corresponding
+    // eventid if it has one, then we pass that attendanceChange in if there is one.
     const liveEvents: ReactElement[] = events
       .filter((e) => e.status === EventStatus.Live)
       .map((e) => (
         <>
-          <EventCard key={e.eventName} {...e} />
+          <EventCard key={e.eventName} event={e} />
           <hr className="border-black home-mx" />
         </>
       ));
@@ -63,6 +90,11 @@ const Homepage = (): ReactElement => {
           : null;
         const currDate = events[i].startTime.toDateString();
 
+        //if we have the same event ids, then add in attendanceChange
+        const potentialAttendanceChange = attendanceChanges?.find(
+          (element) => e.id === element.eventID
+        );
+
         // Checks if this event is the first event of the day, and updates its status accordingly
         if (i === 0) {
           e.status = EventStatus.First;
@@ -71,11 +103,27 @@ const Homepage = (): ReactElement => {
           return (
             <>
               <hr className="border-black home-mx" />
-              <EventCard key={e.eventName} {...e} />
+              {potentialAttendanceChange ? (
+                <EventCard
+                  key={e.eventName}
+                  event={e}
+                  attendanceChange={potentialAttendanceChange}
+                />
+              ) : (
+                <EventCard key={e.eventName} event={e} />
+              )}
             </>
           );
         }
-        return <EventCard key={e.eventName} {...e} />;
+        return potentialAttendanceChange ? (
+          <EventCard
+            key={e.eventName}
+            event={e}
+            attendanceChange={potentialAttendanceChange}
+          />
+        ) : (
+          <EventCard key={e.eventName} event={e} />
+        );
       });
 
     return (

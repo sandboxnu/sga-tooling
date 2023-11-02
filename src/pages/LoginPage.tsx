@@ -34,9 +34,9 @@ const LoginPage = (): ReactElement => {
    * sign in is blocked, display the aapropriate error message
    */
   async function login() {
-    setErrorType(0) // No error message before they get a response back
+    setErrorType(0); // No error message before they get a response back
     if (!isValidNuid(input)) {
-      console.log("Invalid NUID when log in pressed.")
+      console.log("Invalid NUID when log in pressed.");
       setSmallErrMsg("Should be 9 digits.");
       setErrorType(1);
       return;
@@ -44,28 +44,25 @@ const LoginPage = (): ReactElement => {
     let member = undefined;
     try {
       member = await fetchMember(input);
-    }
-    catch (e) {
-      setErrorType(4)
+    } catch (e) {
+      setErrorType(4);
       return;
     }
     if (!member) {
-      setErrorType(1)
+      setErrorType(1);
       setSmallErrMsg("Member does not exist.");
     } else {
       const memberHasAccess = await whetherHasAccess(member);
       if (memberHasAccess) {
-        localStorage.setItem("user", JSON.stringify(`${input}`));
+        localStorage.setItem("user", input);
         setUserID(input);
         navigate("/events");
       } else {
         if (!member.activeMember) {
           setErrorType(2);
-        }
-        else if (member.signInBlocked) {
+        } else if (member.signInBlocked) {
           setErrorType(3);
-        }
-        else {
+        } else {
           console.log("in 4?");
           setErrorType(4);
         }
@@ -93,9 +90,30 @@ const LoginPage = (): ReactElement => {
 
   return (
     <div onLoad={checkIfLoginSaved}>
-      {errorType === 2 ? <PopUp source={TriangleError} message1="Your account has been inactivated." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
-      {errorType === 3 ? <PopUp source={TriangleError} message1="You are not allowed to log in." message2="Please contact your administrator if this is a mistake." useState={setErrorType} /> : null}
-      {errorType === 4 ? <PopUp source={UnknownError} message1="We ran into an unknown error." link="Please report this bug." useState={setErrorType} /> : null}
+      {errorType === 2 ? (
+        <PopUp
+          source={TriangleError}
+          message1="Your account has been inactivated."
+          message2="Please contact your administrator if this is a mistake."
+          useState={setErrorType}
+        />
+      ) : null}
+      {errorType === 3 ? (
+        <PopUp
+          source={TriangleError}
+          message1="You are not allowed to log in."
+          message2="Please contact your administrator if this is a mistake."
+          useState={setErrorType}
+        />
+      ) : null}
+      {errorType === 4 ? (
+        <PopUp
+          source={UnknownError}
+          message1="We ran into an unknown error."
+          link="Please report this bug."
+          useState={setErrorType}
+        />
+      ) : null}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
@@ -113,11 +131,12 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType == 1 && smallErrMsg &&
+          {errorType === 1 && smallErrMsg && (
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex justify-center align-center h-64 lg:h-80">
@@ -142,11 +161,12 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType == 1 && smallErrMsg &&
+          {errorType === 1 && smallErrMsg && (
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
     </div>
