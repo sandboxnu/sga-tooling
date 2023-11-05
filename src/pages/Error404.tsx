@@ -2,6 +2,9 @@ import { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorIconSVG from "../assets/errorIcon.svg";
 
+/**
+ * Displays error page
+ */
 const Error404 = (): ReactElement => {
   const navigate = useNavigate();
 

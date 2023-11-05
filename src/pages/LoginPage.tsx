@@ -16,6 +16,9 @@ const LoginPage = (): ReactElement => {
 
   const navigate = useNavigate();
 
+  /**
+   * Checks the local storage to find the user and navigate them to the events page
+   */
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
     if (nuid) {
@@ -23,6 +26,13 @@ const LoginPage = (): ReactElement => {
     }
   }
 
+  /**
+   * Checks if a valid NUID is inputted. If it isn't valid, return an error message.
+   * If it isn't a member, return an error message.
+   * If it is a member, check if if the member has access. If it has access, store
+   * the member as a user in local storage. If it's not an active member or it's
+   * sign in is blocked, display the aapropriate error message
+   */
   async function login() {
     setErrorType(0); // No error message before they get a response back
     if (!isValidNuid(input)) {
@@ -60,10 +70,20 @@ const LoginPage = (): ReactElement => {
     }
   }
 
+  /**
+   * Checks if an inputted NUID is a valid NUID
+   * @param nuid A string representing an NUID
+   * @returns true if the given string has a length of 9 and is a valid integer, false otherwise
+   */
   function isValidNuid(nuid: string): boolean {
     return nuid.length === 9 && !isNaN(parseInt(nuid));
   }
 
+  /**
+   * Checks whether the inputted Member has access
+   * @param member The member being checked
+   * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
+   */
   function whetherHasAccess(member: Member): boolean {
     return member.activeMember && !member.signInBlocked;
   }
