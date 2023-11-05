@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../App";
 import {
@@ -7,6 +7,7 @@ import {
   getAttendanceRecordForMember,
 } from "../client/client";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecordPercent";
+import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
 import {
   AttendanceRecord,
@@ -20,25 +21,31 @@ const AttendanceRecordPage = () => {
   const [attendanceRecord, setAttendanceRecord] = useState<
     AttendanceRecord[] | []
   >([]);
-  const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>([]);
+  const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>();
   const { userID } = useContext(LoginContext);
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
-  useEffect(() => {
-    const fetchMemberRecord = async () => {
-      const member = await fetchMember(userID!);
-      setMember(member);
-      const attendanceRecords = await getAttendanceRecordForMember(member!.id);
-      setAttendanceRecord(attendanceRecords);
-      const events: Event[] = [];
-      for (const record of attendanceRecords) {
-        const event = await fetchEvent(record.eventID);
-        events.push(event);
-      }
-      setAttendanceEvents(events);
-    };
-    fetchMemberRecord();
-  }, []);
+
+  const fetchMemberRecord = async () => {
+    const member = await fetchMember(userID!);
+    setMember(member);
+    const attendanceRecords = await getAttendanceRecordForMember(member!.id);
+    setAttendanceRecord(attendanceRecords);
+    const events: Event[] = [];
+    for (const record of attendanceRecords) {
+      const event = await fetchEvent(record.eventID);
+      events.push(event);
+    }
+
+    return events;
+  };
+
+  if (!attendanceEvents) {
+    fetchMemberRecord().then((e) => {
+      setAttendanceEvents(e);
+    });
+    return <Loading />;
+  }
 
   for (const event of attendanceEvents) {
     const endTime = new Date(event.endTime).getTime();
@@ -93,6 +100,7 @@ const AttendanceRecordPage = () => {
         </div>
       </div>
       <div>
+        
         <table className="text-left w-full mt-12">
           <thead>
             <tr className="text-xl text-gray-600 border-t border-b border-gray-600">
