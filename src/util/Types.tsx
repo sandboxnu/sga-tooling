@@ -68,3 +68,17 @@ export type AttendanceData = {
   time_arriving?: Date;
   time_leaving?: Date;
 };
+
+// TODO: while looking at the api there's actually way more cases than these
+export enum AttendanceStatus {
+  ATTENDED = "Attended",
+  LEFT_EARLY = "Late",
+  ARRIVED_LATE = "Left Early",
+  ABSENT = "Absent",
+}
+
+export type AttendanceRecord = {
+  memberID: number;
+  eventID: number;
+  attendance_status: AttendanceStatus;
+};

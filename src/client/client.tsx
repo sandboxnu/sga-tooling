@@ -1,15 +1,17 @@
 import { mockAttendanceChange } from "../data/attendanceChange";
+import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
+  AttendanceRecord,
   ChangeStatus,
   Event,
   Member,
   RequestType,
 } from "../util/Types";
 
-export const fetchEvent = (id: Number): Promise<Event> => {
+export const fetchEvent = (id: number): Promise<Event> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const event = mockEvents.find((e) => e.id === id);
@@ -90,3 +92,20 @@ export const createAttendanceChange = (
     }, 1000);
   });
 };
+
+export const getAttendanceRecordForMember = (
+  memberId: string
+): Promise<AttendanceRecord[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const attendanceRecordForMember = mockAttendanceRecord.filter(
+        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+      );
+      attendanceRecordForMember
+        ? resolve(attendanceRecordForMember)
+        : reject("No attendanceRecordForMember");
+    }, 1000);
+  });
+};
+
+// with each event id => fetchEvent
