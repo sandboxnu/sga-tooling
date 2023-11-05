@@ -11,6 +11,12 @@ import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
 import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
+/**
+ * Compares the current time to a given start and end date to return the associated event status
+ * @param start The start date
+ * @param end The end date
+ * @returns Returns a live event status if the start time is before the current time and the end time is after the current time
+ */
 function getStatus(start: Date, end: Date) {
   const today = new Date();
   const timeNow = today.getTime();
