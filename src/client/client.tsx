@@ -108,4 +108,27 @@ export const getAttendanceRecordForMember = (
   });
 };
 
-// with each event id => fetchEvent
+export const getAttendanceEventsForMember = (
+  memberId: string
+): Promise<Event[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const attendanceRecordForMember = mockAttendanceRecord.filter(
+        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+      );
+      // in here would be a join
+      const attendanceEventsForMember = attendanceRecordForMember.map(
+        ({ eventID, memberID, attendance_status }) => eventID
+      );
+      const events = [];
+      // probably very inefficient 2d search
+      for (const attendanceEventId of attendanceEventsForMember) {
+        for (const actualEvent of mockEvents) {
+          if (actualEvent.id === attendanceEventId) {
+            events.push(actualEvent);
+          }
+        }
+      }
+    }, 1000);
+  });
+};

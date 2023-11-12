@@ -1,20 +1,15 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import { LoginContext } from "../App";
 import {
   fetchEvent,
   fetchMember,
   getAttendanceRecordForMember,
 } from "../client/client";
-import { AttendanceRecordPercentages } from "../components/AttendanceRecordPercent";
+import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
+import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
-import {
-  AttendanceRecord,
-  AttendanceStatus,
-  Event,
-  Member,
-} from "../util/Types";
+import { AttendanceRecord, Event, Member } from "../util/Types";
 
 const AttendanceRecordPage = () => {
   const [member, setMember] = useState<Member>();
@@ -55,8 +50,6 @@ const AttendanceRecordPage = () => {
     totalHours += timeDiffInHours;
   }
 
-  // TODO: This takes some time to fetch the all the data and create the graph, would like there to be a loading state
-  // also test if this is taking too long
   return (
     <div className="flex flex-col p-10 flex-1">
       <div className="flex justify-between">
@@ -100,7 +93,6 @@ const AttendanceRecordPage = () => {
         </div>
       </div>
       <div>
-        
         <table className="text-left w-full mt-12">
           <thead>
             <tr className="text-xl text-gray-600 border-t border-b border-gray-600">
@@ -115,67 +107,12 @@ const AttendanceRecordPage = () => {
             </tr>
           </thead>
           <tbody>
-            {/*TODO: export this out to another helper method */}
-            {attendanceEvents.map((event) => {
-              const eventStartDate = new Date(event.startTime);
-              const eventEndDate = new Date(event.endTime);
-              const { month, fulldate, year } =
-                createDateString(eventStartDate);
-
-              const startTimeString = eventStartDate.toLocaleString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              });
-
-              const endTimeString = eventEndDate.toLocaleString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              });
-
-              const correspRecord = attendanceRecord.find(
-                (attendance) => attendance.eventID === event.id
-              );
-              const attendanceStatus = correspRecord!.attendance_status;
-
-              const createBackGroundColor = (status: AttendanceStatus) => {
-                if (status === AttendanceStatus.ABSENT) {
-                  return "bg-attendance-red border border-attendance-red bg-opacity-25";
-                } else if (
-                  status === AttendanceStatus.ARRIVED_LATE ||
-                  status === AttendanceStatus.LEFT_EARLY
-                ) {
-                  return "bg-attendance-yellow border border-attendance-yellow bg-opacity-25";
-                } else {
-                  return "bg-attendance-green border border-attendance-green bg-opacity-25";
-                }
-              };
-              const bgColor = createBackGroundColor(attendanceStatus);
-
-              // TODO: handle the case when we need a range of dates for now just startTime
-              return (
-                <tr className="border-b border-gray-600">
-                  <td className="pt-2">
-                    <Link to={`/events/${event.id}`} state={{ event }}>
-                      {event.eventName}
-                    </Link>
-                  </td>
-                  <td className="border-l border-gray-600 px-4 py-2">
-                    {month + " " + fulldate + ", " + year}
-                  </td>
-                  <td className="border-l border-r border-gray-600 px-4 py-2">
-                    {startTimeString + " - " + endTimeString}
-                  </td>
-                  <td className="pl-4">
-                    {" "}
-                    <span className={`${bgColor} rounded-md px-2 py-1`}>
-                      {attendanceStatus}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
+            {attendanceEvents.map((event) => (
+              <AttendanceRecordRow
+                attendanceRecord={attendanceRecord}
+                event={event}
+              />
+            ))}
           </tbody>
         </table>
       </div>

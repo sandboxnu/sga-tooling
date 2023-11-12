@@ -1,4 +1,5 @@
-import { AttendanceRecord, AttendanceStatus } from "../util/Types";
+import { AttendanceRecord } from "../../util/Types";
+import { getAllStatuses } from "./AttendanceStatusString";
 
 interface AttendanceRecordPercentagesProps {
   attendanceRecord: AttendanceRecord[];
@@ -8,18 +9,18 @@ export const AttendanceRecordPercentages = ({
   attendanceRecord,
 }: AttendanceRecordPercentagesProps) => {
   const recordSize = attendanceRecord.length;
-  const attendened = attendanceRecord.filter(
-    (ar) => ar.attendance_status === AttendanceStatus.ATTENDED
+  const attendance_statuses = attendanceRecord.map(
+    ({ memberID, eventID, attendance_status }) => attendance_status
   );
-  const earlyOrLate = attendanceRecord.filter(
-    (ar) =>
-      ar.attendance_status === AttendanceStatus.ARRIVED_LATE ||
-      ar.attendance_status === AttendanceStatus.LEFT_EARLY
+  const AttendanceList = getAllStatuses(attendance_statuses);
+  const attendened = AttendanceList.filter((elem) => elem === "O");
+  // TODO: these don't consider Excused Absenses/ what not
+  const earlyOrLate = AttendanceList.filter(
+    (elem) => elem === "L" || elem === "D"
   );
-  const absent = attendanceRecord.filter(
-    (ar) => ar.attendance_status === AttendanceStatus.ABSENT
-  );
+  const absent = AttendanceList.filter((elem) => elem === "K" || elem === "A");
 
+  // TODO: probably should consider how excused etc reflect here
   const attendedPercent = (attendened.length / recordSize) * 100;
   const earlyOrLatePercent = (earlyOrLate.length / recordSize) * 100;
   const absentPercent = (absent.length / recordSize) * 100;

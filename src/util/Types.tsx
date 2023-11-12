@@ -69,16 +69,35 @@ export type AttendanceData = {
   time_leaving?: Date;
 };
 
-// TODO: while looking at the api there's actually way more cases than these
-export enum AttendanceStatus {
-  ATTENDED = "Attended",
-  LEFT_EARLY = "Late",
-  ARRIVED_LATE = "Left Early",
-  ABSENT = "Absent",
-}
-
 export type AttendanceRecord = {
   memberID: number;
   eventID: number;
-  attendance_status: AttendanceStatus;
+  // tinytext in DB -> string here
+  attendance_status: string;
 };
+
+export enum AttendanceKeyToText {}
+
+export enum AttendanceKeyToColor {}
+
+export type KeyToTextDict = {
+  K: string;
+  A: string;
+  L: string;
+  D: string;
+  O: string;
+  N: string;
+  E: string;
+};
+
+export type KeyToColorDict = {
+  K: string;
+  A: string;
+  L: string;
+  D: string;
+  O: string;
+  N: string;
+  E: string;
+};
+
+export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
