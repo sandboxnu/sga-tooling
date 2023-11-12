@@ -33,8 +33,6 @@ const AttendanceChangeModal = ({
 
   const requestOptionHandler = (event: React.FormEvent<HTMLSelectElement>) => {
     const eventValue: RequestType = event.currentTarget.value as RequestType;
-    // there's some weirdness when switching from both to different request type since
-    // it doesn't clear the fields, so conditionally have to clear them to not cause incorrect errors
     if (requestType === RequestType.BOTH) {
       if (eventValue === RequestType.ARRIVING_LATE) setEarlyDepatureTime(null);
       if (eventValue === RequestType.LEAVING_EARLY) setLateArrivalTime(null);
@@ -55,15 +53,17 @@ const AttendanceChangeModal = ({
   const validateSubmission = (submission: AttendanceData) => {
     if (!submission.reason || submission.request_type === undefined) {
       return false;
-    } else if (submission.request_type === RequestType.ARRIVING_LATE) {
-      return submission.time_arriving;
-    } else if (submission.request_type === RequestType.LEAVING_EARLY) {
-      return submission.time_leaving;
-    } else if (submission.request_type === RequestType.BOTH) {
-      return submission.time_leaving && submission.time_arriving;
     }
-
-    return true;
+    switch (submission.request_type) {
+      case RequestType.ARRIVING_LATE:
+        return submission.time_arriving;
+      case RequestType.LEAVING_EARLY:
+        return submission.time_leaving;
+      case RequestType.BOTH:
+        return submission.time_arriving && submission.time_leaving;
+      default:
+        return false;
+    }
   };
 
   const submitForm = () => {
