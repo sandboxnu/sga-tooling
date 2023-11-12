@@ -39,4 +39,8 @@
   .section-heading {
     @apply home-mx mt-8 md:mt-9 text-2xl font-bold;
   }
+
+  .disable-scrolling {
+    @apply overflow-hidden;
+  }
 }
