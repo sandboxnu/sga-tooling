@@ -55,18 +55,12 @@ const AttendanceChangeModal = ({
   const validateSubmission = (submission: AttendanceData) => {
     if (!submission.reason || submission.request_type === undefined) {
       return false;
-    }
-    if (submission.request_type === RequestType.ARRIVING_LATE) {
-      return submission.time_arriving !== undefined;
-    }
-    if (submission.request_type === RequestType.LEAVING_EARLY) {
-      return submission.time_leaving !== undefined;
-    }
-    if (submission.request_type === RequestType.BOTH) {
-      return (
-        submission.time_leaving !== undefined &&
-        submission.time_arriving !== undefined
-      );
+    } else if (submission.request_type === RequestType.ARRIVING_LATE) {
+      return submission.time_arriving;
+    } else if (submission.request_type === RequestType.LEAVING_EARLY) {
+      return submission.time_leaving;
+    } else if (submission.request_type === RequestType.BOTH) {
+      return submission.time_leaving && submission.time_arriving;
     }
 
     return true;
