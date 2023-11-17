@@ -27,6 +27,8 @@ const AttendanceRecordPage = () => {
     const attendanceRecords = await getAttendanceRecordForMember(member!.id);
     setAttendanceRecord(attendanceRecords);
     const events: Event[] = [];
+    // TODO: There's a better way to fetch this records with the new client function I created
+    // but for some reason this breaks, I lowkey think its not very important until we get to implementing the new API
     for (const record of attendanceRecords) {
       const event = await fetchEvent(record.eventID);
       events.push(event);

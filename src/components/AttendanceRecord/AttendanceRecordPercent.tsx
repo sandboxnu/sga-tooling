@@ -1,5 +1,8 @@
 import { AttendanceRecord } from "../../util/Types";
-import { getAllStatuses } from "./AttendanceStatusString";
+import {
+  getAllStatuses,
+  getCountOfKeyInStatusList,
+} from "./AttendanceStatusString";
 
 interface AttendanceRecordPercentagesProps {
   attendanceRecord: AttendanceRecord[];
@@ -13,17 +16,15 @@ export const AttendanceRecordPercentages = ({
     ({ memberID, eventID, attendance_status }) => attendance_status
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
-  const attendened = AttendanceList.filter((elem) => elem === "O");
-  // TODO: these don't consider Excused Absenses/ what not
-  const earlyOrLate = AttendanceList.filter(
-    (elem) => elem === "L" || elem === "D"
-  );
-  const absent = AttendanceList.filter((elem) => elem === "K" || elem === "A");
+  const attended = getCountOfKeyInStatusList(AttendanceList, "O");
+  const late = getCountOfKeyInStatusList(AttendanceList, "L");
+  const early = getCountOfKeyInStatusList(AttendanceList, "D");
+  const absentK = getCountOfKeyInStatusList(AttendanceList, "K");
+  const absentA = getCountOfKeyInStatusList(AttendanceList, "A");
 
-  // TODO: probably should consider how excused etc reflect here
-  const attendedPercent = (attendened.length / recordSize) * 100;
-  const earlyOrLatePercent = (earlyOrLate.length / recordSize) * 100;
-  const absentPercent = (absent.length / recordSize) * 100;
+  const attendedPercent = (attended / recordSize) * 100;
+  const earlyOrLatePercent = ((late + early) / recordSize) * 100;
+  const absentPercent = ((absentA + absentK) / recordSize) * 100;
 
   return (
     <div className="flex flex-col md:flex-row pt-5">

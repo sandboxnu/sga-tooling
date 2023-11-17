@@ -20,6 +20,7 @@ module.exports = {
         "attendance-green": "#77DD77",
         "attendance-yellow": "#FEC12F",
         "attendance-red": "#D41B2C",
+        "attendance-grey": "#767676",
       },
       backgroundImage: {
         "cooper-mobile": "url(../src/assets/cooper-mobile.jpg)",

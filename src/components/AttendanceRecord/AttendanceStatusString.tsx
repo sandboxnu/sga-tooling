@@ -7,7 +7,6 @@ export const preProcess = (attendanceStatus: string): AttendanceTag[][] => {
   const returnArray = [];
 
   for (let i = 0; i < splitChars.length; i++) {
-    // E first then look forward
     const currChar = splitChars[i] as AttendanceTag;
     const nextChar = splitChars[i + 1] as AttendanceTag;
     if (nextChar === "E") {
@@ -24,14 +23,29 @@ export const preProcess = (attendanceStatus: string): AttendanceTag[][] => {
 };
 
 export const getAllStatuses = (attendance_statuses: string[]) => {
-  const returnArray: AttendanceTag[] = [];
+  const returnArray: AttendanceTag[][] = [];
   for (const attendance of attendance_statuses) {
     const allLetters = preProcess(attendance);
-    for (const letterArr of allLetters) {
-      returnArray.push(...letterArr);
+    for (const arrElem of allLetters) {
+      returnArray.push(arrElem);
     }
   }
   return returnArray;
+};
+
+export const getCountOfKeyInStatusList = (
+  attendanceTagList: AttendanceTag[][],
+  key: string
+) => {
+  let count = 0;
+  for (const arrElem of attendanceTagList) {
+    if (arrElem.length === 1) {
+      if (arrElem[0] === key) {
+        count++;
+      }
+    }
+  }
+  return count;
 };
 
 interface AttendanceListProps {
@@ -54,8 +68,8 @@ export const AttendanceList = ({ attendanceStatus }: AttendanceListProps) => {
     O: "bg-attendance-green border border-attendance-green bg-opacity-25",
     A: "bg-attendance-red border border-attendance-red bg-opacity-25",
     K: "bg-attendance-red border border-attendance-red bg-opacity-25",
-    E: "bg-gray-400 border border-gray-400 bg-opacity-25",
-    N: "bg-gray-400 border border-gray-400 bg-opacity-25",
+    E: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
+    N: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
   };
 
   const listOfTags = preProcess(attendanceStatus);
@@ -64,7 +78,9 @@ export const AttendanceList = ({ attendanceStatus }: AttendanceListProps) => {
     let color;
     for (const arrTag of tag) {
       combinedString += keyToTextDict[arrTag];
-      color = keyToClassName[arrTag];
+      if (!color) {
+        color = keyToClassName[arrTag];
+      }
     }
     return [combinedString, color];
   });
