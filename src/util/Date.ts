@@ -34,9 +34,4 @@ export const createDateString = (date: Date) => {
     fulldate,
     year,
   };
-  //   const startDate = new Date(event.startTime);
-  //   const month = months[startDate.getMonth()];
-  //   const dayOfWeek = days[startDate.getDay()];
-  //   const date = startDate.getDate();
-  //   const year = startDate.getFullYear();
 };

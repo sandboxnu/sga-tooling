@@ -11,24 +11,38 @@ import {
   RequestType,
 } from "../util/Types";
 
-export const fetchEvent = (id: number): Promise<Event> => {
+/**
+ * Gets an event with the given id
+ * @param id The id of the event being fetched
+ * @returns The event if it can be found, or an error
+ */
+export function fetchEvent(id: number): Promise<Event> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const event = mockEvents.find((e) => e.id === id);
       event ? resolve(event) : reject("404 Not found");
     }, 1000);
   });
-};
+}
 
-export const fetchAllEvents = (): Promise<Event[]> => {
+/**
+ * Gets all the events
+ * @returns An array of events if they can be found, or an error
+ */
+export function fetchAllEvents(): Promise<Event[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       mockEvents ? resolve(mockEvents) : reject("404 Not found");
     }, 1000);
   });
-};
+}
 
-export const fetchMember = (nuid: string): Promise<Member | undefined> => {
+/**
+ * Gets the member with the associated nuid
+ * @param nuid The nuid of the member
+ * @returns The Member with that nuid or undefined
+ */
+export function fetchMember(nuid: string): Promise<Member | undefined> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const member = (UserJSON as unknown as Member[]).find(
@@ -37,7 +51,7 @@ export const fetchMember = (nuid: string): Promise<Member | undefined> => {
       resolve(member);
     });
   });
-};
+}
 
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
@@ -116,12 +130,10 @@ export const getAttendanceEventsForMember = (
       const attendanceRecordForMember = mockAttendanceRecord.filter(
         (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
       );
-      // in here would be a join
       const attendanceEventsForMember = attendanceRecordForMember.map(
         ({ eventID, memberID, attendance_status }) => eventID
       );
       const events = [];
-      // probably very inefficient 2d search
       for (const attendanceEventId of attendanceEventsForMember) {
         for (const actualEvent of mockEvents) {
           if (actualEvent.id === attendanceEventId) {

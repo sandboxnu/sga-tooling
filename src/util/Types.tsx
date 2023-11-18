@@ -38,7 +38,8 @@ export type AttendanceChange = {
 export enum RequestType {
   ABSENT = "absent",
   ARRIVING_LATE = "arriving late",
-  LEAVING_EARLY = "dismissal",
+  LEAVING_EARLY = "leaving early",
+  BOTH = "both",
 }
 
 export enum ChangeStatus {
@@ -63,7 +64,7 @@ export enum ReportReason {
 
 export type AttendanceData = {
   reason: string;
-  request_type: RequestType;
+  request_type?: RequestType;
   submission_time: Date;
   time_arriving?: Date;
   time_leaving?: Date;
@@ -72,7 +73,6 @@ export type AttendanceData = {
 export type AttendanceRecord = {
   memberID: number;
   eventID: number;
-  // tinytext in DB -> string here
   attendance_status: string;
 };
 

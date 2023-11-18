@@ -1,6 +1,5 @@
 import { AttendanceRecord } from "../util/Types";
 
-// in Matts test DB the strings are flipped where E comes second
 export const mockAttendanceRecord: AttendanceRecord[] = [
   {
     memberID: 1,
