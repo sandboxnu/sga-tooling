@@ -11,6 +11,7 @@ import { Member } from "../util/Types";
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
+  const [lastName, setLastName] = useState("") // value to keep track of inputted last name 
   const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
   const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
@@ -43,7 +44,7 @@ const LoginPage = (): ReactElement => {
     }
     let member = undefined;
     try {
-      member = await fetchMember(input);
+      member = await fetchMember(input); // CHANGE TO API IMPL 
     } catch (e) {
       setErrorType(4);
       return;
@@ -52,20 +53,18 @@ const LoginPage = (): ReactElement => {
       setErrorType(1);
       setSmallErrMsg("Member does not exist.");
     } else {
-      const memberHasAccess = await whetherHasAccess(member);
-      if (memberHasAccess) {
+      if (whetherHasAccess(member) && member.lastName.toUpperCase() === lastName.toUpperCase()) {
         localStorage.setItem("user", input);
         setUserID(input);
         navigate("/events");
-      } else {
-        if (!member.activeMember) {
-          setErrorType(2);
-        } else if (member.signInBlocked) {
-          setErrorType(3);
-        } else {
-          console.log("in 4?");
-          setErrorType(4);
-        }
+      } else if (!member.activeMember) {
+        setErrorType(2);
+      } else if (member.signInBlocked) {
+        setErrorType(3);
+      }
+      else {
+        console.log("in 4?");
+        setErrorType(4);
       }
     }
   }
@@ -114,6 +113,7 @@ const LoginPage = (): ReactElement => {
           useState={setErrorType}
         />
       ) : null}
+      {/* MOBILE APP DIV */}
       <div className="flex flex-col justify-end min-h-[68vh] bg-cooper-mobile-festive md:bg-cooper-big-boy bg-cover lg:min-h-[60vh]">
         <div className="flex-col px-8 py-5 bg-transparent-gray rounded-tl-lg rounded-tr-lg lg:invisible">
           <input
@@ -121,8 +121,17 @@ const LoginPage = (): ReactElement => {
             type="text"
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-4"
-            placeholder="NUID"
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
+            placeholder="Hello"
+            required
+          />
+          <input
+            value={lastName}
+            type="text"
+            id="nuid-entry"
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
+            placeholder="Last name"
             required
           />
           <button
@@ -139,6 +148,7 @@ const LoginPage = (): ReactElement => {
           )}
         </div>
       </div>
+      {/* MOBILE APP DIV END/ DESKTOP START */}
       <div className="flex justify-center align-center h-64 lg:h-80">
         <img
           className="object-contain max-w-[100%] max-h-[100%]"
@@ -151,8 +161,17 @@ const LoginPage = (): ReactElement => {
             type="text"
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-3 mt-8"
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-1 mt-1"
             placeholder="NUID"
+            required
+          />
+          <input
+            value={lastName}
+            type="text"
+            id="nuid-entry"
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 my-1 mt-1"
+            placeholder="Last name"
             required
           />
           <button
