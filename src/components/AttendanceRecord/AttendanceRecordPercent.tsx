@@ -1,7 +1,7 @@
 import { AttendanceRecord } from "../../util/Types";
 import {
   getAllStatuses,
-  getCountOfKeyInStatusList,
+  totalAttendanceCounts,
 } from "./AttendanceStatusString";
 
 interface AttendanceRecordPercentagesProps {
@@ -16,15 +16,12 @@ export const AttendanceRecordPercentages = ({
     ({ memberID, eventID, attendance_status }) => attendance_status
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
-  const attended = getCountOfKeyInStatusList(AttendanceList, "O");
-  const late = getCountOfKeyInStatusList(AttendanceList, "L");
-  const early = getCountOfKeyInStatusList(AttendanceList, "D");
-  const absentK = getCountOfKeyInStatusList(AttendanceList, "K");
-  const absentA = getCountOfKeyInStatusList(AttendanceList, "A");
+  const { attended, lateOrEarly, absent } =
+    totalAttendanceCounts(AttendanceList);
 
   const attendedPercent = (attended / recordSize) * 100;
-  const earlyOrLatePercent = ((late + early) / recordSize) * 100;
-  const absentPercent = ((absentA + absentK) / recordSize) * 100;
+  const earlyOrLatePercent = (lateOrEarly / recordSize) * 100;
+  const absentPercent = (absent / recordSize) * 100;
 
   return (
     <div className="flex flex-col md:flex-row pt-5">

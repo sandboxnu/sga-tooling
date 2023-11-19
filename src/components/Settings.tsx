@@ -17,8 +17,8 @@ const Settings = (): ReactElement => {
       <div className="flex flex-col h-full">
         <div className="flex flex-col gap-3 px-8 items-start flex-1">
           <button onClick={() => navigate("/events")}>Home</button>
-          <button onClick={() => navigate("/user")}>Preferences</button>
-          <button onClick={() => navigate("/record")}>Record</button>
+          <button onClick={() => navigate("/user")}>My Preferences</button>
+          <button onClick={() => navigate("/record")}>My Record</button>
           <button className="text-slate-400" disabled>
             Voting
           </button>
