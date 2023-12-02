@@ -9,6 +9,8 @@ module.exports = {
     extend: {
       colors: {
         "btn-disabled": "#696969",
+        "atn-disabled": "#d9d9d9",
+        "atn-disabled-text": "#474747",
         "sga-red": "#D41B2C",
         "sga-red-hover": "#b51727",
         "sga-red-active": "#87121d",
@@ -31,6 +33,9 @@ module.exports = {
       fontFamily: {
         montserrat: ["Montserrat"],
         sans: ['"Open Sans"'],
+      },
+      fontSize: {
+        xxs: "0.625rem",
       },
       dropShadow: {
         "event-dropdown": "0 12px 12px rgba(0, 0, 0, 0.3)",
