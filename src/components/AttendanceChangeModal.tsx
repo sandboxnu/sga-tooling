@@ -103,25 +103,29 @@ const AttendanceChangeModal = ({
   return isOpen ? (
     <div className="fixed top-0 right-0 bottom-0  left-0 m-auto bg-[hsla(0,0%,0%,.5)] h-screen w-screen flex justify-center items-center z-50">
       <div
-        className={`flex bg-white rounded-3xl max-w-2xl text-sm ${
+        className={`flex bg-white rounded-3xl sm:max-w-2xl max-w-sm sm:text-sm text-xs${
           error ? "border-2 border-red-600" : ""
         }`}
       >
         <div>
-          <XMarkIcon
-            onClick={() => resetFields()}
-            role="button"
-            className="h-10 w-10 float-right mt-4 mr-4"
-          />
-          <div className="flex flex-col justify-center items-center pl-14 pt-16 font-montserrat gap-4">
-            <span className="font-bold text-2xl">Attendance Form</span>
-            <span className="flex text-center">
+          <div className="flex flex-col justify-center items-center px-5 pt-3 sm:pl-14 font-montserrat">
+            <div className="flex justify-end w-full">
+              <XMarkIcon
+                onClick={() => resetFields()}
+                role="button"
+                className="w-8 sm:h-10 sm:w-10 relative"
+              />
+            </div>
+            <span className="font-bold sm:text-2xl text-lg -mt-3">
+              Attendance Form
+            </span>
+            <span className="flex text-center text-xs sm:text-sm py-2">
               SGA members must indicate their attendance for events ahead of
               time and are expected to attend unless an excused reason is
               submitted and approved.
             </span>
 
-            <span className="font-bold text-base text-center">
+            <span className="font-bold text-base text-center py-2">
               Describe reason for filling out form
             </span>
 
@@ -140,7 +144,9 @@ const AttendanceChangeModal = ({
                     onChange={requestOptionHandler}
                     className="border border-solid border-black rounded-md py-2"
                   >
-                    <option>Please choose one option</option>
+                    <option value="" disabled selected>
+                      Please choose one option
+                    </option>
                     {availableOptions.map((option, index) => {
                       return (
                         <option value={option.value} key={index}>
@@ -224,11 +230,19 @@ const AttendanceChangeModal = ({
               <div className="flex flex-col py-2">
                 <div>
                   <label htmlFor="Reason">Reason for request</label>
-                  <textarea
-                    id="Reason"
-                    className="resize-none border border-solid rounded-md w-full h-40 border-black"
-                    onChange={(e) => setReason(e.target.value)}
-                  ></textarea>
+                  {requestType ? (
+                    <textarea
+                      id="Reason"
+                      className="p-2 resize-none border border-solid rounded-md w-full sm:h-40 h-20 border-black"
+                      onChange={(e) => setReason(e.target.value)}
+                    />
+                  ) : (
+                    <textarea
+                      disabled
+                      id="Reason"
+                      className="bg-gray-300 resize-none border border-solid rounded-md w-full sm:h-40 h-20  border-black"
+                    />
+                  )}
                 </div>
                 <button className="text-white self-center button-base-red px-4 my-2 w-32 rounded-md font-sans font-bold py-2">
                   {" "}
