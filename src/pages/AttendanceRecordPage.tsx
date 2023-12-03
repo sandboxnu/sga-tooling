@@ -7,6 +7,7 @@ import {
 } from "../client/client";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
 import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
+import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
 import { AttendanceRecord, Event, Member } from "../util/Types";
@@ -71,10 +72,10 @@ const AttendanceRecordPage = () => {
             {member?.firstName + " " + member?.lastName}
           </span>
           <div className="py-2">
-            <span className="bg-attendance-green text-attendance-text-green bg-opacity-25 px-4 py-1 rounded-md font-montserrat font-bold border border-attendance-green">
-              {" "}
-              Good standing{" "}
-            </span>
+            <AttendanceStanding
+              member={member}
+              attendanceRecord={attendanceRecord}
+            />
           </div>
           <div className="flex gap-x-12">
             <div className="flex flex-col">

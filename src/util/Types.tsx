@@ -97,3 +97,35 @@ export const AttendanceTagToClassName: Record<AttendanceTag, string> = {
   E: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
   N: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
 };
+
+export type AttendanceStandingDisplay = {
+  text: string;
+  className: string;
+  tooltipText: string;
+};
+
+export const AttendanceStandingOptions: AttendanceStandingDisplay[] = [
+  {
+    text: "Removed",
+    className: "bg-attendance-red border border-attendance-red bg-opacity-25",
+    tooltipText: "help",
+  },
+  {
+    text: "Action required",
+    className:
+      "bg-attendance-yellow border border-attendance-yellow bg-opacity-25",
+    tooltipText: "help",
+  },
+  {
+    text: "At risk",
+    className:
+      "bg-attendance-yellow border border-attendance-yellow bg-opacity-25",
+    tooltipText: "help",
+  },
+  {
+    text: "Good standing",
+    className:
+      "bg-attendance-green border border-attendance-green bg-opacity-25 text-attendance-text-green",
+    tooltipText: "help",
+  },
+];
