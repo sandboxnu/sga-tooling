@@ -57,12 +57,13 @@ const AttendanceChangeModal = ({
       requestType === RequestType.ARRIVING_LATE && Boolean(lateArrivalTime);
     const isLeavingEarly =
       requestType === RequestType.LEAVING_EARLY && Boolean(earlyDepartureTime);
+    const isAbsent = requestType === RequestType.ABSENT;
     const isBoth =
       requestType === RequestType.BOTH &&
       Boolean(lateArrivalTime) &&
       Boolean(earlyDepartureTime);
 
-    return isArrivingLate || isLeavingEarly || isBoth;
+    return isArrivingLate || isLeavingEarly || isBoth || isAbsent;
   })();
 
   const submitForm = () => {
