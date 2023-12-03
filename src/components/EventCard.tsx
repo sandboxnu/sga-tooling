@@ -7,10 +7,17 @@ import ".././styles.css";
 import { LoginContext } from "../App";
 import TriangleError from "../assets/TriangleError.svg";
 import { createAttendanceChange, fetchMember } from "../client/client";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
+import {
+  AttendanceChange,
+  ChangeStatus,
+  Event,
+  EventStatus,
+  ListOfButtonClassname,
+} from "../util/Types";
 import AttendanceChangeModal from "./AttendanceChangeModal";
 import { EventDate } from "./EventDate";
 import EventTag from "./EventTag";
+import Loading from "./Loading";
 import PopUp from "./PopUp";
 
 interface EventCardProps {
@@ -62,6 +69,26 @@ const EventCard = ({
   const [errorType, setErrorType] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [createdAttendanceChange, setCreatedAttendanceChange] = useState({});
+  const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
+  const [initialAttendanceStatus, setAttendanceStatus] = useState(
+    attendanceChange?.change_status
+  );
+
+  const createButtonText = () => {
+    if (initialAttendanceStatus === ChangeStatus.NOT_REVIEWED) {
+      return ListOfButtonClassname[0];
+    }
+    if (initialAttendanceStatus === ChangeStatus.EXCUSED) {
+      return ListOfButtonClassname[1];
+    }
+    if (initialAttendanceStatus === ChangeStatus.UNEXCUSED) {
+      return ListOfButtonClassname[2];
+    } else {
+      return ListOfButtonClassname[3];
+    }
+  };
+
+  const renderText = createButtonText();
 
   const openModal = () => {
     if (isRegistered) {
@@ -76,21 +103,22 @@ const EventCard = ({
     document.body.classList.remove("disable-scrolling");
   };
 
-  const regButtonStyle = isRegistered
-    ? "button-base-white px-3 my-2 mr-5 w-32"
-    : "button-base-red px-4 my-2 mr-5 w-32";
-
   useEffect(() => {
     const makeAttendanceChange = async () => {
       try {
+        setIsCreatingAttendance(true);
         //using non-null assertion since it's assumed the user is logged in to make it past the home page
         const member = await fetchMember(userID!);
         if (member) {
           await createAttendanceChange(member.id, id);
           setIsRegistered(false);
         }
+        setIsCreatingAttendance(false);
+        // once we successfully created an AttendanceChange its back to pending
+        setAttendanceStatus(ChangeStatus.NOT_REVIEWED);
       } catch (e) {
         setErrorType(1);
+        setIsCreatingAttendance(false);
       }
     };
     //on Mount this useEffect starts,
@@ -171,8 +199,11 @@ const EventCard = ({
               </button>
             ) : (
               <>
-                <button onClick={openModal} className={regButtonStyle}>
-                  {isRegistered ? "Unregister" : "Register"}
+                <button
+                  onClick={openModal}
+                  className={`${renderText.className}`}
+                >
+                  {isCreatingAttendance ? <Loading /> : renderText.text}
                 </button>
                 <Link to={`/events/${id}`} state={{ event }}>
                   <button className="button-base-red px-4 my-2 w-32">

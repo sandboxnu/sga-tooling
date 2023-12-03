@@ -97,3 +97,29 @@ export const AttendanceTagToClassName: Record<AttendanceTag, string> = {
   E: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
   N: "bg-attendance-grey border border-attendance-grey bg-opacity-25",
 };
+
+type ButtonClassName = {
+  text: string;
+  className: string;
+};
+
+export const ListOfButtonClassname: ButtonClassName[] = [
+  {
+    text: "Pending",
+    className:
+      "border border-solid bg-gray-300 font-bold rounded px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  {
+    text: "Excused",
+    className:
+      "border border-solid bg-gray-300 font-bold rounded px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  {
+    text: "Rejected",
+    className: "button-base-red px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  {
+    text: "Unregister",
+    className: "button-base-white px-4 my-2 mr-5 w-32",
+  },
+];
