@@ -67,17 +67,32 @@ const EventDetailsPage = (): ReactElement => {
   return (
     <div className="flex flex-1 flex-col p-10 gap-8">
       <div className="flex flex-row items-center gap-4">
-        <Link to={`../`}>
+        <Link to={`/events`}>
           <img src={Frame} alt="Back arrow" />
         </Link>
         <h1 className="section-heading m-0 text-md text-left flex-1 md:flex-0">
           <span>EVENT DETAILS</span>
         </h1>
-        <img
-          src={MeatballMenuSVG}
-          alt="Menu svg"
-          aria-label="Open Event Card details"
-        />
+        <details className="relative">
+          <summary className="list-none cursor-pointer">
+            <img
+              src={MeatballMenuSVG}
+              alt="Menu svg"
+              aria-label="Open Event Card details"
+            />
+          </summary>
+          <div className="absolute -ml-40 drop-shadow-event-dropdown rounded-xl bg-white">
+            <ul>
+              <li className="hover:underline pt-3 px-4">Save</li>
+              <li className="hover:underline py-3 px-4">
+                Enable Notifications
+              </li>
+              <li className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4">
+                Add to Calendar
+              </li>
+            </ul>
+          </div>
+        </details>
       </div>
       <hr className="border-black" />
       <div className="font-bold text-2xl leading-8 font-sans break-words">

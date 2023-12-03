@@ -1,8 +1,10 @@
 import { ReactElement, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
-const Settings = (): ReactElement => {
+const Settings = (props: {
+  useState: React.Dispatch<React.SetStateAction<boolean>>;
+}): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   let navigate = useNavigate();
 
@@ -12,17 +14,20 @@ const Settings = (): ReactElement => {
     navigate("/");
   }
 
+  function Click(route: string) {
+    navigate(route);
+    props.useState(false);
+  }
+
   return (
+    // omg what page are we on 
     <div className="font-sans font-bold text-xl h-full">
       <div className="flex flex-col h-full">
         <div className="flex flex-col gap-3 px-8 items-start flex-1">
           <button className="text-slate-400" disabled>
             Home
           </button>
-          <button className="text-slate-400" disabled>
-            Profile
-          </button>
-          <button onClick={() => navigate("/user")}>Preferences</button>
+          <button className={`App ${useLocation().pathname === "/user" ? "underline" : "no-underline"}`} onClick={() => Click("/user")}>Profile</button> {/*PROFILE BUTTON*/}
           <button className="text-slate-400" disabled>
             Voting
           </button>
