@@ -183,11 +183,12 @@ const EventCard = ({
             )}
           </div>
         </div>
-        <AttendanceChangeModal
-          isOpen={isOpen}
-          onClose={() => closeModal()}
-          setAttendanceChange={setCreatedAttendanceChange}
-        />
+        {isOpen && (
+          <AttendanceChangeModal
+            onClose={() => closeModal()}
+            setAttendanceChange={setCreatedAttendanceChange}
+          />
+        )}
       </div>
     </>
   );

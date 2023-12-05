@@ -13,7 +13,7 @@ export const AttendanceRecordPercentages = ({
 }: AttendanceRecordPercentagesProps) => {
   const recordSize = attendanceRecord.length;
   const attendance_statuses = attendanceRecord.map(
-    ({ memberID, eventID, attendance_status }) => attendance_status
+    ({ attendance_status }) => attendance_status
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
   const { attended, lateOrEarly, absent } =
