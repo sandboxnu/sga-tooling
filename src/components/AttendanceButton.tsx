@@ -51,7 +51,7 @@ export const AttendanceButton = ({
     if (!(Object.keys(createdAttendanceChange).length === 0)) {
       makeAttendanceChange();
     }
-  }, [createdAttendanceChange]);
+  }, [createdAttendanceChange, eventid, setErrorType, setIsRegistered, userID]);
 
   const renderText = AttendanceButtonStyles[initialAttendanceStatus];
 
