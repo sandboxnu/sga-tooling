@@ -45,8 +45,8 @@ export enum RequestType {
 export enum ChangeStatus {
   EXCUSED = "excused",
   UNEXCUSED = "unexcused",
-  DISMISSED = "dismissed",
   NOT_REVIEWED = "pending",
+  UNREGISTER = "unregister",
 }
 
 export enum EventStatus {

@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
 import { createAttendanceChange, fetchMember } from "../client/client";
-import {
-  AttendanceChange,
-  AttendanceData,
-  ChangeStatus,
-  ListOfButtonClassname,
-} from "../util/Types";
+import { AttendanceButtonStyles } from "../util/styleConfig";
+import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -17,22 +13,6 @@ interface AttendanceButtonProps {
   createdAttendanceChange: AttendanceData | {};
   eventid: number;
 }
-
-const createButtonText = (
-  initialAttendanceStatus: ChangeStatus | undefined
-) => {
-  if (initialAttendanceStatus === ChangeStatus.NOT_REVIEWED) {
-    return ListOfButtonClassname[0];
-  }
-  if (initialAttendanceStatus === ChangeStatus.EXCUSED) {
-    return ListOfButtonClassname[1];
-  }
-  if (initialAttendanceStatus === ChangeStatus.UNEXCUSED) {
-    return ListOfButtonClassname[2];
-  } else {
-    return ListOfButtonClassname[3];
-  }
-};
 
 export const AttendanceButton = ({
   attendanceChange,
@@ -45,9 +25,8 @@ export const AttendanceButton = ({
   const { userID } = useContext(LoginContext);
   const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
   const [initialAttendanceStatus, setAttendanceStatus] = useState(
-    attendanceChange?.change_status
+    attendanceChange?.change_status || ChangeStatus.UNREGISTER
   );
-  const renderText = createButtonText(initialAttendanceStatus);
 
   useEffect(() => {
     const makeAttendanceChange = async () => {
@@ -73,6 +52,8 @@ export const AttendanceButton = ({
       makeAttendanceChange();
     }
   }, [createdAttendanceChange]);
+
+  const renderText = AttendanceButtonStyles[initialAttendanceStatus];
 
   return (
     <button onClick={openModal} className={`${renderText.className}`}>

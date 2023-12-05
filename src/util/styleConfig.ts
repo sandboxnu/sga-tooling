@@ -1,4 +1,4 @@
-import { AttendanceTag } from "./Types";
+import { AttendanceTag, ChangeStatus } from "./Types";
 
 export type TextAndClassNameBuilder = {
   text: string;
@@ -55,5 +55,30 @@ export const AttendanceStandingOptions: Record<
     text: "Good standing",
     className:
       "bg-attendance-green border border-attendance-green bg-opacity-25 text-attendance-text-green",
+  },
+};
+
+export const AttendanceButtonStyles: Record<
+  ChangeStatus,
+  TextAndClassNameBuilder
+> = {
+  [ChangeStatus.NOT_REVIEWED]: {
+    text: "Pending",
+    className:
+      "bg-atn-disabled font-bold rounded px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  [ChangeStatus.EXCUSED]: {
+    text: "Excused",
+    className:
+      "bg-attendance-grey text-white font-bold rounded px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  [ChangeStatus.UNEXCUSED]: {
+    text: "Rejected",
+    className:
+      "bg-attendance-grey text-white font-bold rounded px-4 my-2 mr-5 w-32 pointer-events-none",
+  },
+  [ChangeStatus.UNREGISTER]: {
+    text: "Unregister",
+    className: "button-base-white px-4 my-2 mr-5 w-32",
   },
 };
