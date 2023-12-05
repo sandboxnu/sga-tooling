@@ -62,7 +62,7 @@ export const mockMembers: Member[] = [
     signInBlocked: true,
   },
   {
-    id: '6',
+    id: "6",
     nuid: "666666666",
     firstName: "Nathan",
     lastName: "Harvey",
@@ -74,7 +74,7 @@ export const mockMembers: Member[] = [
     signInBlocked: false,
   },
   {
-    id: '7',
+    id: "7",
     nuid: "777777777",
     firstName: "Suli",
     lastName: "Rashidzada",

@@ -1,8 +1,8 @@
 import {
-  AttendanceTag,
   AttendanceTagToClassName,
   AttendanceTagToText,
-} from "../../util/Types";
+} from "../../util/styleConfig";
+import { AttendanceTag } from "../../util/Types";
 
 // this function takes in the coming list of characters and groups according strings when there is
 // an Excused Tag(E) or Not Requried Tag (N)
@@ -13,7 +13,7 @@ export const preProcess = (attendanceStatus: string): AttendanceTag[][] => {
   for (let i = 0; i < splitChars.length; i++) {
     const currChar = splitChars[i] as AttendanceTag;
     const nextChar = splitChars[i + 1] as AttendanceTag;
-    if (nextChar === "E") {
+    if (nextChar === "E" || nextChar === "N") {
       const elemItem = [nextChar, currChar];
       returnArray.push(elemItem);
       // remove the next char since its joined in the same array

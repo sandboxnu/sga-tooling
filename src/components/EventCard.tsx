@@ -41,16 +41,16 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   const tagElements: ReactElement[] = tags
     ? tags.map((t) => {
-        return <EventTag tag={t} />;
-      })
+      return <EventTag tag={t} />;
+    })
     : [];
 
   const [isRegistered, setIsRegistered] = useState(
@@ -161,11 +161,12 @@ const EventCard = ({
             )}
           </div>
         </div>
-        <AttendanceChangeModal
-          isOpen={isOpen}
-          onClose={() => closeModal()}
-          setAttendanceChange={setCreatedAttendanceChange}
-        />
+        {isOpen && (
+          <AttendanceChangeModal
+            onClose={() => closeModal()}
+            setAttendanceChange={setCreatedAttendanceChange}
+          />
+        )}
       </div>
     </>
   );

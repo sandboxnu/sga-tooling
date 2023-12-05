@@ -1,10 +1,9 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
-import SearchIcon from "../assets/SearchIcon.svg";
 import {
   fetchAllEvents,
   fetchMember,
-  findAttendanceChangeRequestForMember,
+  findAttendanceChangeRequestForMember
 } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
@@ -138,7 +137,6 @@ const Homepage = (): ReactElement => {
 
         <div className="section-heading flex justify-between items-center">
           <h1>UPCOMING EVENTS</h1>
-          <img src={SearchIcon} aria-label="Search for an event"></img>
         </div>
         {upcomingEvents}
       </>
