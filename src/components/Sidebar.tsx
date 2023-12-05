@@ -20,7 +20,7 @@ const Sidebar = (props: {
       {/* Div for the sidebar and how it looks */}
       <div
         className={`flex flex-col fixed top-0 right-0 h-screen w-screen md:w-[35vw] bg-sga-red text-white z-40 ease-in-out duration-300 ${
-          props.showSidebar ? "translate-x-0 " : "translate-x-full"
+          props.showSidebar ? "translate-x-0 drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]" : "translate-x-full"
         }`}
       >
         <div className="flex p-8 items-center">
