@@ -1,9 +1,8 @@
 import {
-  AttendanceRecord,
+  AttendanceStandingOption,
   AttendanceStandingOptions,
-  AttendanceTag,
-  Member,
-} from "../../util/Types";
+} from "../../util/styleConfig";
+import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
 import {
   getAllStatuses,
   getCountOfKeyInStatusList,
@@ -50,19 +49,19 @@ export const AttendanceStanding = ({
   const tooManyExcused =
     ((absent + excusedAbsences) / amtEvents) * 100 > 50 && amtEvents > 4;
 
-  const createStrings = () => {
+  const getStanding = () => {
     if (!poorStanding) {
-      return AttendanceStandingOptions[0];
+      return AttendanceStandingOption.REMOVED;
     } else if (pendingDiscussion) {
-      return AttendanceStandingOptions[1];
+      return AttendanceStandingOption.ON_HOLD;
     } else if (tooManyExcused || tooManyAbsent) {
-      return AttendanceStandingOptions[2];
+      return AttendanceStandingOption.AT_RISK;
     } else {
-      return AttendanceStandingOptions[3];
+      return AttendanceStandingOption.GOOD_STANDING;
     }
   };
 
-  const renderText = createStrings();
+  const renderText = AttendanceStandingOptions[getStanding()];
 
   return (
     <span
