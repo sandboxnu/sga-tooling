@@ -20,14 +20,38 @@ const Settings = (props: {
   }
 
   return (
-    // omg what page are we on 
+    // omg what page are we on
     <div className="font-sans font-bold text-xl h-full">
       <div className="flex flex-col h-full">
         <div className="flex flex-col gap-3 px-8 items-start flex-1">
-          <button className="text-slate-400" disabled>
+          <button
+            className={`App ${
+              useLocation().pathname === "/events"
+                ? "underline"
+                : "no-underline"
+            }`}
+            onClick={() => Click("/events")}
+          >
             Home
           </button>
-          <button className={`App ${useLocation().pathname === "/user" ? "underline" : "no-underline"}`} onClick={() => Click("/user")}>Profile</button> {/*PROFILE BUTTON*/}
+          <button
+            className={`App ${
+              useLocation().pathname === "/user" ? "underline" : "no-underline"
+            }`}
+            onClick={() => Click("/user")}
+          >
+            My Preferences
+          </button>
+          <button
+            className={`App ${
+              useLocation().pathname === "/record"
+                ? "underline"
+                : "no-underline"
+            }`}
+            onClick={() => Click("/record")}
+          >
+            My Record
+          </button>
           <button className="text-slate-400" disabled>
             Voting
           </button>

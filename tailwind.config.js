@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", './src/**/*.{html,js}', "./node_modules/tw-elements/dist/js/**/*.js"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{html,js}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     extend: {
       colors: {
@@ -12,6 +16,11 @@ module.exports = {
         "alert-yellow": "#FFEDC0",
         "tag-blue": "#8DD8E6",
         "tag-green": "#88BB77",
+        "attendance-text-green": "#008000",
+        "attendance-green": "#77DD77",
+        "attendance-yellow": "#FEC12F",
+        "attendance-red": "#D41B2C",
+        "attendance-grey": "#767676",
       },
       backgroundImage: {
         "cooper-mobile": "url(../src/assets/cooper-mobile.jpg)",
@@ -28,7 +37,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tw-elements/dist/plugin')
-  ],
+  plugins: [require("tw-elements/dist/plugin")],
 };

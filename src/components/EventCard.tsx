@@ -64,10 +64,16 @@ const EventCard = ({
   const [createdAttendanceChange, setCreatedAttendanceChange] = useState({});
 
   const openModal = () => {
-    isRegistered ? setIsOpen(true) : setIsOpen(false);
+    if (isRegistered) {
+      setIsOpen(true);
+      document.body.classList.add("disable-scrolling");
+    } else {
+      setIsOpen(false);
+    }
   };
   const closeModal = () => {
     setIsOpen(false);
+    document.body.classList.remove("disable-scrolling");
   };
 
   const regButtonStyle = isRegistered

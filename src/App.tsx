@@ -4,6 +4,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import RequireAuth from "./components/RequireAuth";
+import AttendanceRecordPage from "./pages/AttendanceRecordPage";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
@@ -17,7 +18,10 @@ type UserContext = {
   setUserID: React.Dispatch<React.SetStateAction<UserID>>;
 };
 
-export const LoginContext = createContext<UserContext>({ userID: null, setUserID: () => { } });
+export const LoginContext = createContext<UserContext>({
+  userID: null,
+  setUserID: () => {},
+});
 
 function App() {
   const [userID, setUserID] = useState<UserID>(localStorage.getItem("user"));
@@ -37,6 +41,7 @@ function App() {
               <Route path="/events" element={<Homepage />} />
               <Route path="/events/:id" element={<EventDetailsPage />} />
               <Route path="/user/" element={<UserPreference />} />
+              <Route path="/record" element={<AttendanceRecordPage />} />
             </Route>
 
             <Route path="*" element={<Error404 />} />

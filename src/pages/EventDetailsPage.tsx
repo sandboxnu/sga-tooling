@@ -7,32 +7,10 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import { fetchEvent } from "../client/client";
 import Loading from "../components/Loading";
+import { createDateString } from "../util/Date";
 
 //if time is not defined make it all day
 const EventDetailsPage = (): ReactElement => {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
   const { id } = useParams();
   const [event, setEvent] = useState(useLocation().state?.event);
 
@@ -45,10 +23,7 @@ const EventDetailsPage = (): ReactElement => {
 
   console.log(`The value of event is ${event}`);
   const startDate = new Date(event.startTime);
-  const month = months[startDate.getMonth()];
-  const dayOfWeek = days[startDate.getDay()];
-  const date = startDate.getDate();
-  const year = startDate.getFullYear();
+  const { month, dayOfWeek, fulldate, year } = createDateString(startDate);
 
   const startTimeString: string = startDate.toLocaleString("en-US", {
     hour: "numeric",
@@ -58,10 +33,10 @@ const EventDetailsPage = (): ReactElement => {
 
   const endTimeString: string | undefined = event.endTime
     ? new Date(event.endTime).toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    })
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
     : undefined;
 
   return (
@@ -104,7 +79,7 @@ const EventDetailsPage = (): ReactElement => {
           <div className="flex-1 bg-sga-red rounded-r-2xl text-white text-right p-4">
             <div className="flex flex-col justify-between h-full">
               <div>
-                <div className="font-sans font-bold text-5xl">{date}</div>
+                <div className="font-sans font-bold text-5xl">{fulldate}</div>
                 <div className="text-l">
                   <span className="font-sans font-bold">{month}</span>
                   <span className="font-montserrat pl-1">'{year}</span>

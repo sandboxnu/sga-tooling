@@ -1,12 +1,14 @@
 import { mockAttendanceChange } from "../data/attendanceChange";
+import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
+  AttendanceRecord,
   ChangeStatus,
   Event,
   Member,
-  RequestType
+  RequestType,
 } from "../util/Types";
 
 /**
@@ -14,14 +16,14 @@ import {
  * @param id The id of the event being fetched
  * @returns The event if it can be found, or an error
  */
-export function fetchEvent(id: Number): Promise<Event> {
+export function fetchEvent(id: number): Promise<Event> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const event = mockEvents.find((e) => e.id === id);
       event ? resolve(event) : reject("404 Not found");
     }, 1000);
   });
-};
+}
 
 /**
  * Gets all the events
@@ -33,7 +35,7 @@ export function fetchAllEvents(): Promise<Event[]> {
       mockEvents ? resolve(mockEvents) : reject("404 Not found");
     }, 1000);
   });
-};
+}
 
 /**
  * Gets the member with the associated nuid
@@ -49,7 +51,7 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
       resolve(member);
     });
   });
-};
+}
 
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
@@ -101,6 +103,44 @@ export const createAttendanceChange = (
       };
       mockAttendanceChange.push(newAttendance);
       resolve(newAttendance);
+    }, 1000);
+  });
+};
+
+export const getAttendanceRecordForMember = (
+  memberId: string
+): Promise<AttendanceRecord[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const attendanceRecordForMember = mockAttendanceRecord.filter(
+        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+      );
+      attendanceRecordForMember
+        ? resolve(attendanceRecordForMember)
+        : reject("No attendanceRecordForMember");
+    }, 1000);
+  });
+};
+
+export const getAttendanceEventsForMember = (
+  memberId: string
+): Promise<Event[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const attendanceRecordForMember = mockAttendanceRecord.filter(
+        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+      );
+      const attendanceEventsForMember = attendanceRecordForMember.map(
+        ({ eventID, memberID, attendance_status }) => eventID
+      );
+      const events = [];
+      for (const attendanceEventId of attendanceEventsForMember) {
+        for (const actualEvent of mockEvents) {
+          if (actualEvent.id === attendanceEventId) {
+            events.push(actualEvent);
+          }
+        }
+      }
     }, 1000);
   });
 };
