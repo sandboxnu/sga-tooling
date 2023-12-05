@@ -42,16 +42,16 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      })
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
     : undefined;
 
   const tagElements: ReactElement[] = tags
     ? tags.map((t) => {
-        return <EventTag tag={t} />;
-      })
+      return <EventTag tag={t} />;
+    })
     : [];
 
   // nuid of the currently loggedIn user

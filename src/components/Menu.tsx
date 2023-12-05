@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
-import { Outlet } from "react-router-dom";
+import { ReactElement, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 /**
@@ -10,18 +10,23 @@ import Sidebar from "./Sidebar";
  */
 const Menu = (): ReactElement => {
 
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <div>
       <div className="flex items-center justify-between space-x-16 md:space-x-0 lg:space-x-0 min-w-100 h-24 bg-sga-red px-5 shadow-md shadow-neutral-400">
         <div>
-          <img
-            src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
-            alt="Student Government Association Logo"
-            className="w-32"
-          />
+          <Link to={`/events`}>
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
+              alt="Student Government Association Logo"
+              className="w-32 cursor-pointer"
+              onClick={() => setShowSidebar(false)}
+            />
+          </Link>
         </div>
 
-        <Sidebar />
+        <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
 
       </div>
