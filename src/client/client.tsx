@@ -2,6 +2,7 @@ import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
+import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -12,7 +13,8 @@ import {
 } from "../util/Types";
 
 const api = axios.create({
-  baseURL: `https://sgatooling-api.vercel.app/api`,
+  // baseURL: `https://sgatooling-api.vercel.app/api`,
+  baseURL: `https://stage-sgatooling-api.vercel.app/api`,
 });
 
 /**
@@ -26,7 +28,7 @@ export function fetchEvent(id: number): Promise<Event> {
       id: id,
     },
   });
-  
+
   // return new Promise((resolve, reject) => {
   //   setTimeout(() => {
   //     const event = mockEvents.find((e) => e.id === id);
@@ -54,12 +56,21 @@ export function fetchAllEvents(): Promise<Event[]> {
  * @param nuid The nuid of the member
  * @returns The Member with that nuid or undefined
  */
-export function fetchMember(nuid: string): Promise<Member | undefined> {
-  return api.get("/member/getMember", {
+export function fetchMember(nuid: string): Member {
+  const result = api.get("/member/getMember", {
     params: {
       id: nuid,
     },
   });
+
+  // let member;
+
+  result.then((res) => {
+    console.log(res.data);
+    return res.data;
+  });
+
+  // return member;
 
   // return new Promise((resolve, reject) => {
   //   setTimeout(() => {
