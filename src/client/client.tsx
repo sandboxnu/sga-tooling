@@ -56,21 +56,12 @@ export function fetchAllEvents(): Promise<Event[]> {
  * @param nuid The nuid of the member
  * @returns The Member with that nuid or undefined
  */
-export function fetchMember(nuid: string): Member {
-  const result = api.get("/member/getMember", {
+export function fetchMember(nuid: string): Promise<Member | undefined> {
+  return api.get("/member/getMember", {
     params: {
       id: nuid,
     },
   });
-
-  // let member;
-
-  result.then((res) => {
-    console.log(res.data);
-    return res.data;
-  });
-
-  // return member;
 
   // return new Promise((resolve, reject) => {
   //   setTimeout(() => {
