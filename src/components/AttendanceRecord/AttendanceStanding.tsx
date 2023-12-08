@@ -11,6 +11,7 @@ import {
 interface AttendaceStandingProps {
   member?: Member;
   attendanceRecord: AttendanceRecord[];
+  className?: String;
 }
 
 const excusedAbsenceCount = (attendanceStatusses: AttendanceTag[][]) => {
@@ -31,6 +32,7 @@ const excusedAbsenceCount = (attendanceStatusses: AttendanceTag[][]) => {
 export const AttendanceStanding = ({
   member,
   attendanceRecord,
+  className,
 }: AttendaceStandingProps) => {
   const attendance_statuses = attendanceRecord.map(
     ({ attendance_status }) => attendance_status
@@ -65,7 +67,7 @@ export const AttendanceStanding = ({
 
   return (
     <span
-      className={`${renderText.className} rounded-md font-montserrat font-bold px-4 py-1`}
+      className={`${renderText.className} rounded-md font-montserrat font-bold px-4 py-1 ${className}`}
     >
       {renderText.text}
     </span>
