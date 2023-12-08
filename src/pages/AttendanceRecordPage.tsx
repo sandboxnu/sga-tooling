@@ -3,7 +3,7 @@ import { LoginContext } from "../App";
 import {
   fetchEvent,
   fetchMember,
-  getAttendanceRecordForMember,
+  getAttendanceRecordForMember
 } from "../client/client";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
 import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
@@ -69,7 +69,7 @@ const AttendanceRecordPage = () => {
         <div className="flex flex-col">
           <span className="text-2xl font-bold">
             {" "}
-            {member?.firstName + " " + member?.lastName}
+            {member?.first_name + " " + member?.last_name}
           </span>
           <div className="py-2">
             <AttendanceStanding

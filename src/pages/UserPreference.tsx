@@ -15,7 +15,7 @@ const UserPreference = (): ReactElement => {
     fetchMember(id).then((m) => {
       if (m) {
         setMember(m);
-        setNotPresentEmail(m.receiveNotPresentEmail);
+        setNotPresentEmail(m.receive_not_present_email);
       }
     });
   }
@@ -35,7 +35,7 @@ const UserPreference = (): ReactElement => {
         <span className="font-bold text-xl">CONTACT INFO</span>
         <div>
           <span className="text-gray-600">Name</span> <br />
-          {Member.firstName + " " + Member.lastName}
+          {Member.first_name + " " + Member.last_name}
         </div>
         <div className="flex flex-col">
           <span className="text-gray-600">Email</span>

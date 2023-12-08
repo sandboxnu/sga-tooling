@@ -2,19 +2,18 @@ import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
-import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
   AttendanceRecord,
   ChangeStatus,
   Event,
   Member,
-  RequestType,
+  RequestType
 } from "../util/Types";
 
 const api = axios.create({
   // baseURL: `https://sgatooling-api.vercel.app/api`,
-  baseURL: `https://stage-sgatooling-api.vercel.app/api`,
+  baseURL: `https://sgatooling-api.vercel.app/api`,
 });
 
 /**

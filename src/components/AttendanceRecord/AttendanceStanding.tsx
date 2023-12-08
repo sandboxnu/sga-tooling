@@ -1,11 +1,11 @@
 import {
   AttendanceStandingOption,
-  AttendanceStandingOptions,
+  AttendanceStandingOptions
 } from "../../util/styleConfig";
 import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
 import {
   getAllStatuses,
-  getCountOfKeyInStatusList,
+  getCountOfKeyInStatusList
 } from "./AttendanceStatusString";
 
 interface AttendaceStandingProps {
@@ -37,8 +37,8 @@ export const AttendanceStanding = ({
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
 
-  const poorStanding = member?.activeMember;
-  const pendingDiscussion = member?.signInBlocked;
+  const poorStanding = member?.active_member;
+  const pendingDiscussion = member?.sign_in_blocked;
 
   const amtEvents = attendanceRecord.length;
   const unexcusedA = getCountOfKeyInStatusList(AttendanceList, "A");

@@ -13,14 +13,14 @@ export type Event = {
 export type Member = {
   id: string;
   nuid: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  activeMember: boolean;
-  votingRights: boolean;
-  receiveNotPresentEmail: boolean;
-  includeInQuorum: boolean;
-  signInBlocked: boolean;
+  active_member: boolean;
+  voting_rights: boolean;
+  receive_not_present_email: boolean;
+  include_in_quorum: boolean;
+  sign_in_blocked: boolean;
 };
 
 export type AttendanceChange = {
