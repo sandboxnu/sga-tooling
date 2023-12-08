@@ -1,15 +1,20 @@
+import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
-import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
   AttendanceRecord,
   ChangeStatus,
   Event,
   Member,
-  RequestType,
+  RequestType
 } from "../util/Types";
+
+const api = axios.create({
+  // baseURL: `https://sgatooling-api.vercel.app/api`,
+  baseURL: `https://sgatooling-api.vercel.app/api`,
+});
 
 /**
  * Gets an event with the given id
@@ -17,12 +22,18 @@ import {
  * @returns The event if it can be found, or an error
  */
 export function fetchEvent(id: number): Promise<Event> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const event = mockEvents.find((e) => e.id === id);
-      event ? resolve(event) : reject("404 Not found");
-    }, 1000);
+  return api.get("/event/getEvent", {
+    params: {
+      id: id,
+    },
   });
+
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     const event = mockEvents.find((e) => e.id === id);
+  //     event ? resolve(event) : reject("404 Not found");
+  //   }, 1000);
+  // });
 }
 
 /**
@@ -30,11 +41,13 @@ export function fetchEvent(id: number): Promise<Event> {
  * @returns An array of events if they can be found, or an error
  */
 export function fetchAllEvents(): Promise<Event[]> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      mockEvents ? resolve(mockEvents) : reject("404 Not found");
-    }, 1000);
-  });
+  return api.get("/event/getAllEvents");
+
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     mockEvents ? resolve(mockEvents) : reject("404 Not found");
+  //   }, 1000);
+  // });
 }
 
 /**
@@ -43,14 +56,20 @@ export function fetchAllEvents(): Promise<Event[]> {
  * @returns The Member with that nuid or undefined
  */
 export function fetchMember(nuid: string): Promise<Member | undefined> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const member = (UserJSON as unknown as Member[]).find(
-        (m) => m.nuid === nuid
-      );
-      resolve(member);
-    });
+  return api.get("/member/getMember", {
+    params: {
+      id: nuid,
+    },
   });
+
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     const member = (UserJSON as unknown as Member[]).find(
+  //       (m) => m.nuid === nuid
+  //     );
+  //     resolve(member);
+  //   });
+  // });
 }
 
 //sample function to fetch all attendance change requests
