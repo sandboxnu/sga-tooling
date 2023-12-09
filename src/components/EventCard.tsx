@@ -5,6 +5,7 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import TriangleError from "../assets/TriangleError.svg";
+import { TagButtonStyles } from "../util/styleConfig";
 import { AttendanceChange, Event, EventStatus } from "../util/Types";
 import { AttendanceButton } from "./AttendanceButton";
 import AttendanceChangeModal from "./AttendanceChangeModal";
@@ -30,6 +31,7 @@ const EventCard = ({
     location,
     description,
     status,
+    membership_group,
   } = event;
 
   let startTimeString: string = start_time.toLocaleString("en-US", {
@@ -44,13 +46,6 @@ const EventCard = ({
         hour12: true,
       })
     : undefined;
-
-  // TODO:
-  // const tagElements: ReactElement[] = tags
-  //   ? tags.map((t) => {
-  //     return <EventTag tag={t} />;
-  //   })
-  //   : [];
 
   const [isRegistered, setIsRegistered] = useState(
     attendanceChange ? false : true
@@ -112,14 +107,18 @@ const EventCard = ({
               </div>
             </details>
           </div>
-          {/* <div
+          <div
             className={
               "flex flex-row flex-wrap gap-y-2 gap-x-2 w-full " +
-              (tagElements.length > 0 ? "mb-4" : "")
+              (membership_group.length > 0 ? "mb-4" : "")
             }
           >
-            {tagElements}
-          </div> */}
+            {membership_group.map((t) => {
+              const text = TagButtonStyles[t].text;
+              const styles = TagButtonStyles[t].className;
+              return <div className={styles}>{text}</div>;
+            })}
+          </div>
           <div className="flex flex-row items-start mb-4 md:ml-4">
             <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
             <span className="text-body-mobile pl-2 pr-8 pt-0.5 font-montserrat break-words w-full md:pr-64">

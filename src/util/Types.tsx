@@ -1,15 +1,3 @@
-// export type Event = {
-//   id: number;
-//   eventName: string;
-//   startTime: Date;
-//   endTime: Date;
-//   signInClosed: boolean;
-//   location?: string;
-//   description: string;
-//   status?: EventStatus;
-//   tags?: string[];
-// };
-
 // NOTE do we want to do anything with this sign in open variable?
 export type Event = {
   uuid: string;
@@ -20,20 +8,8 @@ export type Event = {
   description: string;
   location: string;
   status?: EventStatus;
+  membership_group: SGATags[];
 };
-
-// export type Member = {
-//   id: string;
-//   nuid: string;
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   activeMember: boolean;
-//   votingRights: boolean;
-//   receiveNotPresentEmail: boolean;
-//   includeInQuorum: boolean;
-//   signInBlocked: boolean;
-// };
 
 export type Member = {
   uuid: string;
@@ -94,12 +70,6 @@ export type AttendanceEvent = {
 };
 
 export type createdAttendanceChange = AttendanceEvent & AttendanceData;
-
-// export type AttendanceRecord = {
-//   memberID: number;
-//   eventID: number;
-//   attendance_status: string;
-// };
 
 export type AttendanceRecord = {
   person_id: string;

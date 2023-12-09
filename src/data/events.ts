@@ -1,4 +1,4 @@
-import { Event } from "../util/Types";
+import { Event, SGATags } from "../util/Types";
 
 export const mockEvents: Event[] = [
   {
@@ -10,7 +10,7 @@ export const mockEvents: Event[] = [
     location: "Richards 253",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur justo a mi faucibus faucibus. Maecenas pretium efficitur ipsum eget laoreet. Nullam sed convallis turpis, eget mattis tellus. In magna mauris, accumsan eu mauris a, tempus placerat neque. Curabitur quis molestie nibh. Integer ullamcorper nisl id ligula tristique, eu tempor elit mattis. Praesent justo mauris, pulvinar vel feugiat id, lobortis vitae neque.",
-    // tags: ["Senate", "Committee", "Guest Speaker"],
+    membership_group: [SGATags.ALL_ACTIVE, SGATags.NEW_SENATORS],
   },
   {
     uuid: "2",
@@ -21,7 +21,7 @@ export const mockEvents: Event[] = [
     location: "Richards 253",
     description:
       "Duis nec convallis neque. Sed ac urna eget magna pretium gravida. Quisque nec nunc vitae augue tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce et felis at ante pretium ornare. Nam quis magna eget nisl tincidunt efficitur quis at enim. Aliquam tempus scelerisque elit, eu laoreet est. Curabitur imperdiet magna sed arcu interdum consequat. Duis hendrerit nibh vel sagittis consectetur. Nulla in nisl neque. Nullam nunc elit, tristique accumsan metus ullamcorper, tristique ultricies ligula.",
-    // tags: ["Guest Speaker"],
+    membership_group: [SGATags.NEW_SENATORS],
   },
   {
     uuid: "3",
@@ -32,7 +32,7 @@ export const mockEvents: Event[] = [
     location: "Afterhours, Curry Student Center",
     description:
       "Praesent eleifend ut velit quis posuere. Aliquam erat volutpat. Praesent eget purus tincidunt, dictum est eget, varius metus. Nunc non tristique turpis. In a nunc sollicitudin sem pulvinar faucibus. Ut rhoncus auctor odio, venenatis fringilla risus pharetra id. Donec ut auctor metus. Phasellus sem libero, eleifend lobortis justo vulputate, laoreet rhoncus ex. Aenean sit amet pulvinar nibh. Pellentesque nec est augue.",
-    // tags: ["Senate", "Committee", "Guest Speaker"],
+    membership_group: [SGATags.ALL_ACTIVE],
   },
   {
     uuid: "4",
@@ -43,7 +43,7 @@ export const mockEvents: Event[] = [
     location: "Snell Quad",
     description:
       "Duis nec convallis neque. Sed ac urna eget magna pretium gravida. Quisque nec nunc vitae augue tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce et felis at ante pretium ornare. Nam quis magna eget nisl tincidunt efficitur quis at enim. Aliquam tempus scelerisque elit, eu laoreet est. Curabitur imperdiet magna sed arcu interdum consequat. Duis hendrerit nibh vel sagittis consectetur. Nulla in nisl neque. Nullam nunc elit, tristique accumsan metus ullamcorper, tristique ultricies.",
-    // tags: ["Senate", "Guest Speaker"],
+    membership_group: [SGATags.NEW_SENATORS, SGATags.ALL_ACTIVE],
   },
   {
     uuid: "5",
@@ -54,6 +54,6 @@ export const mockEvents: Event[] = [
     location: "Richards 253",
     description:
       "Mauris interdum purus massa. Pellentesque eleifend tortor dolor, vitae malesuada elit ullamcorper sed. Morbi ante sapien, convallis et enim eget, elementum semper elit. Aenean a metus sapien. Etiam ac diam id mauris blandit semper sit amet et odio. Curabitur id finibus tortor, sit amet vulputate ligula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis, ex in efficitur lobortis, ligula urna fringilla ex, et placerat odio quam et mauris. Cras tempus vel.",
-    // tags: ["Senate", "Guest Speaker"],
+    membership_group: [SGATags.NEW_SENATORS],
   },
 ];
