@@ -3,7 +3,7 @@ import { LoginContext } from "../App";
 import {
   fetchAllEvents,
   fetchMember,
-  findAttendanceChangeRequestForMember
+  findAttendanceChangeRequestForMember,
 } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
@@ -126,7 +126,7 @@ const Homepage = (): ReactElement => {
       });
 
     return (
-      <>
+      <div>
         <h1 className="section-heading">HAPPENING NOW</h1>
         {liveEvents}
 
@@ -139,7 +139,7 @@ const Homepage = (): ReactElement => {
           <h1>UPCOMING EVENTS</h1>
         </div>
         {upcomingEvents}
-      </>
+      </div>
     );
   }
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
@@ -28,26 +28,45 @@ function App() {
 
   return (
     <LoginContext.Provider value={{ userID, setUserID }}>
-      <div className="flex min-h-screen flex-col justify-between">
+      <div className="flex flex-col min-h-screen justify-between">
         <Router>
-          {userID ? <Menu /> : null}
-          <Routes>
-            <Route
-              path="/"
-              element={<LoginPage />}
-              errorElement={<Error404 />}
-            />
-            <Route element={<RequireAuth />}>
-              <Route path="/events" element={<Homepage />} />
-              <Route path="/events/:id" element={<EventDetailsPage />} />
-              <Route path="/user/" element={<UserPreference />} />
-              <Route path="/record" element={<AttendanceRecordPage />} />
-            </Route>
+          <div
+            className={`${
+              userID && " lg:flex lg:min-h-screen lg:justify-between"
+            }`}
+          >
+            {userID ? (
+              <>
+                <Menu />
+                <div className="hidden lg:block lg:min-w-[19vw]"></div>
+              </>
+            ) : null}
 
-            <Route path="*" element={<Error404 />} />
-          </Routes>
+            <Routes>
+              <Route
+                path="/"
+                element={<LoginPage />}
+                errorElement={<Error404 />}
+              />
+              <Route element={<RequireAuth />}>
+                <Route path="/events" element={<Homepage />} />
+                <Route path="/events/:id" element={<EventDetailsPage />} />
+                <Route path="/user/" element={<UserPreference />} />
+                <Route path="/record" element={<AttendanceRecordPage />} />
+              </Route>
+
+              <Route path="*" element={<Error404 />} />
+            </Routes>
+          </div>
         </Router>
-        {userID ? <Footer hideInfo={false} /> : <Footer hideInfo={true} />}
+        {userID ? (
+          <div className="lg:flex">
+            <div className="hidden lg:block lg:min-w-[19vw]"></div>
+            <Footer hideInfo={false} />
+          </div>
+        ) : (
+          <Footer hideInfo={true} />
+        )}
       </div>
     </LoginContext.Provider>
   );
