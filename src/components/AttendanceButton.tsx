@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
 import { createAttendanceChange, fetchMember } from "../client/client";
-import { AttendanceButtonStyles } from "../util/styleConfig";
 import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
+import { AttendanceButtonStyles } from "../util/styleConfig";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -57,7 +57,7 @@ export const AttendanceButton = ({
 
   return (
     <button onClick={openModal} className={`${renderText.className}`}>
-      {isCreatingAttendance ? <Loading /> : renderText.text}
+      {isCreatingAttendance ? <Loading fullScreen={false} /> : renderText.text}
     </button>
   );
 };

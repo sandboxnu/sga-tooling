@@ -74,8 +74,12 @@ const Homepage = (): ReactElement => {
     // eventid if it has one, then we pass that attendanceChange in if there is one.
     const liveEvents: ReactElement[] = events
       .filter((e) => e.status === EventStatus.Live)
-      .map((e) => (
-        <div className="lg:rounded-xl lg:border-4 lg:border-sga-red lg:bg-gray-100 lg:py-6">
+      .map((e, i) => (
+        <div
+          className={`${
+            i > 0 && " mb-4"
+          } lg:rounded-xl lg:border-4 lg:border-sga-red lg:bg-gray-100 lg:py-6`}
+        >
           <EventCard key={e.eventName} event={e} />
         </div>
       ));
