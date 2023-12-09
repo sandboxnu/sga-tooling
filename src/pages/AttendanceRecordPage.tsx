@@ -67,7 +67,7 @@ const AttendanceRecordPage = () => {
   }
 
   return (
-    <div className="flex flex-col p-10 flex-1">
+    <div className="flex flex-col p-10 flex-1 h-fit">
       <div className="flex flex-col md:flex-row md:justify-between w-[70vw] md:w-full">
         <div className="flex flex-col justify-between">
           <span className="text-2xl font-bold">ATTENDANCE HISTORY</span>

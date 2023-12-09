@@ -11,7 +11,7 @@ import { Member } from "../util/Types";
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
-  const [lastName, setLastName] = useState("") // value to keep track of inputted last name 
+  const [lastName, setLastName] = useState(""); // value to keep track of inputted last name
   const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
   const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
@@ -44,7 +44,7 @@ const LoginPage = (): ReactElement => {
     }
     let member = undefined;
     try {
-      member = await fetchMember(input); // CHANGE TO API IMPL 
+      member = await fetchMember(input); // CHANGE TO API IMPL
     } catch (e) {
       setErrorType(4);
       return;
@@ -53,7 +53,10 @@ const LoginPage = (): ReactElement => {
       setErrorType(1);
       setSmallErrMsg("Member does not exist.");
     } else {
-      if (whetherHasAccess(member) && member.lastName.toUpperCase() === lastName.toUpperCase()) {
+      if (
+        whetherHasAccess(member) &&
+        member.lastName.toUpperCase() === lastName.toUpperCase()
+      ) {
         localStorage.setItem("user", input);
         setUserID(input);
         navigate("/events");
@@ -61,8 +64,7 @@ const LoginPage = (): ReactElement => {
         setErrorType(2);
       } else if (member.signInBlocked) {
         setErrorType(3);
-      }
-      else {
+      } else {
         console.log("in 4?");
         setErrorType(4);
       }
@@ -122,7 +124,7 @@ const LoginPage = (): ReactElement => {
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
             className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
-            placeholder="Hello"
+            placeholder="NUID"
             required
           />
           <input
@@ -151,7 +153,7 @@ const LoginPage = (): ReactElement => {
       {/* MOBILE APP DIV END/ DESKTOP START */}
       <div className="flex justify-center align-center h-64 lg:h-80">
         <img
-          className="object-contain max-w-[100%] max-h-[100%]"
+          className="object-contain max-w-full max-h-full"
           src="https://giving.northeastern.edu/live/image/gid/2/width/1260/height/630/crop/1/src_region/294,25,1751,1483/484_Club_-_Student_Government_Association.jpg"
           alt="Student Government Association Logo"
         />

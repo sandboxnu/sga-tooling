@@ -7,10 +7,18 @@ import ".././styles.css";
 
 // Footer with source code and project information that goes at the bottom of each page
 const Footer = (props: { hideInfo: boolean }): ReactElement => {
+  const footerStyles = `w-full px-6 py-6 mt-6 flex flex-col justify-between bottom-0 bg-gray-300 md:px-8 md:items-center text-gray-600 ${
+    props.hideInfo && " text-white bg-sga-red"
+  }`;
+
   return (
-    <div className="w-full px-6 py-6 flex flex-col justify-between bottom-0 bg-sga-red md:py-6 md:px-8 md:items-center">
+    <div className={footerStyles}>
       <div className="flex flex-row justify-between items-center pb-1">
-        <div className="font-montserrat text-xl font-bold text-white">
+        <div
+          className={`font-montserrat text-xl font-bold ${
+            props.hideInfo && " text-white"
+          }`}
+        >
           Made by Sandbox
         </div>
 
@@ -31,28 +39,28 @@ const Footer = (props: { hideInfo: boolean }): ReactElement => {
 
       {!props.hideInfo ? (
         <>
-          <div className="flex flex-col md:flex-row md:gap-x-2">
+          <div className="flex flex-col md:flex-row md:gap-x-2 text-gray-500">
             <a
               href="https://github.com/sandboxnu/sga-tooling"
-              className="font-montserrat text-base font-medium text-white flex flex-row"
+              className="font-montserrat text-base font-medium  flex flex-row"
               target="_blank"
               rel="noopener noreferrer"
             >
               Source code
             </a>
-            <p className="text-white hidden md:inline">|</p>
+            <p className=" hidden md:inline">|</p>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSc_bunGiJFMXSaM4D9ojlcKMuyNqtAFDCUkxs9Ep2Z3sZh9aw/viewform?usp=sf_link"
-              className="font-montserrat text-base font-medium text-white flex flex-row"
+              className="font-montserrat text-base font-medium  flex flex-row"
               target="_blank"
               rel="noopener noreferrer"
             >
               Leave feedback
             </a>
-            <p className="text-white hidden md:inline">|</p>
+            <p className=" hidden md:inline">|</p>
             <a
               href="https://github.com/sandboxnu/sga-tooling/issues"
-              className="font-montserrat text-base font-medium text-white flex flex-row"
+              className="font-montserrat text-base font-medium  flex flex-row"
               target="_blank"
               rel="noopener noreferrer"
             >

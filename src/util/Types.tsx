@@ -51,7 +51,7 @@ export enum ChangeStatus {
 
 export enum EventStatus {
   Live = "bg-sga-red",
-  First = "bg-black",
+  First = "bg-black lg:bg-[#474747]",
   Rest = "bg-white",
 }
 

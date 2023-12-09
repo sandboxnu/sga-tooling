@@ -41,16 +41,16 @@ const EventCard = ({
   });
   let endTimeString: string | undefined = endTime
     ? endTime.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    })
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
     : undefined;
 
   const tagElements: ReactElement[] = tags
     ? tags.map((t) => {
-      return <EventTag tag={t} />;
-    })
+        return <EventTag tag={t} />;
+      })
     : [];
 
   const [isRegistered, setIsRegistered] = useState(
@@ -82,7 +82,7 @@ const EventCard = ({
           useState={setErrorType}
         />
       ) : null}
-      <div className="flex my-8 md:my-10">
+      <div className="flex">
         <EventDate startTime={startTime} status={status} />
         <div className="flex-1 px-6 md:px-10">
           <span className="font-sans">
