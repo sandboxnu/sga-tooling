@@ -1,26 +1,32 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import "tw-elements";
 import { LoginContext } from "../App";
-import { fetchMember } from "../client/client";
+import { getMember } from "../client/member";
 import Loading from "../components/Loading";
 import Switch from "../components/Switch";
-import { Member } from "../util/Types";
+import { testMember } from "../util/Types";
 
 const UserPreference = (): ReactElement => {
-  const [Member, setMember] = useState<Member>();
+  const [member, setMember] = useState<testMember>();
   const [notPresentEmail, setNotPresentEmail] = useState<boolean>(false);
-  const { userID: id } = useContext(LoginContext);
+  const { userID } = useContext(LoginContext);
 
-  if (id) {
-    fetchMember(id).then((m) => {
-      if (m) {
-        setMember(m);
-        setNotPresentEmail(m.receiveNotPresentEmail);
+  useEffect(() => {
+    const fetchMember = async () => {
+      try {
+        const responseData = await getMember(userID!);
+        const member = responseData.member;
+        setMember(member);
+        setNotPresentEmail(member.receive_not_present_email);
+      } catch (err) {
+        // TODO error handling;
       }
-    });
-  }
+    };
 
-  if (!Member) {
+    fetchMember();
+  }, []);
+
+  if (!member) {
     return <Loading />;
   }
 
@@ -35,15 +41,17 @@ const UserPreference = (): ReactElement => {
         <span className="font-bold text-xl">CONTACT INFO</span>
         <div>
           <span className="text-gray-600">Name</span> <br />
-          {Member.firstName + " " + Member.lastName}
+          {member.first_name + " " + member.last_name}
         </div>
         <div className="flex flex-col">
           <span className="text-gray-600">Email</span>
-          <span>{Member.email}</span>
+          <span>{member.email}</span>
         </div>
 
         <hr className="border-black" />
 
+        {/* 
+        TODO: going to need another helper method to create these buttons/labels
         <div className="flex flex-col font-sans font-bold">
           <span>YOUR GROUPS</span>
           <div className="flex flex-row flex-wrap gap-6 py-4 text-sm">
@@ -57,13 +65,14 @@ const UserPreference = (): ReactElement => {
               Diverstiy, Equity, and Inclusion
             </span>
           </div>
-        </div>
+        </div> */}
+
         <hr className="border-black" />
 
         <div className="flex flex-col gap-y-6">
           <span className="font-bold"> PREFERENCES </span>
-          <div className="flex gap-x-12">
-            <span className="w-96">Receive Notifications before my events</span>
+          <div className="flex md:w-1/2 w-full justify-between">
+            <span className="">Receive Notifications before my events</span>
             <div>
               <Switch toggle={notPresentEmail} setToggle={setNotPresentEmail} />
             </div>

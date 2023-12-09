@@ -1,54 +1,55 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
+import { getMember } from "../client/member";
 import {
-  fetchEvent,
-  fetchMember,
-  getAttendanceRecordForMember,
-} from "../client/client";
+  getAttendanceEventsFromRecord,
+  getAttendanceRecord,
+} from "../client/record";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
 import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
 import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
-import { AttendanceRecord, Event, Member } from "../util/Types";
+import { testAttendanceRecord, testEvent, testMember } from "../util/Types";
 
 const AttendanceRecordPage = () => {
-  const [member, setMember] = useState<Member>();
+  const [member, setMember] = useState<testMember>();
   const [attendanceRecord, setAttendanceRecord] = useState<
-    AttendanceRecord[] | []
+    testAttendanceRecord[] | []
   >([]);
-  const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>();
+  const [attendanceEvents, setAttendanceEvents] = useState<testEvent[] | []>();
   const { userID } = useContext(LoginContext);
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
 
-  const fetchMemberRecord = async () => {
-    const member = await fetchMember(userID!);
-    setMember(member);
-    const attendanceRecords = await getAttendanceRecordForMember(member!.id);
-    setAttendanceRecord(attendanceRecords);
-    const events: Event[] = [];
-    for (const record of attendanceRecords) {
-      const event = await fetchEvent(record.eventID);
-      events.push(event);
-    }
+  useEffect(() => {
+    const fetchMemberRecord = async () => {
+      // TODO: this still feels too slow tbh for fetching all these together,
+      try {
+        const memberData = await getMember(userID!);
+        setMember(memberData.member);
+        const attendanceRecords = await getAttendanceRecord(userID!);
+        setAttendanceRecord(attendanceRecords.record);
+        const attendanceEvents = await getAttendanceEventsFromRecord(userID!);
+        setAttendanceEvents(attendanceEvents.events);
+      } catch (err) {
+        // TODO: have some erorr handling
+      }
+    };
 
-    return events;
-  };
+    fetchMemberRecord();
+  }, []);
 
-  if (!attendanceEvents) {
-    fetchMemberRecord().then((e) => {
-      setAttendanceEvents(e);
-    });
-    return <Loading />;
-  }
+  if (!attendanceEvents) return <Loading />;
 
   for (const event of attendanceEvents) {
-    const endTime = new Date(event.endTime).getTime();
-    const startTime = new Date(event.startTime).getTime();
-    const timeDifInSeconds = (endTime - startTime) / 1000;
-    const timeDiffInHours = Math.round(timeDifInSeconds / 3600);
-    totalHours += timeDiffInHours;
+    if (event.end_time) {
+      const endTime = new Date(event.end_time).getTime();
+      const startTime = new Date(event.start_time).getTime();
+      const timeDifInSeconds = (endTime - startTime) / 1000;
+      const timeDiffInHours = Math.round(timeDifInSeconds / 3600);
+      totalHours += timeDiffInHours;
+    }
   }
 
   return (
@@ -69,7 +70,7 @@ const AttendanceRecordPage = () => {
         <div className="flex flex-col">
           <span className="text-2xl font-bold">
             {" "}
-            {member?.firstName + " " + member?.lastName}
+            {member?.first_name + " " + member?.last_name}
           </span>
           <div className="py-2">
             <AttendanceStanding

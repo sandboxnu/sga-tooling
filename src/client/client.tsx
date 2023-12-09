@@ -1,8 +1,6 @@
 import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
-import { mockEvents } from "../data/events";
-import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -12,9 +10,13 @@ import {
   RequestType,
 } from "../util/Types";
 
-const api = axios.create({
+export const api = axios.create({
   // baseURL: `https://sgatooling-api.vercel.app/api`,
-  baseURL: `https://stage-sgatooling-api.vercel.app/api`,
+  // baseURL: `https://stage-sgatooling-api.vercel.app/api`,
+  baseURL: `http://localhost:3000/api`,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 /**
@@ -62,33 +64,7 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
       id: nuid,
     },
   });
-
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     const member = (UserJSON as unknown as Member[]).find(
-  //       (m) => m.nuid === nuid
-  //     );
-  //     resolve(member);
-  //   });
-  // });
 }
-
-//sample function to fetch all attendance change requests
-export const findAttendanceChangeRequests = (
-  memberID: string,
-  eventID: Number
-) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const attendanceChange = mockAttendanceChange.find(
-        (ac) => ac.memberID === parseInt(memberID) && ac.eventID === eventID
-      );
-      attendanceChange
-        ? resolve(attendanceChange)
-        : reject("No attendance Change for this member for this event");
-    }, 1000);
-  });
-};
 
 export const findAttendanceChangeRequestForMember = (
   memberID: string
@@ -107,7 +83,7 @@ export const findAttendanceChangeRequestForMember = (
 
 export const createAttendanceChange = (
   memberID: string,
-  eventID: Number
+  eventID: string
 ): Promise<AttendanceChange | undefined> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -138,29 +114,6 @@ export const getAttendanceRecordForMember = (
       attendanceRecordForMember
         ? resolve(attendanceRecordForMember)
         : reject("No attendanceRecordForMember");
-    }, 1000);
-  });
-};
-
-export const getAttendanceEventsForMember = (
-  memberId: string
-): Promise<Event[]> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
-      );
-      const attendanceEventsForMember = attendanceRecordForMember.map(
-        ({ eventID, memberID, attendance_status }) => eventID
-      );
-      const events = [];
-      for (const attendanceEventId of attendanceEventsForMember) {
-        for (const actualEvent of mockEvents) {
-          if (actualEvent.id === attendanceEventId) {
-            events.push(actualEvent);
-          }
-        }
-      }
     }, 1000);
   });
 };

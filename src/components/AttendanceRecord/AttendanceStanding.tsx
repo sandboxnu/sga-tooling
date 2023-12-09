@@ -2,15 +2,20 @@ import {
   AttendanceStandingOption,
   AttendanceStandingOptions,
 } from "../../util/styleConfig";
-import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
+import {
+  AttendanceTag,
+  testAttendanceRecord,
+  testMember,
+} from "../../util/Types";
 import {
   getAllStatuses,
   getCountOfKeyInStatusList,
 } from "./AttendanceStatusString";
 
+// TODO: why is this optional?
 interface AttendaceStandingProps {
-  member?: Member;
-  attendanceRecord: AttendanceRecord[];
+  member?: testMember;
+  attendanceRecord: testAttendanceRecord[];
 }
 
 const excusedAbsenceCount = (attendanceStatusses: AttendanceTag[][]) => {
@@ -37,8 +42,8 @@ export const AttendanceStanding = ({
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
 
-  const poorStanding = member?.activeMember;
-  const pendingDiscussion = member?.signInBlocked;
+  const poorStanding = member?.active_member;
+  const pendingDiscussion = member?.sign_in_blocked;
 
   const amtEvents = attendanceRecord.length;
   const unexcusedA = getCountOfKeyInStatusList(AttendanceList, "A");

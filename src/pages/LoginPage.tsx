@@ -4,14 +4,14 @@ import { LoginContext } from "../App";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
-import { fetchMember } from "../client/client";
+import { loginMember } from "../client/member";
 import PopUp from "../components/PopUp";
-import { Member } from "../util/Types";
+import { testMember } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
-  const [input, setInput] = useState(""); // value is the value that the user entered
-  const [lastName, setLastName] = useState("") // value to keep track of inputted last name 
+  const [input, setInput] = useState(""); // NUID,
+  const [lastName, setLastName] = useState(""); // value to keep track of inputted last name
   const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
   const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
@@ -42,30 +42,27 @@ const LoginPage = (): ReactElement => {
       setErrorType(1);
       return;
     }
-    let member = undefined;
     try {
-      member = await fetchMember(input); // CHANGE TO API IMPL 
+      const response = await loginMember(input, lastName);
+      const member: testMember = response.member;
+      if (!member.active_member) {
+        setErrorType(2);
+        return;
+      } else {
+        localStorage.setItem("user", member.uuid);
+        setUserID(member.uuid);
+        navigate("/events");
+      }
+      // enable this once fixed on the backend
+      // if(member.sign_in_blocked) {
+      //   setErrorType(3)
+      //   return;
+      // }
     } catch (e) {
+      //TODO: see if we can check which type of error we have, 400/500
+      // in here then we set that there in invalid credentials, and return
       setErrorType(4);
       return;
-    }
-    if (!member) {
-      setErrorType(1);
-      setSmallErrMsg("Member does not exist.");
-    } else {
-      if (whetherHasAccess(member) && member.lastName.toUpperCase() === lastName.toUpperCase()) {
-        localStorage.setItem("user", input);
-        setUserID(input);
-        navigate("/events");
-      } else if (!member.activeMember) {
-        setErrorType(2);
-      } else if (member.signInBlocked) {
-        setErrorType(3);
-      }
-      else {
-        console.log("in 4?");
-        setErrorType(4);
-      }
     }
   }
 
@@ -76,15 +73,6 @@ const LoginPage = (): ReactElement => {
    */
   function isValidNuid(nuid: string): boolean {
     return nuid.length === 9 && !isNaN(parseInt(nuid));
-  }
-
-  /**
-   * Checks whether the inputted Member has access
-   * @param member The member being checked
-   * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
-   */
-  function whetherHasAccess(member: Member): boolean {
-    return member.activeMember && !member.signInBlocked;
   }
 
   return (
@@ -122,7 +110,7 @@ const LoginPage = (): ReactElement => {
             id="nuid-entry"
             onChange={(e) => setInput(e.target.value)}
             className="w-full bg-gray-50 border border-black text-black text-xl rounded-lg focus:ring-black-500 focus:border-black-500 block px-2.5 py-4 mt-1"
-            placeholder="Hello"
+            placeholder="NUID"
             required
           />
           <input

@@ -1,11 +1,11 @@
-import { AttendanceRecord } from "../../util/Types";
+import { testAttendanceRecord } from "../../util/Types";
 import {
   getAllStatuses,
   totalAttendanceCounts,
 } from "./AttendanceStatusString";
 
 interface AttendanceRecordPercentagesProps {
-  attendanceRecord: AttendanceRecord[];
+  attendanceRecord: testAttendanceRecord[];
 }
 
 export const AttendanceRecordPercentages = ({
@@ -22,6 +22,9 @@ export const AttendanceRecordPercentages = ({
   const attendedPercent = (attended / recordSize) * 100;
   const earlyOrLatePercent = (lateOrEarly / recordSize) * 100;
   const absentPercent = (absent / recordSize) * 100;
+
+  // we get NaN from divide by 0s if we try to render with no meetings
+  if (recordSize === 0) return null;
 
   return (
     <div className="flex flex-col md:flex-row pt-5">

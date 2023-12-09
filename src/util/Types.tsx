@@ -10,6 +10,20 @@ export type Event = {
   tags?: string[];
 };
 
+// NOTE do we want to do anything with this sign in open variable?
+export type testEvent = {
+  uuid: string;
+  event_name: string;
+  start_time: Date;
+  end_time?: Date;
+  sign_in_closed: boolean;
+  description: string;
+  location: string;
+  status?: EventStatus;
+};
+
+//NOTE: tags in the future?
+
 export type Member = {
   id: string;
   nuid: string;
@@ -23,11 +37,24 @@ export type Member = {
   signInBlocked: boolean;
 };
 
+export type testMember = {
+  uuid: string;
+  nuid: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  active_member: boolean;
+  voting_rights: boolean;
+  receive_not_present_email: boolean;
+  include_in_quorum: boolean;
+  sign_in_blocked: boolean;
+};
+
 export type AttendanceChange = {
   id: Number;
   memberID: Number;
   request_type: RequestType;
-  eventID: Number;
+  eventID: string;
   submit_time: Date;
   change_status: ChangeStatus;
   reason: string;
@@ -55,24 +82,30 @@ export enum EventStatus {
   Rest = "bg-white",
 }
 
-export enum ReportReason {
-  DISMISSED = "dismissed",
-  DISCUSSION = "discussion",
-  WARNING = "warning",
-  REMOVED = "removed",
-}
-
 export type AttendanceData = {
   reason: string;
-  request_type?: RequestType;
+  type?: RequestType;
   submission_time: Date;
   time_arriving?: Date;
   time_leaving?: Date;
 };
 
+export type AttendanceEvent = {
+  member_id: string;
+  event_id: string;
+};
+
+export type createdAttendanceChange = AttendanceEvent & AttendanceData;
+
 export type AttendanceRecord = {
   memberID: number;
   eventID: number;
+  attendance_status: string;
+};
+
+export type testAttendanceRecord = {
+  person_id: string;
+  event_id: string;
   attendance_status: string;
 };
 

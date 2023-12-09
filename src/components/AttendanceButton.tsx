@@ -1,8 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
-import { createAttendanceChange, fetchMember } from "../client/client";
+import { createAttendanceChangeRequest } from "../client/attendanceChange";
 import { AttendanceButtonStyles } from "../util/styleConfig";
-import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
+import {
+  AttendanceChange,
+  AttendanceData,
+  ChangeStatus,
+  createdAttendanceChange,
+} from "../util/Types";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -11,7 +16,7 @@ interface AttendanceButtonProps {
   setErrorType: React.Dispatch<React.SetStateAction<number>>;
   attendanceChange?: AttendanceChange;
   createdAttendanceChange: AttendanceData | {};
-  eventid: number;
+  eventid: string;
 }
 
 export const AttendanceButton = ({
@@ -32,12 +37,18 @@ export const AttendanceButton = ({
     const makeAttendanceChange = async () => {
       try {
         setIsCreatingAttendance(true);
-        //using non-null assertion since it's assumed the user is logged in to make it past the home page
-        const member = await fetchMember(userID!);
-        if (member) {
-          await createAttendanceChange(member.id, eventid);
-          setIsRegistered(false);
-        }
+        //@ts-ignore
+        const totalAttendance: createdAttendanceChange = {
+          ...createdAttendanceChange,
+          event_id: eventid,
+          member_id: userID as string,
+        };
+
+        console.log(totalAttendance);
+
+        await createAttendanceChangeRequest(totalAttendance);
+
+        setIsRegistered(false);
         setIsCreatingAttendance(false);
         // once we successfully created an AttendanceChange its back to pending
         setAttendanceStatus(ChangeStatus.NOT_REVIEWED);

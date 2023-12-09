@@ -5,15 +5,14 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import TriangleError from "../assets/TriangleError.svg";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
+import { AttendanceChange, EventStatus, testEvent } from "../util/Types";
 import { AttendanceButton } from "./AttendanceButton";
 import AttendanceChangeModal from "./AttendanceChangeModal";
 import { EventDate } from "./EventDate";
-import EventTag from "./EventTag";
 import PopUp from "./PopUp";
 
 interface EventCardProps {
-  event: Event;
+  event: testEvent;
   attendanceChange?: AttendanceChange;
 }
 /**
@@ -24,34 +23,34 @@ const EventCard = ({
   attendanceChange,
 }: EventCardProps): ReactElement => {
   const {
-    id,
-    startTime,
-    endTime,
-    eventName,
+    uuid,
+    start_time,
+    end_time,
+    event_name,
     location,
     description,
     status,
-    tags,
   } = event;
 
-  let startTimeString: string = startTime.toLocaleString("en-US", {
+  let startTimeString: string = start_time.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
   });
-  let endTimeString: string | undefined = endTime
-    ? endTime.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    })
+  let endTimeString: string | undefined = end_time
+    ? end_time.toLocaleString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      })
     : undefined;
 
-  const tagElements: ReactElement[] = tags
-    ? tags.map((t) => {
-      return <EventTag tag={t} />;
-    })
-    : [];
+  // TODO:
+  // const tagElements: ReactElement[] = tags
+  //   ? tags.map((t) => {
+  //     return <EventTag tag={t} />;
+  //   })
+  //   : [];
 
   const [isRegistered, setIsRegistered] = useState(
     attendanceChange ? false : true
@@ -83,14 +82,14 @@ const EventCard = ({
         />
       ) : null}
       <div className="flex my-8 md:my-10">
-        <EventDate startTime={startTime} status={status} />
+        <EventDate startTime={start_time} status={status} />
         <div className="flex-1 px-6 md:px-10">
           <span className="font-sans">
-            {startTimeString + (endTime ? " to " + endTimeString : "")}
+            {startTimeString + (end_time ? " to " + endTimeString : "")}
           </span>
           <div className="flex flex-row justify-between items-start mb-4">
             <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
-              {eventName}
+              {event_name}
             </div>
             <details className="relative">
               <summary className="list-none cursor-pointer">
@@ -113,14 +112,14 @@ const EventCard = ({
               </div>
             </details>
           </div>
-          <div
+          {/* <div
             className={
               "flex flex-row flex-wrap gap-y-2 gap-x-2 w-full " +
               (tagElements.length > 0 ? "mb-4" : "")
             }
           >
             {tagElements}
-          </div>
+          </div> */}
           <div className="flex flex-row items-start mb-4 md:ml-4">
             <img src={PinSVG} alt="Pin svg" className="p-1 pt-0" />
             <span className="text-body-mobile pl-2 pr-8 pt-0.5 font-montserrat break-words w-full md:pr-64">
@@ -148,11 +147,11 @@ const EventCard = ({
                   openModal={openModal}
                   setIsRegistered={setIsRegistered}
                   setErrorType={setErrorType}
-                  eventid={id}
+                  eventid={uuid}
                   attendanceChange={attendanceChange}
                   createdAttendanceChange={createdAttendanceChange}
                 />
-                <Link to={`/events/${id}`} state={{ event }}>
+                <Link to={`/events/${uuid}`} state={{ event }}>
                   <button className="button-base-red px-4 my-2 w-32">
                     See More
                   </button>

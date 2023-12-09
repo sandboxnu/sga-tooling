@@ -67,9 +67,10 @@ const AttendanceChangeModal = ({
   })();
 
   const submitForm = () => {
+    // TODO: these types don't make much sense, they should all be required, but some are optional, and are fucking with other places...
     const submissonJson: AttendanceData = {
       reason: reason,
-      request_type: requestType,
+      type: requestType,
       submission_time: new Date(),
     };
 

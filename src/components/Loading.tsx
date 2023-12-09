@@ -17,6 +17,8 @@ const Loading = (): ReactElement => {
     },
   };
 
+  // TODO: apparently you can just click on the animation to make it stop running, but something on this to disable clicking/messing with this
+
   return (
     <div className="w-full h-100 flex justify-center">
       <div className="w-1/2 min-w-fit">
