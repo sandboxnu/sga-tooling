@@ -30,11 +30,7 @@ function App() {
     <LoginContext.Provider value={{ userID, setUserID }}>
       <div className="flex flex-col min-h-screen justify-between">
         <Router>
-          <div
-            className={`${
-              userID && " lg:flex lg:min-h-screen lg:justify-between"
-            }`}
-          >
+          <div className={`${userID && " lg:flex lg:min-h-screen "}`}>
             {userID ? (
               <>
                 <Menu />

@@ -75,10 +75,9 @@ const Homepage = (): ReactElement => {
     const liveEvents: ReactElement[] = events
       .filter((e) => e.status === EventStatus.Live)
       .map((e) => (
-        <>
+        <div className="lg:rounded-xl lg:border-4 lg:border-gray-300 lg:border-l-6 lg:rounded-l-none lg:border-l-sga-red lg:bg-gray-100">
           <EventCard key={e.eventName} event={e} />
-          <hr className="border-black home-mx" />
-        </>
+        </div>
       ));
 
     const upcomingEvents: ReactElement[] = events
@@ -126,17 +125,19 @@ const Homepage = (): ReactElement => {
       });
 
     return (
-      <div>
-        <h1 className="section-heading">HAPPENING NOW</h1>
-        {liveEvents}
+      <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[80%]">
+        <h1 className="lg:text-sga-red lg:m-6 lg:mb-3 section-heading">
+          Happening Now
+        </h1>
+        <div className="lg:m-6 lg:mt-3">{liveEvents}</div>
 
         <Alert
           message="Your standing in SGA may be affected if you miss the next event."
-          className="home-mx mt-5"
+          className="home-mx mt-5 lg:hidden"
         />
 
         <div className="section-heading flex justify-between items-center">
-          <h1>UPCOMING EVENTS</h1>
+          <h1>Upcoming Events</h1>
         </div>
         {upcomingEvents}
       </div>
