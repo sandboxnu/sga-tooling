@@ -45,19 +45,19 @@ const LoginPage = (): ReactElement => {
     try {
       const response = await loginMember(input, lastName);
       const member: Member = response.member;
+      console.log(member);
       if (!member.active_member) {
         setErrorType(2);
+        return;
+      }
+      if (member.sign_in_blocked) {
+        setErrorType(3);
         return;
       } else {
         localStorage.setItem("user", member.uuid);
         setUserID(member.uuid);
         navigate("/events");
       }
-      // enable this once fixed on the backend
-      // if(member.sign_in_blocked) {
-      //   setErrorType(3)
-      //   return;
-      // }
     } catch (e) {
       //TODO: see if we can check which type of error we have, 400/500
       // in here then we set that there in invalid credentials, and return

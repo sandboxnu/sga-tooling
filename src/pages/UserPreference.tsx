@@ -77,7 +77,7 @@ const UserPreference = (): ReactElement => {
           <div className="flex md:w-1/2 w-full justify-between">
             <span className="">Receive Notifications before my events</span>
             <div>
-              <Switch toggle={notPresentEmail} setToggle={setNotPresentEmail} />
+              <Switch toggle={notPresentEmail} />
             </div>
           </div>
         </div>

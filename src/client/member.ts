@@ -30,4 +30,14 @@ export const getMemberTags = async (uuid: string) => {
   return reponse.data;
 };
 
-// TODO: updateMemberPreferences
+// this is an interesting one, this is an update, feels like a put, but there is no need to pass data
+// so this is a get, just a note
+export const updateMemberTags = async (uuid: string) => {
+  const response = await api.get("/member/updateMemberPreferences", {
+    params: {
+      id: uuid,
+    },
+  });
+
+  return response.data;
+};
