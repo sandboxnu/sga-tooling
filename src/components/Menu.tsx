@@ -122,7 +122,7 @@ const Menu = (): ReactElement => {
             </button>
           </div>
 
-          <div className="flex items-start font-sans font-bold text-white text-xl h-fit w-full border-t-4 border-gray-300 border-opacity-70 p-8 pt-4">
+          <div className="flex items-start font-sans font-bold text-white text-xl h-fit w-full border-t-4 border-gray-300 border-opacity-70 p-8 pt-4 hover:text-slate-200">
             <button onClick={logout}>Logout</button>
           </div>
         </div>
