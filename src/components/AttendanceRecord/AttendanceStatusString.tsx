@@ -87,10 +87,12 @@ export const AttendanceList = ({ attendanceStatus }: AttendanceListProps) => {
   });
 
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="flex flex-wrap">
       {listOfTextAndColors.map((tuple) => {
         return (
-          <span className={`${tuple[1]} rounded-md px-2 py-1`}>{tuple[0]}</span>
+          <span className={`${tuple[1]} rounded-md px-2 py-1 m-1`}>
+            {tuple[0]}
+          </span>
         );
       })}
     </div>

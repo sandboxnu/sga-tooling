@@ -6,10 +6,12 @@ import {
 
 interface AttendanceRecordPercentagesProps {
   attendanceRecord: AttendanceRecord[];
+  mobile?: boolean;
 }
 
 export const AttendanceRecordPercentages = ({
   attendanceRecord,
+  mobile,
 }: AttendanceRecordPercentagesProps) => {
   const recordSize = attendanceRecord.length;
   const attendance_statuses = attendanceRecord.map(
@@ -23,25 +25,42 @@ export const AttendanceRecordPercentages = ({
   const earlyOrLatePercent = (lateOrEarly / recordSize) * 100;
   const absentPercent = (absent / recordSize) * 100;
 
-  // we get NaN from divide by 0s if we try to render with no meetings
   if (recordSize === 0) return null;
 
   return (
     <div className="flex flex-col md:flex-row pt-5">
-      <div className="flex items-center gap-2 border border-black md:rounded-l rounded-t md:rounded-tr-none px-1">
-        <div className="h-2 w-2 bg-green-600 rounded-full" />
-        <span className="font-bold">Attended</span>
-        {attendedPercent + "%"}
+      <div
+        className={`flex items-center gap-2 border border-black md:rounded-l rounded-t md:rounded-tr-none px-1 py-1 ${
+          mobile && "justify-between"
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 bg-green-600 rounded-full" />
+          <span className="font-bold">Attended</span>
+        </div>
+        <span className="px-2">{attendedPercent + "%"}</span>
       </div>
-      <div className="flex items-center gap-2 border md:border-l-none border-r-none border-black px-1">
-        <div className="h-2 w-2 bg-yellow-400 rounded-full" />
-        <span className="font-bold">Late/Left Early</span>
-        {earlyOrLatePercent + "%"}
+      <div
+        className={`flex items-center gap-2 border md:border-l-0 md:border-r-0 border-black px-1 py-1 ${
+          mobile && " border-t-0 border-b-0 justify-between"
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 bg-yellow-400 rounded-full" />
+          <span className="font-bold">Late/Left Early</span>
+        </div>
+        <span className="px-2">{earlyOrLatePercent + "%"}</span>
       </div>
-      <div className="flex items-center gap-2 border border-black md:rounded-r md:rounded-bl-none rounded-b px-1">
-        <div className="h-2 w-2 bg-red-600 rounded-full" />
-        <span className="font-bold">Absent</span>
-        {absentPercent + "%"}
+      <div
+        className={`flex items-center gap-2 border border-black md:rounded-r md:rounded-bl-none rounded-b px-1 py-1 ${
+          mobile && "justify-between"
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 bg-red-600 rounded-full" />
+          <span className="font-bold">Absent</span>
+        </div>
+        <span className="px-2">{absentPercent + "%"}</span>
       </div>
     </div>
   );
