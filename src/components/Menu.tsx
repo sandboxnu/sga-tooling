@@ -1,5 +1,5 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import Sidebar from "./Sidebar";
 
@@ -80,16 +80,44 @@ const Menu = (): ReactElement => {
           </Link>
 
           <div className="flex flex-col flex-1 gap-5 mt-16 p-8 pt-0 items-start font-sans font-bold text-white text-xl h-fit">
-            <button className={`App`} onClick={() => Click("/events")}>
+            <button
+              className={`App hover:text-slate-200 ${
+                useLocation().pathname === "/events"
+                  ? "underline"
+                  : "no-underline"
+              }`}
+              onClick={() => Click("/events")}
+            >
               Home
             </button>
-            <button className={`App`} onClick={() => Click("/user")}>
+            <button
+              className={`App hover:text-slate-200 ${
+                useLocation().pathname === "/user"
+                  ? "underline"
+                  : "no-underline"
+              }`}
+              onClick={() => Click("/user")}
+            >
               Preferences
             </button>
-            <button className={`App`} onClick={() => Click("/record")}>
+            <button
+              className={`App hover:text-slate-200 ${
+                useLocation().pathname === "/record"
+                  ? "underline"
+                  : "no-underline"
+              }`}
+              onClick={() => Click("/record")}
+            >
               Record
             </button>
-            <button className="text-slate-400" disabled>
+            <button
+              className={`text-slate-400 ${
+                useLocation().pathname === "/voting"
+                  ? "underline"
+                  : "no-underline"
+              }`}
+              disabled
+            >
               Voting
             </button>
           </div>

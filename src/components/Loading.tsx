@@ -18,8 +18,8 @@ const Loading = (): ReactElement => {
   };
 
   return (
-    <div className="w-full h-100 flex justify-center">
-      <div className="w-1/2 min-w-fit">
+    <div className="w-full h-[100vh] flex justify-center items-center">
+      <div className="w-1/2 min-w-fit h-fit">
         <Lottie options={defaultOptions} />
       </div>
     </div>

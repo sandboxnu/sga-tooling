@@ -30,7 +30,7 @@ function App() {
     <LoginContext.Provider value={{ userID, setUserID }}>
       <div className="flex flex-col min-h-screen justify-between">
         <Router>
-          <div className={`${userID && " lg:flex lg:min-h-screen "}`}>
+          <div className={`${userID && " lg:flex lg:min-h-fit "}`}>
             {userID ? (
               <>
                 <Menu />
@@ -57,6 +57,7 @@ function App() {
         </Router>
         {userID ? (
           <div className="lg:flex">
+            {/* Used to take into account the always-visible side bar */}
             <div className="hidden lg:block lg:min-w-[19vw]"></div>
             <Footer hideInfo={false} />
           </div>
