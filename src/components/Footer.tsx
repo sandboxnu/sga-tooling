@@ -7,7 +7,7 @@ import ".././styles.css";
 
 // Footer with source code and project information that goes at the bottom of each page
 const Footer = (props: { hideInfo: boolean }): ReactElement => {
-  const footerStyles = `w-full px-6 py-6 flex flex-col justify-between bottom-0 bg-gray-300 md:py-6 md:px-8 md:items-center text-gray-600 ${
+  const footerStyles = `w-full px-6 py-6 mt-6 flex flex-col justify-between bottom-0 bg-gray-300 md:px-8 md:items-center text-gray-600 ${
     props.hideInfo && " text-white bg-sga-red"
   }`;
 
