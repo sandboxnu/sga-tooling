@@ -17,24 +17,38 @@ export const EventDate = (props: {
   };
 
   const baseStyle =
-    "w-full h-12 md:h-14 flex justify-center items-center rounded-r-2xl text-xl md:text-2xl font-bold text-white";
+    "w-full h-12 md:h-14 lg:h-20 flex lg:flex-col justify-center items-center rounded-r-2xl text-xl md:text-2xl lg:text-md font-bold text-white";
 
   // Assigns a background color for this date.
   const bgColor = baseStyle + " " + props.status;
 
   return (
-    <div className="w-16 md:w-20 flex flex-col items-center">
-      {props.status === EventStatus.Live ? (
-        <div className={bgColor}>LIVE</div>
-      ) : props.status === EventStatus.First ? (
-        <>
-          <div className={bgColor}>{date.num}</div>
-          <div className="mt-1 flex flex-col items-center text-lg md:text-xl">
-            <p>{date.month}</p>
-            <p>{date.day}</p>
-          </div>
-        </>
-      ) : null}
-    </div>
+    <>
+      <div className="w-16 md:w-20 flex flex-col items-center lg:hidden">
+        {props.status === EventStatus.Live ? (
+          <div className={bgColor}>LIVE</div>
+        ) : props.status === EventStatus.First ? (
+          <>
+            <div className={bgColor}>{date.num}</div>
+            <div className="mt-1 flex flex-col items-center text-lg md:text-xl">
+              <p>{date.month}</p>
+              <p>{date.day}</p>
+            </div>
+          </>
+        ) : null}
+      </div>
+      <div className="hidden w-16 md:w-20 lg:flex lg:flex-col lg:items-center ml-[-4px]">
+        {props.status === EventStatus.Live ? (
+          <div className={bgColor}>LIVE</div>
+        ) : props.status === EventStatus.First ? (
+          <>
+            <div className={bgColor}>
+              <p className="">{date.num}</p>
+              {date.month}
+            </div>
+          </>
+        ) : null}
+      </div>
+    </>
   );
 };

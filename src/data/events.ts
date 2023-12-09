@@ -25,6 +25,17 @@ export const mockEvents: Event[] = [
   },
   {
     id: 3,
+    eventName: "Sandbox GM 2",
+    startTime: new Date("2023-01-22 15:00:00"),
+    endTime: new Date("2023-01-22 18:00:00"),
+    signInClosed: true,
+    location: "Richards 253",
+    description:
+      "Duis nec convallis neque. Sed ac urna eget magna pretium gravida. Quisque nec nunc vitae augue tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce et felis at ante pretium ornare. Nam quis magna eget nisl tincidunt efficitur quis at enim. Aliquam tempus scelerisque elit, eu laoreet est. Curabitur imperdiet magna sed arcu interdum consequat. Duis hendrerit nibh vel sagittis consectetur. Nulla in nisl neque. Nullam nunc elit, tristique accumsan metus ullamcorper, tristique ultricies ligula.",
+    tags: ["Guest Speaker", "Committee"],
+  },
+  {
+    id: 4,
     eventName: "Christmas Day 2023",
     startTime: new Date("2023-12-25 18:15:23"),
     endTime: new Date("2023-12-25 20:30:54"),
@@ -35,7 +46,7 @@ export const mockEvents: Event[] = [
     tags: ["Senate", "Committee", "Guest Speaker"],
   },
   {
-    id: 4,
+    id: 5,
     eventName: "Year-long Fundraiser",
     startTime: new Date("2023-01-01 00:00:00"),
     endTime: new Date("2023-12-31 23:59:59"),
@@ -46,7 +57,7 @@ export const mockEvents: Event[] = [
     tags: ["Senate", "Guest Speaker"],
   },
   {
-    id: 5,
+    id: 6,
     eventName: "Graduation Celebration 2024",
     startTime: new Date("2024-05-15 14:30:00"),
     endTime: new Date("2024-05-15 17:00:00"),

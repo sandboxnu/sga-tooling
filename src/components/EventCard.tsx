@@ -82,7 +82,7 @@ const EventCard = ({
           useState={setErrorType}
         />
       ) : null}
-      <div className="flex my-8 md:my-10">
+      <div className="flex">
         <EventDate startTime={startTime} status={status} />
         <div className="flex-1 px-6 md:px-10">
           <span className="font-sans">
