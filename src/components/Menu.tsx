@@ -79,7 +79,7 @@ const Menu = (): ReactElement => {
             />
           </Link>
 
-          <div className="flex flex-col flex-1 gap-5 mt-16 p-8 pt-0 items-start font-sans font-bold text-white text-xl h-fit">
+          <div className="flex flex-col flex-1 gap-5 mt-4 p-8 pt-0 items-start font-sans font-bold text-white text-xl h-fit">
             <button
               className={`App hover:text-slate-200 ${
                 useLocation().pathname === "/events"
