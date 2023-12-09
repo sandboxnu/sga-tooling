@@ -10,14 +10,14 @@ import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRe
 import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
-import { testAttendanceRecord, testEvent, testMember } from "../util/Types";
+import { AttendanceRecord, Event, Member } from "../util/Types";
 
 const AttendanceRecordPage = () => {
-  const [member, setMember] = useState<testMember>();
+  const [member, setMember] = useState<Member>();
   const [attendanceRecord, setAttendanceRecord] = useState<
-    testAttendanceRecord[] | []
+    AttendanceRecord[] | []
   >([]);
-  const [attendanceEvents, setAttendanceEvents] = useState<testEvent[] | []>();
+  const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>();
   const { userID } = useContext(LoginContext);
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
@@ -38,7 +38,7 @@ const AttendanceRecordPage = () => {
     };
 
     fetchMemberRecord();
-  }, []);
+  }, [userID]);
 
   if (!attendanceEvents) return <Loading />;
 

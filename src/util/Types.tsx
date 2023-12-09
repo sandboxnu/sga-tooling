@@ -1,17 +1,17 @@
-export type Event = {
-  id: number;
-  eventName: string;
-  startTime: Date;
-  endTime: Date;
-  signInClosed: boolean;
-  location?: string;
-  description: string;
-  status?: EventStatus;
-  tags?: string[];
-};
+// export type Event = {
+//   id: number;
+//   eventName: string;
+//   startTime: Date;
+//   endTime: Date;
+//   signInClosed: boolean;
+//   location?: string;
+//   description: string;
+//   status?: EventStatus;
+//   tags?: string[];
+// };
 
 // NOTE do we want to do anything with this sign in open variable?
-export type testEvent = {
+export type Event = {
   uuid: string;
   event_name: string;
   start_time: Date;
@@ -22,22 +22,20 @@ export type testEvent = {
   status?: EventStatus;
 };
 
-//NOTE: tags in the future?
+// export type Member = {
+//   id: string;
+//   nuid: string;
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   activeMember: boolean;
+//   votingRights: boolean;
+//   receiveNotPresentEmail: boolean;
+//   includeInQuorum: boolean;
+//   signInBlocked: boolean;
+// };
 
 export type Member = {
-  id: string;
-  nuid: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  activeMember: boolean;
-  votingRights: boolean;
-  receiveNotPresentEmail: boolean;
-  includeInQuorum: boolean;
-  signInBlocked: boolean;
-};
-
-export type testMember = {
   uuid: string;
   nuid: string;
   first_name: string;
@@ -97,16 +95,25 @@ export type AttendanceEvent = {
 
 export type createdAttendanceChange = AttendanceEvent & AttendanceData;
 
-export type AttendanceRecord = {
-  memberID: number;
-  eventID: number;
-  attendance_status: string;
-};
+// export type AttendanceRecord = {
+//   memberID: number;
+//   eventID: number;
+//   attendance_status: string;
+// };
 
-export type testAttendanceRecord = {
+export type AttendanceRecord = {
   person_id: string;
   event_id: string;
   attendance_status: string;
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export type MembershipGroupTags = {
+  membership_group: SGATags;
+};
+
+export enum SGATags {
+  NEW_SENATORS = "New Senators Fall 2022",
+  ALL_ACTIVE = "All active",
+}

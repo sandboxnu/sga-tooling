@@ -8,11 +8,11 @@ import TextIconSVG from ".././assets/TextIcon.svg";
 import { getEvent } from "../client/event";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
-import { testEvent } from "../util/Types";
+import { Event } from "../util/Types";
 
 const EventDetailsPage = (): ReactElement => {
   const { id } = useParams();
-  const [event, setEvent] = useState<testEvent>(useLocation().state?.event);
+  const [event, setEvent] = useState<Event>(useLocation().state?.event);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -23,7 +23,7 @@ const EventDetailsPage = (): ReactElement => {
     };
 
     fetchEvent();
-  }, []);
+  }, [event, id]);
 
   if (!event) return <Loading />;
 

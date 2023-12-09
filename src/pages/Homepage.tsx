@@ -6,7 +6,7 @@ import { getAllEvents } from "../client/event";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
-import { AttendanceChange, EventStatus, testEvent } from "../util/Types";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
 /**
  * Compares the current time to a given start and end date to return the associated event status
@@ -27,7 +27,7 @@ function getStatus(start: Date, end?: Date) {
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
-  const [eventsToDisplay, setEventsToDisplay] = useState<testEvent[] | null>();
+  const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>();
   const [attendanceChanges, setAttendanceChanges] = useState<
     AttendanceChange[] | null
   >();
@@ -48,13 +48,13 @@ const Homepage = (): ReactElement => {
     };
 
     fetchData();
-  }, []);
+  }, [userID]);
 
   if (!eventsToDisplay || !attendanceChanges) {
     // TODO: this needs a way to timeout othewise this continously loads
     return <Loading />;
   } else {
-    const events: testEvent[] = eventsToDisplay.map((e) => {
+    const events: Event[] = eventsToDisplay.map((e) => {
       const endTime = e.end_time ? new Date(e.end_time) : undefined;
       return {
         ...e,

@@ -1,11 +1,11 @@
-import { testAttendanceRecord } from "../../util/Types";
+import { AttendanceRecord } from "../../util/Types";
 import {
   getAllStatuses,
   totalAttendanceCounts,
 } from "./AttendanceStatusString";
 
 interface AttendanceRecordPercentagesProps {
-  attendanceRecord: testAttendanceRecord[];
+  attendanceRecord: AttendanceRecord[];
 }
 
 export const AttendanceRecordPercentages = ({

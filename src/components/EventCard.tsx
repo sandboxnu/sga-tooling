@@ -5,14 +5,14 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import TriangleError from "../assets/TriangleError.svg";
-import { AttendanceChange, EventStatus, testEvent } from "../util/Types";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
 import { AttendanceButton } from "./AttendanceButton";
 import AttendanceChangeModal from "./AttendanceChangeModal";
 import { EventDate } from "./EventDate";
 import PopUp from "./PopUp";
 
 interface EventCardProps {
-  event: testEvent;
+  event: Event;
   attendanceChange?: AttendanceChange;
 }
 /**

@@ -2,11 +2,7 @@ import {
   AttendanceStandingOption,
   AttendanceStandingOptions,
 } from "../../util/styleConfig";
-import {
-  AttendanceTag,
-  testAttendanceRecord,
-  testMember,
-} from "../../util/Types";
+import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
 import {
   getAllStatuses,
   getCountOfKeyInStatusList,
@@ -14,8 +10,8 @@ import {
 
 // TODO: why is this optional?
 interface AttendaceStandingProps {
-  member?: testMember;
-  attendanceRecord: testAttendanceRecord[];
+  member?: Member;
+  attendanceRecord: AttendanceRecord[];
 }
 
 const excusedAbsenceCount = (attendanceStatusses: AttendanceTag[][]) => {

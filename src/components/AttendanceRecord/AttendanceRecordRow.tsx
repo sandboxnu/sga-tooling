@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { createDateString } from "../../util/Date";
-import { testAttendanceRecord, testEvent } from "../../util/Types";
+import { AttendanceRecord, Event } from "../../util/Types";
 import { AttendanceList } from "./AttendanceStatusString";
 
 interface AttendanceRecodRowProps {
-  attendanceRecord: testAttendanceRecord[];
-  event: testEvent;
+  attendanceRecord: AttendanceRecord[];
+  event: Event;
 }
 
 export const AttendanceRecordRow = ({

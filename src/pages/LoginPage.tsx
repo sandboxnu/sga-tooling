@@ -6,7 +6,7 @@ import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
 import { loginMember } from "../client/member";
 import PopUp from "../components/PopUp";
-import { testMember } from "../util/Types";
+import { Member } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
@@ -44,7 +44,7 @@ const LoginPage = (): ReactElement => {
     }
     try {
       const response = await loginMember(input, lastName);
-      const member: testMember = response.member;
+      const member: Member = response.member;
       if (!member.active_member) {
         setErrorType(2);
         return;

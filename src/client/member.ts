@@ -20,4 +20,14 @@ export const getMember = async (uuid: string) => {
   return response.data;
 };
 
-// TODO: getMemberTags, updateMemberPreferences
+export const getMemberTags = async (uuid: string) => {
+  const reponse = await api.get("/member/getMemberTags", {
+    params: {
+      id: uuid,
+    },
+  });
+
+  return reponse.data;
+};
+
+// TODO: updateMemberPreferences

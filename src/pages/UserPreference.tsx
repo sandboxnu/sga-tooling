@@ -1,22 +1,31 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import "tw-elements";
 import { LoginContext } from "../App";
-import { getMember } from "../client/member";
+import { getMember, getMemberTags } from "../client/member";
 import Loading from "../components/Loading";
 import Switch from "../components/Switch";
-import { testMember } from "../util/Types";
+import { TagButtonStyles } from "../util/styleConfig";
+import { Member, MembershipGroupTags, SGATags } from "../util/Types";
 
 const UserPreference = (): ReactElement => {
-  const [member, setMember] = useState<testMember>();
+  const [member, setMember] = useState<Member>();
+  const [memberTags, setMemberTags] = useState<SGATags[]>();
   const [notPresentEmail, setNotPresentEmail] = useState<boolean>(false);
   const { userID } = useContext(LoginContext);
 
   useEffect(() => {
     const fetchMember = async () => {
       try {
+        // TODO: if this is slow I'll attach the tags to the member;
         const responseData = await getMember(userID!);
         const member = responseData.member;
+        const memershipData = await getMemberTags(userID!);
+        const tags: MembershipGroupTags[] = memershipData.memberTags;
+        const sgaTags = tags.map((tag) => tag.membership_group);
+
         setMember(member);
+        setMemberTags(sgaTags);
+
         setNotPresentEmail(member.receive_not_present_email);
       } catch (err) {
         // TODO error handling;
@@ -24,7 +33,7 @@ const UserPreference = (): ReactElement => {
     };
 
     fetchMember();
-  }, []);
+  }, [userID]);
 
   if (!member) {
     return <Loading />;
@@ -50,22 +59,16 @@ const UserPreference = (): ReactElement => {
 
         <hr className="border-black" />
 
-        {/* 
-        TODO: going to need another helper method to create these buttons/labels
         <div className="flex flex-col font-sans font-bold">
           <span>YOUR GROUPS</span>
           <div className="flex flex-row flex-wrap gap-6 py-4 text-sm">
-            <div className="bg-tag-green rounded-lg px-4 py-1">Steast</div>
-            <br />
-            <div className="bg-tag-blue rounded-lg px-4 py-1">
-              Food Advisory Board
-            </div>
-            <br />
-            <span className="bg-yellow-400 rounded-lg px-4 py-1">
-              Diverstiy, Equity, and Inclusion
-            </span>
+            {memberTags?.map((element) => {
+              const text = TagButtonStyles[element].text;
+              const styles = TagButtonStyles[element].className;
+              return <div className={styles}>{text}</div>;
+            })}
           </div>
-        </div> */}
+        </div>
 
         <hr className="border-black" />
 
