@@ -1,10 +1,11 @@
+import axios from "axios";
 import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
-import { fetchMember } from "../client/client";
+import { loginMember } from "../client/login";
 import PopUp from "../components/PopUp";
 import { Member } from "../util/Types";
 
@@ -20,11 +21,31 @@ const LoginPage = (): ReactElement => {
   /**
    * Checks the local storage to find the user and navigate them to the events page
    */
+  // might be a bit weird, might need some other functionality where if there is no id, pop up an error...
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
     if (nuid) {
       navigate("/events");
     }
+  }
+
+  // TODO: figure out whether I want to convert each of these to their corresponding types on the frontend...
+  // lint will yell at this, but will fix later...
+  function parseMember(response: any): Member {
+    const member: Member = {
+      id: response.uuid,
+      nuid: response.nuid,
+      firstName: response.first_name,
+      lastName: response.last_name,
+      email: response.email,
+      activeMember: response.active_member,
+      votingRights: response.voting_rights,
+      receiveNotPresentEmail: response.receive_not_present_email,
+      includeInQuorum: response.include_in_quorum,
+      signInBlocked: response.sign_in_blocked,
+    };
+    console.log(member);
+    return member;
   }
 
   /**
@@ -37,35 +58,44 @@ const LoginPage = (): ReactElement => {
   async function login() {
     setErrorType(0); // No error message before they get a response back
     if (!isValidNuid(input)) {
-      console.log("Invalid NUID when log in pressed.");
       setSmallErrMsg("Should be 9 digits.");
       setErrorType(1);
       return;
     }
-    let member = undefined;
+
     try {
-      member = await fetchMember(input); // CHANGE TO API IMPL
-    } catch (e) {
-      setErrorType(4);
-      return;
-    }
-    if (!member) {
-      setErrorType(1);
-      setSmallErrMsg("Member does not exist.");
-    } else {
-      if (
-        whetherHasAccess(member) &&
-        member.lastName.toUpperCase() === lastName.toUpperCase()
-      ) {
+      // some loading state while this is happening is necessary
+      const responseData = await loginMember(input, lastName);
+      // parse (later with JWTs this will require more) the axios data into a MemberType
+      const member: Member = parseMember(responseData.member);
+      console.log(member);
+
+      if (whetherHasAccess(member)) {
+        // add to local storage
+        console.log("should be here");
         localStorage.setItem("user", input);
         setUserID(input);
         navigate("/events");
-      } else if (!member.activeMember) {
+      } else if (member.activeMember) {
         setErrorType(2);
       } else if (member.signInBlocked) {
         setErrorType(3);
       } else {
-        console.log("in 4?");
+        // catch all for weird behavior...
+        setErrorType(4);
+      }
+    } catch (e) {
+      // maybe need to return in these cases?
+      if (axios.isAxiosError(e)) {
+        // Member not found
+        if (e.response!.status === 400) {
+          setErrorType(3);
+        } else {
+          setErrorType(4);
+        }
+      }
+      // this should not happen, so still give an unknown error
+      else {
         setErrorType(4);
       }
     }
