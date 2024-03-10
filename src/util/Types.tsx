@@ -1,14 +1,25 @@
 export type Event = {
-  id: number;
-  eventName: string;
-  startTime: Date;
-  endTime: Date;
-  signInClosed: boolean;
-  location?: string;
+  uuid: string;
+  event_name: string;
+  start_time: Date;
+  end_time?: Date;
+  sign_in_closed: boolean;
   description: string;
+  location: string;
   status?: EventStatus;
   tags?: string[];
+  membership_group: SGATags[];
 };
+
+// may not be needed
+export type MembershipGroupTags = {
+  membership_group: SGATags;
+};
+
+export enum SGATags {
+  NEW_SENATORS = "New Senators Fall 2022",
+  ALL_ACTIVE = "All active",
+}
 
 export type Member = {
   id: string;
@@ -24,10 +35,10 @@ export type Member = {
 };
 
 export type AttendanceChange = {
-  id: Number;
-  memberID: Number;
+  uuid: string;
+  memberID: string;
   request_type: RequestType;
-  eventID: Number;
+  eventID: string;
   submit_time: Date;
   change_status: ChangeStatus;
   reason: string;
@@ -69,6 +80,13 @@ export type AttendanceData = {
   time_arriving?: Date;
   time_leaving?: Date;
 };
+
+export type AttendanceEvent = {
+  member_id: string;
+  event_id: string;
+};
+
+export type createdAttendanceChange = AttendanceEvent & AttendanceData;
 
 export type AttendanceRecord = {
   memberID: number;

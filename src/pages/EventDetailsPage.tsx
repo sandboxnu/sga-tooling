@@ -1,16 +1,9 @@
-import { ReactElement, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import Frame from ".././assets/Frame.svg";
-import LinkSVG from ".././assets/Link.svg";
-import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
-import PinSVG from ".././assets/Pin.svg";
-import TextIconSVG from ".././assets/TextIcon.svg";
-import { fetchEvent } from "../client/client";
-import Loading from "../components/Loading";
-import { createDateString } from "../util/Date";
+import { ReactElement } from "react";
 
 //if time is not defined make it all day
 const EventDetailsPage = (): ReactElement => {
+  return <>Test 2</>;
+  /*
   const { id } = useParams();
   const [event, setEvent] = useState(useLocation().state?.event);
 
@@ -114,6 +107,7 @@ const EventDetailsPage = (): ReactElement => {
       </div>
     </div>
   );
+  */
 };
 
 export default EventDetailsPage;

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
 import { createAttendanceChange, fetchMember } from "../client/client";
-import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
 import { AttendanceButtonStyles } from "../util/styleConfig";
+import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -35,7 +35,7 @@ export const AttendanceButton = ({
         //using non-null assertion since it's assumed the user is logged in to make it past the home page
         const member = await fetchMember(userID!);
         if (member) {
-          await createAttendanceChange(member.id, eventid);
+          await createAttendanceChange(member.id, eventid.toString());
           setIsRegistered(false);
         }
         setIsCreatingAttendance(false);

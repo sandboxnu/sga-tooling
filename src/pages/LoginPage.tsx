@@ -72,8 +72,7 @@ const LoginPage = (): ReactElement => {
 
       if (whetherHasAccess(member)) {
         // add to local storage
-        console.log("should be here");
-        localStorage.setItem("user", input);
+        localStorage.setItem("user", member.id);
         setUserID(input);
         navigate("/events");
       } else if (member.activeMember) {

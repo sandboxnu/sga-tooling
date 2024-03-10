@@ -1,23 +1,11 @@
-import { useContext, useState } from "react";
-import { LoginContext } from "../App";
-import {
-  fetchEvent,
-  fetchMember,
-  getAttendanceRecordForMember,
-} from "../client/client";
-import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
-import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
-import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
-import Loading from "../components/Loading";
-import { createDateString } from "../util/Date";
-import { AttendanceRecord, Event, Member } from "../util/Types";
-
 /**
  *
  *
  * @returns The page which displays the attendance for each event during the semester.
  */
 const AttendanceRecordPage = () => {
+  return <></>;
+  /*
   // --- STATE ------------------------------------------------------
   const [member, setMember] = useState<Member>();
   const [attendanceRecord, setAttendanceRecord] = useState<
@@ -148,6 +136,7 @@ const AttendanceRecordPage = () => {
       </div>
     </div>
   );
+  */
 };
 
 export default AttendanceRecordPage;

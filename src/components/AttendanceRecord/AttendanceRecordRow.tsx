@@ -1,7 +1,4 @@
-import { Link } from "react-router-dom";
-import { createDateString } from "../../util/Date";
 import { AttendanceRecord, Event } from "../../util/Types";
-import { AttendanceList } from "./AttendanceStatusString";
 
 interface AttendanceRecodRowProps {
   attendanceRecord: AttendanceRecord[];
@@ -12,8 +9,10 @@ export const AttendanceRecordRow = ({
   event,
   attendanceRecord,
 }: AttendanceRecodRowProps) => {
-  const eventStartDate = new Date(event.startTime);
-  const eventEndDate = new Date(event.endTime);
+  return <></>;
+  /*
+  const eventStartDate = new Date(event.start_time);
+  const eventEndDate = new Date(event.end_time);
   const { month, fulldate, year } = createDateString(eventStartDate);
 
   const startTimeString = eventStartDate.toLocaleString("en-US", {
@@ -28,16 +27,17 @@ export const AttendanceRecordRow = ({
     hour12: true,
   });
 
+  // TODO: fix this: for now just making things pass...
   const correspRecord = attendanceRecord.find(
-    (attendance) => attendance.eventID === event.id
+    (attendance) => attendance.eventID === 1
   );
   const attendanceStatus = correspRecord!.attendance_status;
 
   return (
     <tr className="border-b border-gray-600">
       <td className="pt-2">
-        <Link to={`/events/${event.id}`} state={{ event }}>
-          {event.eventName}
+        <Link to={`/events/${event.uuid}`} state={{ event }}>
+          {event.event_name}
         </Link>
       </td>
       <td className="border-l border-gray-600 px-4 py-2">
@@ -51,4 +51,5 @@ export const AttendanceRecordRow = ({
       </td>
     </tr>
   );
+  */
 };

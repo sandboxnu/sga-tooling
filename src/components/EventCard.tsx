@@ -1,16 +1,6 @@
-import { ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
-import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
-import PinSVG from ".././assets/Pin.svg";
-import TextIconSVG from ".././assets/TextIcon.svg";
+import { ReactElement } from "react";
 import ".././styles.css";
-import TriangleError from "../assets/TriangleError.svg";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
-import { AttendanceButton } from "./AttendanceButton";
-import AttendanceChangeModal from "./AttendanceChangeModal";
-import { EventDate } from "./EventDate";
-import EventTag from "./EventTag";
-import PopUp from "./PopUp";
+import { AttendanceChange, Event } from "../util/Types";
 
 interface EventCardProps {
   event: Event;
@@ -23,6 +13,8 @@ const EventCard = ({
   event,
   attendanceChange,
 }: EventCardProps): ReactElement => {
+  return <div>Test</div>;
+  /*
   const {
     id,
     startTime,
@@ -170,6 +162,7 @@ const EventCard = ({
       </div>
     </>
   );
+  */
 };
 
 export default EventCard;
