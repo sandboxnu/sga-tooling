@@ -76,9 +76,9 @@ export enum ReportReason {
 export type AttendanceData = {
   reason: string;
   request_type?: RequestType;
-  submission_time: Date;
-  time_arriving?: Date;
-  time_leaving?: Date;
+  submission_time: string;
+  time_arriving?: string;
+  time_leaving?: string;
 };
 
 export type AttendanceEvent = {

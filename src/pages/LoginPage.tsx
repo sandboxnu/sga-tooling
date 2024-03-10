@@ -31,22 +31,22 @@ const LoginPage = (): ReactElement => {
 
   // TODO: figure out whether I want to convert each of these to their corresponding types on the frontend...
   // lint will yell at this any, but will fix later...
-  function parseMember(response: any): Member {
-    const member: Member = {
-      uuid: response.uuid,
-      nuid: response.nuid,
-      first_name: response.first_name,
-      last_name: response.last_name,
-      email: response.email,
-      active_member: response.active_member,
-      voting_rights: response.voting_rights,
-      receive_not_present_email: response.receive_not_present_email,
-      include_in_quorum: response.include_in_quorum,
-      sign_in_blocked: response.sign_in_blocked,
-    };
-    console.log(member);
-    return member;
-  }
+  // function parseMember(response: any): Member {
+  //   const member: Member = {
+  //     uuid: response.uuid,
+  //     nuid: response.nuid,
+  //     first_name: response.first_name,
+  //     last_name: response.last_name,
+  //     email: response.email,
+  //     active_member: response.active_member,
+  //     voting_rights: response.voting_rights,
+  //     receive_not_present_email: response.receive_not_present_email,
+  //     include_in_quorum: response.include_in_quorum,
+  //     sign_in_blocked: response.sign_in_blocked,
+  //   };
+  //   console.log(member);
+  //   return member;
+  // }
 
   /**
    * Checks if a valid NUID is inputted. If it isn't valid, return an error message.
@@ -67,7 +67,7 @@ const LoginPage = (): ReactElement => {
       // some loading state while this is happening is necessary
       const responseData = await loginMember(input, lastName);
       // parse (later with JWTs this will require more) the axios data into a MemberType
-      const member: Member = parseMember(responseData.member);
+      const member: Member = responseData.member;
       console.log(member);
 
       if (whetherHasAccess(member)) {

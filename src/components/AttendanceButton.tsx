@@ -1,8 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App";
-import { createAttendanceChange, fetchMember } from "../client/client";
+import { createAttendanceChangeRequest } from "../client/attendanceChange";
 import { AttendanceButtonStyles } from "../util/styleConfig";
-import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
+import {
+  AttendanceChange,
+  AttendanceData,
+  ChangeStatus,
+  createdAttendanceChange,
+} from "../util/Types";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -29,15 +34,12 @@ export const AttendanceButton = ({
   );
 
   useEffect(() => {
-    const makeAttendanceChange = async () => {
+    const makeAttendanceChange = async (
+      attendanceChange: createdAttendanceChange
+    ) => {
       try {
         setIsCreatingAttendance(true);
-        //using non-null assertion since it's assumed the user is logged in to make it past the home page
-        const member = await fetchMember(userID!);
-        if (member) {
-          await createAttendanceChange(member.uuid, eventid.toString());
-          setIsRegistered(false);
-        }
+        const response = await createAttendanceChangeRequest(attendanceChange);
         setIsCreatingAttendance(false);
         // once we successfully created an AttendanceChange its back to pending
         setAttendanceStatus(ChangeStatus.NOT_REVIEWED);
@@ -49,7 +51,13 @@ export const AttendanceButton = ({
     //on Mount this useEffect starts,
     //so only want this makeAttendanceChange function to start when we actually have something/ this json is not empty
     if (!(Object.keys(createdAttendanceChange).length === 0)) {
-      makeAttendanceChange();
+      //@ts-ignore
+      const combinedAttendance: createdAttendanceChange = {
+        ...createdAttendanceChange,
+        member_id: userID!,
+        event_id: eventid,
+      };
+      makeAttendanceChange(combinedAttendance);
     }
   }, [createdAttendanceChange, eventid, setErrorType, setIsRegistered, userID]);
 

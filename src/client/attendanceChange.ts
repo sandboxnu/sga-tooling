@@ -14,9 +14,11 @@ export const getAllAttendanceChangesForMember = async (uuid: string) => {
 export const createAttendanceChangeRequest = async (
   attendanceChange: createdAttendanceChange
 ) => {
+  console.log(attendanceChange);
   const attendance = await api.post(
     "/attendance/postAttendanceChange",
     attendanceChange
   );
+
   return attendance.data;
 };

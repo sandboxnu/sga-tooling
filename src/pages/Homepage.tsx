@@ -34,7 +34,7 @@ const Homepage = (): ReactElement => {
   // fetch all the events
   const {
     data: dataEvents,
-    isLoading: eventsLoading,
+    isPending: eventsLoading,
     isError: eventsError,
   } = useQuery<Event[]>({
     queryFn: () => getAllEvents(),
@@ -44,27 +44,23 @@ const Homepage = (): ReactElement => {
   // fetch all the attendance change requests
   const {
     data: attendanceChanges,
-    isLoading: attendanceLoading,
+    isPending: attendanceLoading,
     isError: acError,
   } = useQuery<AttendanceChange[]>({
     queryFn: () => getAllAttendanceChangesForMember(userID!),
     queryKey: ["api", "attendance", { userID }],
   });
 
-  // Load until we get back results (see if this is an issue, we don't use the isLoading function?)
+  // Load until we get back results
   if (attendanceLoading || eventsLoading) {
     return <Loading />;
   }
 
-  // TODO: double check this, solves the type issues, and is error HandlingIsh,
-  // if we have no Data, or we have an error -> return an error component, very sus though, and probably not good practice,
   if (acError || eventsError) {
-    // will add in error component later
-    return <></>;
+    return <>Eventual Error Component</>;
   }
 
-  // ehhhh -> non-null casting Fix this later...
-  const events = dataEvents!.map((e) => {
+  const events = dataEvents.map((e) => {
     const endTime = e.end_time ? new Date(e.end_time) : undefined;
     return {
       ...e,

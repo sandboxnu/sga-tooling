@@ -1,6 +1,7 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import ".././styles.css";
+import { formatDate } from "../util/Date";
 import { AttendanceData, RequestType } from "../util/Types";
 
 type AttendanceChangeModalProps = {
@@ -70,15 +71,15 @@ const AttendanceChangeModal = ({
     const submissonJson: AttendanceData = {
       reason: reason,
       request_type: requestType,
-      submission_time: new Date(),
+      submission_time: formatDate(new Date(), true),
     };
 
     if (lateArrivalTime) {
-      submissonJson.time_arriving = lateArrivalTime;
+      submissonJson.time_arriving = formatDate(lateArrivalTime, false);
     }
 
     if (earlyDepartureTime) {
-      submissonJson.time_leaving = earlyDepartureTime;
+      submissonJson.time_leaving = formatDate(earlyDepartureTime, false);
     }
 
     setAttendanceChange(submissonJson);
@@ -166,9 +167,16 @@ const AttendanceChangeModal = ({
                           className="rounded-md py-2 sm:w-28 w-24 border border-solid border-black"
                           id="arrivalTime"
                           type={"time"}
-                          onChange={(e) =>
-                            setLateArrivalTime(e.target.valueAsDate)
-                          }
+                          onChange={(e) => {
+                            const inputTime = e.target.valueAsDate;
+                            if (inputTime) {
+                              // Adjust time for Eastern Standard Time (EST)
+                              const adjustedTime = new Date(
+                                inputTime.getTime() + 5 * 60 * 60 * 1000
+                              );
+                              setLateArrivalTime(adjustedTime);
+                            }
+                          }}
                         ></input>
                       ) : (
                         <input
@@ -197,9 +205,16 @@ const AttendanceChangeModal = ({
                           className="rounded-md py-2 sm:w-28 w-24 border border-solid border-black"
                           id="depatureTime"
                           type={"time"}
-                          onChange={(e) =>
-                            setEarlyDepatureTime(e.target.valueAsDate)
-                          }
+                          onChange={(e) => {
+                            const inputTime = e.target.valueAsDate;
+                            if (inputTime) {
+                              // Adjust time for Eastern Standard Time (EST)
+                              const adjustedTime = new Date(
+                                inputTime.getTime() + 5 * 60 * 60 * 1000
+                              );
+                              setEarlyDepatureTime(adjustedTime);
+                            }
+                          }}
                         ></input>
                       ) : (
                         <input

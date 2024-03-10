@@ -9,7 +9,6 @@ export const AttendanceRecordRow = ({
   event,
   attendanceRecord,
 }: AttendanceRecodRowProps) => {
-  return <></>;
   /*
   const eventStartDate = new Date(event.start_time);
   const eventEndDate = new Date(event.end_time);

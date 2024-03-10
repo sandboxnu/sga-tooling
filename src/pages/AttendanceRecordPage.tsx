@@ -4,8 +4,9 @@
  * @returns The page which displays the attendance for each event during the semester.
  */
 const AttendanceRecordPage = () => {
-  return <></>;
+  return <>Hello World</>;
   /*
+
   // --- STATE ------------------------------------------------------
   const [member, setMember] = useState<Member>();
   const [attendanceRecord, setAttendanceRecord] = useState<
@@ -19,6 +20,9 @@ const AttendanceRecordPage = () => {
   // --- VARIABLES --------------------------------------------------
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
+
+
+  // three
 
   const fetchMemberRecord = async (): Promise<Event[]> => {
     // Update the member from the API
