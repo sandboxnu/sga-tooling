@@ -11,7 +11,7 @@ interface AttendanceButtonProps {
   setErrorType: React.Dispatch<React.SetStateAction<number>>;
   attendanceChange?: AttendanceChange;
   createdAttendanceChange: AttendanceData | {};
-  eventid: number;
+  eventid: string;
 }
 
 export const AttendanceButton = ({

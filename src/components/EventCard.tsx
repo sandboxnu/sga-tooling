@@ -1,6 +1,16 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
+import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
+import PinSVG from ".././assets/Pin.svg";
+import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
-import { AttendanceChange, Event } from "../util/Types";
+import TriangleError from "../assets/TriangleError.svg";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
+import { AttendanceButton } from "./AttendanceButton";
+import AttendanceChangeModal from "./AttendanceChangeModal";
+import { EventDate } from "./EventDate";
+import EventTag from "./EventTag";
+import PopUp from "./PopUp";
 
 interface EventCardProps {
   event: Event;
@@ -13,35 +23,33 @@ const EventCard = ({
   event,
   attendanceChange,
 }: EventCardProps): ReactElement => {
-  return <div>Test</div>;
-  /*
   const {
-    id,
-    startTime,
-    endTime,
-    eventName,
+    uuid,
+    start_time,
+    end_time,
+    event_name,
     location,
     description,
     status,
-    tags,
+    membership_group,
   } = event;
 
-  let startTimeString: string = startTime.toLocaleString("en-US", {
+  let startTimeString: string = start_time.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
   });
-  let endTimeString: string | undefined = endTime
-    ? endTime.toLocaleString("en-US", {
+  let endTimeString: string | undefined = end_time
+    ? end_time.toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
         hour12: true,
       })
     : undefined;
 
-  const tagElements: ReactElement[] = tags
-    ? tags.map((t) => {
-        return <EventTag tag={t} />;
+  const tagElements: ReactElement[] = membership_group
+    ? membership_group.map((tag) => {
+        return <EventTag tag={tag} />;
       })
     : [];
 
@@ -75,14 +83,14 @@ const EventCard = ({
         />
       ) : null}
       <div className="flex">
-        <EventDate startTime={startTime} status={status} />
+        <EventDate startTime={start_time} status={status} />
         <div className="flex-1 px-6 md:px-10">
           <span className="font-sans">
-            {startTimeString + (endTime ? " to " + endTimeString : "")}
+            {startTimeString + (end_time ? " to " + endTimeString : "")}
           </span>
           <div className="flex flex-row justify-between items-start mb-4">
             <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
-              {eventName}
+              {event_name}
             </div>
             <details className="relative">
               <summary className="list-none cursor-pointer">
@@ -140,11 +148,11 @@ const EventCard = ({
                   openModal={openModal}
                   setIsRegistered={setIsRegistered}
                   setErrorType={setErrorType}
-                  eventid={id}
+                  eventid={uuid}
                   attendanceChange={attendanceChange}
                   createdAttendanceChange={createdAttendanceChange}
                 />
-                <Link to={`/events/${id}`} state={{ event }}>
+                <Link to={`/events/${uuid}`} state={{ event }}>
                   <button className="button-base-red px-4 my-2 w-32">
                     See More
                   </button>
@@ -162,7 +170,6 @@ const EventCard = ({
       </div>
     </>
   );
-  */
 };
 
 export default EventCard;

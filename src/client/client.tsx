@@ -26,18 +26,6 @@ export function fetchEvent(id: string): Promise<Event> {
 }
 
 /**
- * Gets all the events
- * @returns An array of events if they can be found, or an error
- */
-export function fetchAllEvents(): Promise<Event[]> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      mockEvents ? resolve(mockEvents) : reject("404 Not found");
-    }, 1000);
-  });
-}
-
-/**
  * Gets the member with the associated nuid
  * @param nuid The nuid of the member
  * @returns The Member with that nuid or undefined
