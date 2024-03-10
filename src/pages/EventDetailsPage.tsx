@@ -14,7 +14,6 @@ import { Event } from "../util/Types";
 //if time is not defined make it all day
 const EventDetailsPage = (): ReactElement => {
   const { id } = useParams();
-  console.log(id);
   const paramEvent = useLocation().state?.event;
 
   const {
@@ -37,7 +36,6 @@ const EventDetailsPage = (): ReactElement => {
   }
 
   const event: Event = paramEvent || fetchedEvent;
-  console.log(`The value of event is ${event}`);
   const startDate = new Date(event.start_time);
   const { month, dayOfWeek, fulldate, year } = createDateString(startDate);
 

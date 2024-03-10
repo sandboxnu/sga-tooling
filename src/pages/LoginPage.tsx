@@ -30,19 +30,19 @@ const LoginPage = (): ReactElement => {
   }
 
   // TODO: figure out whether I want to convert each of these to their corresponding types on the frontend...
-  // lint will yell at this, but will fix later...
+  // lint will yell at this any, but will fix later...
   function parseMember(response: any): Member {
     const member: Member = {
-      id: response.uuid,
+      uuid: response.uuid,
       nuid: response.nuid,
-      firstName: response.first_name,
-      lastName: response.last_name,
+      first_name: response.first_name,
+      last_name: response.last_name,
       email: response.email,
-      activeMember: response.active_member,
-      votingRights: response.voting_rights,
-      receiveNotPresentEmail: response.receive_not_present_email,
-      includeInQuorum: response.include_in_quorum,
-      signInBlocked: response.sign_in_blocked,
+      active_member: response.active_member,
+      voting_rights: response.voting_rights,
+      receive_not_present_email: response.receive_not_present_email,
+      include_in_quorum: response.include_in_quorum,
+      sign_in_blocked: response.sign_in_blocked,
     };
     console.log(member);
     return member;
@@ -72,12 +72,12 @@ const LoginPage = (): ReactElement => {
 
       if (whetherHasAccess(member)) {
         // add to local storage
-        localStorage.setItem("user", member.id);
+        localStorage.setItem("user", member.uuid);
         setUserID(input);
         navigate("/events");
-      } else if (member.activeMember) {
+      } else if (member.active_member) {
         setErrorType(2);
-      } else if (member.signInBlocked) {
+      } else if (member.sign_in_blocked) {
         setErrorType(3);
       } else {
         // catch all for weird behavior...
@@ -115,7 +115,7 @@ const LoginPage = (): ReactElement => {
    * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
    */
   function whetherHasAccess(member: Member): boolean {
-    return member.activeMember && !member.signInBlocked;
+    return member.active_member && !member.sign_in_blocked;
   }
 
   return (
