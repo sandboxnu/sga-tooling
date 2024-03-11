@@ -86,7 +86,7 @@ export const createAttendanceChange = (
         uuid: mockAttendanceChange.length.toString(),
         memberID: memberID,
         eventID: eventID,
-        request_type: RequestType.ABSENT,
+        type: RequestType.ABSENT,
         reason: "idk",
         submit_time: new Date("2001-01-01 12:00:00"),
         change_status: ChangeStatus.EXCUSED,

@@ -14,7 +14,9 @@ const PopUp = (props: {
         <div className="py-3 flex justify-center text-center items-center flex-col justify-between h-full text-black">
           <p>{props.message1}</p>
           {props.link ? (
-            <a href={props.link}>{props.link}</a>
+            <a href="https://github.com/sandboxnu/sga-tooling/issues">
+              {props.link}
+            </a>
           ) : (
             <p>{props.message2}</p>
           )}

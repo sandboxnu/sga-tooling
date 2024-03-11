@@ -79,6 +79,7 @@ const EventCard = ({
         <PopUp
           source={TriangleError}
           message1="There was an internal server error which caused this failure"
+          link="Please report this bug."
           useState={setErrorType}
         />
       ) : null}

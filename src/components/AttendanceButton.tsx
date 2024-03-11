@@ -39,7 +39,7 @@ export const AttendanceButton = ({
     ) => {
       try {
         setIsCreatingAttendance(true);
-        const response = await createAttendanceChangeRequest(attendanceChange);
+        await createAttendanceChangeRequest(attendanceChange);
         setIsCreatingAttendance(false);
         // once we successfully created an AttendanceChange its back to pending
         setAttendanceStatus(ChangeStatus.NOT_REVIEWED);

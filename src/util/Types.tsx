@@ -11,7 +11,6 @@ export type Event = {
   membership_group: SGATags[];
 };
 
-// may not be needed
 export type MembershipGroupTags = {
   membership_group: SGATags;
 };
@@ -37,7 +36,7 @@ export type Member = {
 export type AttendanceChange = {
   uuid: string;
   memberID: string;
-  request_type: RequestType;
+  type: RequestType;
   eventID: string;
   submit_time: Date;
   change_status: ChangeStatus;
