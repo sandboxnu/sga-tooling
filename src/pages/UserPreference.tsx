@@ -3,18 +3,18 @@ import { ReactElement, useContext } from "react";
 import "tw-elements";
 import { LoginContext } from "../App";
 import { getMember, getMemberTags } from "../client/member";
+import ErrorComponent from "../components/ErrorComponent";
 import EventTag from "../components/EventTag";
 import Loading from "../components/Loading";
+import Switch from "../components/Switch";
 import { Member, MembershipGroupTags } from "../util/Types";
-// import { queryClient } from "../App"
 
 const UserPreference = (): ReactElement => {
   const { userID } = useContext(LoginContext);
-
   // fetch the member
   const {
     data: memberData,
-    isLoading: memberLoading,
+    isPending: memberLoading,
     isError: memberError,
   } = useQuery<Member>({
     queryFn: () => getMember(userID!),
@@ -22,30 +22,30 @@ const UserPreference = (): ReactElement => {
   });
 
   console.log(memberData);
+
   // fetch their respective tags
   const {
     data: memberTags,
-    isLoading: memberTagsLoading,
+    isPending: memberTagsLoading,
     isError: memberTagsError,
   } = useQuery<MembershipGroupTags[]>({
     queryFn: () => getMemberTags(userID!),
     queryKey: ["api", "memberTag", { userID }],
   });
 
-  console.log(memberTags);
-
   if (memberLoading || memberTagsLoading) {
     return <Loading />;
   }
 
-  // use the useMutation with optimistic loading:
+  if (memberError || memberTagsError) {
+    return <ErrorComponent />;
+  }
+
   const tagElements: ReactElement[] = memberTags
     ? memberTags.map((item) => {
         return <EventTag tag={item.membership_group} />;
       })
     : [];
-
-  // Switch -> initialState -> member.
 
   return (
     <div className="flex flex-col flex-1 p-4 font-sans md:p-10 gap-y-8">
@@ -69,9 +69,15 @@ const UserPreference = (): ReactElement => {
 
         <div className="flex flex-col font-sans font-bold">
           <span>YOUR GROUPS</span>
-          {/* TODO: if they are not in any groups, give them text to show that*/}
-          <div className="flex flex-row flex-wrap gap-6 py-4 text-sm">
-            {tagElements}
+          <div className="flex flex-row flex-wrap gap-6 pt-4 text-sm">
+            {memberTags.length ? (
+              tagElements
+            ) : (
+              <span className="text-base font-normal">
+                {" "}
+                You are not in any groups
+              </span>
+            )}
           </div>
         </div>
         <hr className="border-black" />
@@ -81,7 +87,10 @@ const UserPreference = (): ReactElement => {
           <div className="flex md:w-1/2 w-full justify-between">
             <span>Receive Notifications before my events</span>
             <div>
-              {/* <Switch toggle={memberData?.receive_not_present_email} setToggle={setNotPresentEmail} /> */}
+              <Switch
+                toggle={memberData.receive_not_present_email}
+                userID={userID!}
+              />
             </div>
           </div>
         </div>

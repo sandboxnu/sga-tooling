@@ -89,8 +89,8 @@ export type AttendanceEvent = {
 export type createdAttendanceChange = AttendanceEvent & AttendanceData;
 
 export type AttendanceRecord = {
-  memberID: number;
-  eventID: number;
+  member_id: string;
+  event_id: string;
   attendance_status: string;
 };
 

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllAttendanceChangesForMember } from "../client/attendanceChange";
 import { getAllEvents } from "../client/events";
 import Alert from "../components/Alert";
+import ErrorComponent from "../components/ErrorComponent";
 import EventCard from "../components/EventCard";
 
 /**
@@ -57,7 +58,7 @@ const Homepage = (): ReactElement => {
   }
 
   if (acError || eventsError) {
-    return <>Eventual Error Component</>;
+    return <ErrorComponent />;
   }
 
   const events = dataEvents.map((e) => {

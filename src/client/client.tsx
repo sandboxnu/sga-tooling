@@ -11,6 +11,8 @@ import {
   RequestType,
 } from "../util/Types";
 
+// TODO: move these to a test file along with the mock data
+
 /**
  * Gets an event with the given id
  * @param id The id of the event being fetched
@@ -101,7 +103,7 @@ export const getAttendanceRecordForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.member_id !== memberId
       );
       attendanceRecordForMember
         ? resolve(attendanceRecordForMember)

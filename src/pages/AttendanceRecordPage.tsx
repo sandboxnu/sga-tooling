@@ -1,61 +1,79 @@
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { LoginContext } from "../App";
+import {
+  getAttendanceEventsFromRecord,
+  getAttendanceRecord,
+} from "../client/attendanceRecord";
+import { getMember } from "../client/member";
+import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
+import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
+import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
+import ErrorComponent from "../components/ErrorComponent";
+import Loading from "../components/Loading";
+import { createDateString } from "../util/Date";
+import { AttendanceRecord, Event, Member } from "../util/Types";
+
 /**
  *
  *
  * @returns The page which displays the attendance for each event during the semester.
  */
 const AttendanceRecordPage = () => {
-  return <>Hello World</>;
-  /*
-
-  // --- STATE ------------------------------------------------------
-  const [member, setMember] = useState<Member>();
-  const [attendanceRecord, setAttendanceRecord] = useState<
-    AttendanceRecord[] | []
-  >([]);
-  const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>();
-
   // --- CONTEXT ----------------------------------------------------
   const { userID } = useContext(LoginContext);
+
+  // --- DATA ------------------------------------------------------
+  // const [member, setMember] = useState<Member>();
+  const {
+    data: attendanceRecord,
+    isPending: recordLoading,
+    isError: recordError,
+  } = useQuery<AttendanceRecord[]>({
+    queryFn: () => getAttendanceRecord(userID!),
+    queryKey: ["api", "record", { userID }],
+  });
+
+  const {
+    data: attendanceEvents,
+    isPending: attendanceEventsLoading,
+    isError: attendanceEventsError,
+  } = useQuery<Event[]>({
+    queryFn: () => getAttendanceEventsFromRecord(userID!),
+    queryKey: ["api", "record", "events", { userID }],
+  });
+
+  const {
+    data: member,
+    isPending: memberLoading,
+    isError: memberError,
+  } = useQuery<Member>({
+    queryFn: () => getMember(userID!),
+    queryKey: ["api", "member", { userID }],
+  });
+
+  // Load until we get back results
+  if (attendanceEventsLoading || recordLoading || memberLoading) {
+    return <Loading />;
+  }
+
+  if (recordError || attendanceEventsError || memberError) {
+    return <ErrorComponent />;
+  }
 
   // --- VARIABLES --------------------------------------------------
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
 
-
-  // three
-
-  const fetchMemberRecord = async (): Promise<Event[]> => {
-    // Update the member from the API
-    const member = await fetchMember(userID!);
-    setMember(member);
-
-    // Get the attendance records for the selected member
-    const attendanceRecords = await getAttendanceRecordForMember(member!.id);
-    setAttendanceRecord(attendanceRecords);
-
-    // Fetch the event data for each event
-    const events: Event[] = [];
-    for (const record of attendanceRecords) {
-      const event = await fetchEvent(record.eventID);
-      events.push(event);
-    }
-
-    return events;
-  };
-
-  if (!attendanceEvents) {
-    fetchMemberRecord().then((e) => {
-      setAttendanceEvents(e);
-    });
-    return <Loading />;
-  }
-
   for (const event of attendanceEvents) {
-    const endTime = new Date(event.endTime).getTime();
-    const startTime = new Date(event.startTime).getTime();
-    const timeDifInSeconds = (endTime - startTime) / 1000;
-    const timeDiffInHours = Math.round(timeDifInSeconds / 3600);
-    totalHours += timeDiffInHours;
+    // only count events where we have have a start/end
+    if (event.end_time) {
+      const endTime = new Date(event.end_time).getTime();
+      const startTime = new Date(event.start_time).getTime();
+      const timeDifInSeconds = (endTime - startTime) / 1000;
+      const timeDiffInHours = Math.round(timeDifInSeconds / 3600);
+      totalHours += timeDiffInHours;
+    }
   }
 
   return (
@@ -70,7 +88,7 @@ const AttendanceRecordPage = () => {
               </span>
             </div>
             <div className="flex-col md:hidden">
-              <span>{member?.firstName + " " + member?.lastName}</span>
+              <span>{member.first_name + " " + member.last_name}</span>
               <div className="w-full border border-t-0 border-gray-600 my-2"></div>
             </div>
           </div>
@@ -82,7 +100,7 @@ const AttendanceRecordPage = () => {
         <div className="flex flex-col">
           <span className="hidden md:block text-2xl font-bold">
             {" "}
-            {member?.firstName + " " + member?.lastName}
+            {member.first_name + " " + member.last_name}
           </span>
           <div className="py-2 my-3 md:my-1">
             <AttendanceStanding
@@ -140,7 +158,6 @@ const AttendanceRecordPage = () => {
       </div>
     </div>
   );
-  */
 };
 
 export default AttendanceRecordPage;

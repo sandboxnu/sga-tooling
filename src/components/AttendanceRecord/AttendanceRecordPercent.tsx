@@ -21,9 +21,9 @@ export const AttendanceRecordPercentages = ({
   const { attended, lateOrEarly, absent } =
     totalAttendanceCounts(AttendanceList);
 
-  const attendedPercent = (attended / recordSize) * 100;
-  const earlyOrLatePercent = (lateOrEarly / recordSize) * 100;
-  const absentPercent = (absent / recordSize) * 100;
+  const attendedPercent = Math.round((attended / recordSize) * 100);
+  const earlyOrLatePercent = Math.round((lateOrEarly / recordSize) * 100);
+  const absentPercent = Math.round((absent / recordSize) * 100);
 
   if (mobile) console.log("mobile:");
 

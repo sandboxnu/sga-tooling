@@ -7,6 +7,7 @@ import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import { getEvent } from "../client/events";
+import ErrorComponent from "../components/ErrorComponent";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
 import { Event } from "../util/Types";
@@ -32,7 +33,7 @@ const EventDetailsPage = (): ReactElement => {
 
   if (isError) {
     // TODO: does isError even work lol, had a 500 error, and nothing happened, need to test this...
-    return <>Todo</>;
+    return <ErrorComponent />;
   }
 
   const event: Event = paramEvent || fetchedEvent;
