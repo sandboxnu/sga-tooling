@@ -6,7 +6,7 @@ const Error404 = (): ReactElement => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center h-[65vh] lg:h-[100vh] w-full">
       <img src={ErrorIconSVG} alt="" />
       <div className="flex flex-col items-center font-sans mt-1 mb-12">
         <h1 className="text-3xl font-bold text-center">404 - Page Not Found</h1>

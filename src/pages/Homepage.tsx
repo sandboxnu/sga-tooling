@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext } from "react";
 import { LoginContext } from "../App";
 import Loading from "../components/Loading";
 import { AttendanceChange, Event, EventStatus } from "../util/Types";
@@ -31,22 +31,6 @@ function getStatus(start: Date, end?: Date) {
 const Homepage = (): ReactElement => {
   // TODO: swap this out...
   const { userID } = useContext(LoginContext);
-  const [searchQuery, setSearchQuery] = useState("");
-  // filtering by dropdown option going to take a little longer ->
-  // need there to be a button which can add filter button pills onto a flex row,
-  // options first drop down
-
-  // select drop down
-  // icon is a + sign, with all the unused filters available
-
-  // once filter is chosen adds a new button with the option to remove/ x
-  // these buttons are then stacked on the same row
-
-  // and with the selected filters, needs to apply filtering logic onto the tags of the elements as well
-
-  // components -> applied filter chip (creates the filter pill)
-  // the select drop down which when a filter is chosen -> applies the option/removes it from possibilities
-  // need to then keep track of which filters are chosen -> then
 
   // fetch all the events
   const {
@@ -107,9 +91,6 @@ const Homepage = (): ReactElement => {
 
   const upcomingEvents: ReactElement[] = events
     .filter((e) => e.status === EventStatus.Rest)
-    .filter((e) => {
-      return e.event_name.toLowerCase().includes(searchQuery.toLowerCase());
-    })
     .map((e, i) => {
       const prevDate = events[i - 1]
         ? events[i - 1].start_time.toDateString()
@@ -155,16 +136,6 @@ const Homepage = (): ReactElement => {
   return (
     <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">
       <h1 className="hidden lg:block lg:m-6 lg:mb-3 section-heading">EVENTS</h1>
-      <div className="flex gap-4">
-        <input
-          className="ml-6 border"
-          placeholder="Search Events"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-        />
-      </div>
 
       {liveEvents && liveEvents.length > 0 && (
         <>
