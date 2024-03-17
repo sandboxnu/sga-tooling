@@ -31,7 +31,11 @@ export const DropDownComponent = ({
       return !currentFilterParams.includes(item);
     });
     setAvailableFilters(options);
-  }, [searchParams, availableFilters]);
+
+    // it suggests to include availableFilters wihtin the dep array, however doing that causes this
+    // useEffect to reload continously, which is not the intended behavior
+    // eslint-disable-next-line
+  }, [searchParams]);
 
   const onDropDownClick = () => {
     // TODO: if we have options setIsOpen => true
@@ -43,22 +47,6 @@ export const DropDownComponent = ({
     searchParams.append("filter", option);
     setSearchParams(searchParams);
   };
-
-  // set multiple urls
-  // const removedItemOptions = dropDownOptions.filter(
-  //   (item) => item !== option
-  // );
-  // setDropDownOptions(removedItemOptions);
-
-  // const newSelectedFilters = [...selectedFilters];
-  // newSelectedFilters.push(option);
-
-  // setSelectedFilters(newSelectedFilters);
-  // to keep the order preserved create the state here instead for the setDropDownOptions
-  // we have the initial List then using our own state
-  // all you care about is selectedFilers which will still update
-
-  // can use the link component, and in the homepage I can get the searchParams
 
   const onRemovalButton = (option: string) => {
     // we are filtering on the name
