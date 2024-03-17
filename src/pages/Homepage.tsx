@@ -40,6 +40,7 @@ const Homepage = (): ReactElement => {
   ]);
 
   const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // selected Filters are right now empty
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -101,48 +102,51 @@ const Homepage = (): ReactElement => {
         </div>
       ));
 
-    const remainingEvents = events.filter((e) => e.status === EventStatus.Rest);
-    // filter on both Selected Filter, and the Search as well
-    const upcomingEvents: ReactElement[] = remainingEvents
+    const remainingEvents = events
+      .filter((e) => e.status === EventStatus.Rest)
       .filter((e) => {
         const filters = searchParams.getAll("filter");
         return filters.every((v) => e.tags?.includes(v));
       })
-      .map((e, i) => {
-        const prevDate = events[i - 1]
-          ? events[i - 1].startTime.toDateString()
-          : null;
-        const currDate = events[i].startTime.toDateString();
-
-        //if we have the same event ids, then add in attendanceChange
-        const potentialAttendanceChange = attendanceChanges?.find(
-          (element) => e.id === element.eventID
-        );
-
-        // Checks if this event is the first event of the day, and updates its status accordingly
-        if (i === 0) {
-          e.status = EventStatus.First;
-        } else if (prevDate !== currDate) {
-          e.status = EventStatus.First;
-          return (
-            <>
-              <hr className="border-black home-mx lg:hidden lg:my-12" />
-              <EventCard
-                key={e.eventName}
-                event={e}
-                attendanceChange={potentialAttendanceChange}
-              />
-            </>
-          );
-        }
-        return (
-          <EventCard
-            key={e.eventName}
-            event={e}
-            attendanceChange={potentialAttendanceChange}
-          />
-        );
+      .filter((e) => {
+        return e.eventName.toLowerCase().includes(searchQuery.toLowerCase());
       });
+    // filter on both Selected Filter, and the Search as well
+    const upcomingEvents: ReactElement[] = remainingEvents.map((e, i) => {
+      const prevDate = events[i - 1]
+        ? events[i - 1].startTime.toDateString()
+        : null;
+      const currDate = events[i].startTime.toDateString();
+
+      //if we have the same event ids, then add in attendanceChange
+      const potentialAttendanceChange = attendanceChanges?.find(
+        (element) => e.id === element.eventID
+      );
+
+      // Checks if this event is the first event of the day, and updates its status accordingly
+      if (i === 0) {
+        e.status = EventStatus.First;
+      } else if (prevDate !== currDate) {
+        e.status = EventStatus.First;
+        return (
+          <>
+            <hr className="border-black home-mx lg:hidden lg:my-12" />
+            <EventCard
+              key={e.eventName}
+              event={e}
+              attendanceChange={potentialAttendanceChange}
+            />
+          </>
+        );
+      }
+      return (
+        <EventCard
+          key={e.eventName}
+          event={e}
+          attendanceChange={potentialAttendanceChange}
+        />
+      );
+    });
 
     // also fallback on if we apply too many filters -> No Results Component
 
@@ -152,6 +156,14 @@ const Homepage = (): ReactElement => {
           EVENTS
         </h1>
         <div className="flex w-full justify-center">
+          <input
+            className="ml-6 border"
+            placeholder="Search Events"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+          />
           <DropDownComponent
             dropDownOptions={dropDownOptions}
             setDropDownOptions={setDropDownOptions}
@@ -178,7 +190,11 @@ const Homepage = (): ReactElement => {
           <h1>Upcoming Events</h1>
         </div>
         <div className="flex flex-col lg:pb-6 lg:m-6 mt-6 lg:border-l-4 lg:border-gray-300 gap-12">
-          {upcomingEvents}
+          {remainingEvents.length !== 0 ? (
+            upcomingEvents
+          ) : (
+            <>Filtered Out Results</>
+          )}
         </div>
       </div>
     );
