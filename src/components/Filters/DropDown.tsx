@@ -1,4 +1,5 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 // well eventually can or the types that comes in so for now Tags[]
 // tags isn't typed yet so list of strings :)
@@ -11,9 +12,7 @@ interface DropDownComponentProps {
   label: string;
 }
 
-// TODO: boolean Parameter to change functionality between table? since I want to try to re-use this
-// if not possible just make the default options here and the setter.
-
+// If I'm really lazy, could just redfine this exact same logic for the Attendance Record Component
 export const DropDownComponent = ({
   dropDownOptions,
   setDropDownOptions,
@@ -21,32 +20,48 @@ export const DropDownComponent = ({
   setSelectedFilters,
   label,
 }: DropDownComponentProps) => {
-  // in here defines the function that will be passed down to the other components
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [availableFilters, setAvailableFilters] = useState(dropDownOptions);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // isn't very efficient creaing lots of copies in doing this:
-  const onDropDownClick = (option: string) => {
-    const removedItemOptions = dropDownOptions.filter(
-      (item) => item !== option
-    );
-    setDropDownOptions(removedItemOptions);
+  // when searchParams change, update our available Filters if we can
+  useEffect(() => {
+    const currentFilterParams = searchParams.getAll("filter");
+    const options = availableFilters.filter((item) => {
+      return !currentFilterParams.includes(item);
+    });
+    setAvailableFilters(options);
+  }, [searchParams, availableFilters]);
 
-    const newSelectedFilters = [...selectedFilters];
-    newSelectedFilters.push(option);
-
-    setSelectedFilters(newSelectedFilters);
+  const onDropDownClick = () => {
+    // TODO: if we have options setIsOpen => true
+    setIsOpen(!isOpen);
   };
 
+  const onFilterClick = (option: string) => {
+    //push a new queryParam onto the existing URL
+    searchParams.append("filter", option);
+    setSearchParams(searchParams);
+  };
+
+  // set multiple urls
+  // const removedItemOptions = dropDownOptions.filter(
+  //   (item) => item !== option
+  // );
+  // setDropDownOptions(removedItemOptions);
+
+  // const newSelectedFilters = [...selectedFilters];
+  // newSelectedFilters.push(option);
+
+  // setSelectedFilters(newSelectedFilters);
+  // to keep the order preserved create the state here instead for the setDropDownOptions
+  // we have the initial List then using our own state
+  // all you care about is selectedFilers which will still update
+
+  // can use the link component, and in the homepage I can get the searchParams
+
   const onRemovalButton = (option: string) => {
-    // once we remove a filter, we should add back into our list
-    // then also remove it from the other list:
-    const removedFilter = selectedFilters.filter((item) => item !== option);
-    setDropDownOptions(removedFilter);
-
-    const addedFilter = [...dropDownOptions];
-    addedFilter.push(option);
-
-    setSelectedFilters(addedFilter);
-    // TODO: would like to preserve the previous order of these filters
+    // we are filtering on the name
   };
 
   // TODO: implement hook for closing outside component
@@ -55,19 +70,26 @@ export const DropDownComponent = ({
   // also can make the filters sticky by applying to the search params...
   // that's a Todo after I implement breadcrumbs and see how that works
 
+  // TODO: I also hate how much this shifts -> fix that as well...
+
   return (
     <div className="flex">
       <div>
-        {dropDownOptions.map((option) => (
-          <div
-            role="button"
-            onClick={(e) => {
-              onDropDownClick(option);
-            }}
-          >
-            {option}
-          </div>
-        ))}
+        <div role="button" onClick={(e) => onDropDownClick()}>
+          Filters
+        </div>
+        {isOpen &&
+          availableFilters.map((option) => (
+            <div
+              role="button"
+              onClick={(e) => {
+                onFilterClick(option);
+                e.stopPropagation();
+              }}
+            >
+              {option}
+            </div>
+          ))}
       </div>
 
       <div>
@@ -84,6 +106,4 @@ export const DropDownComponent = ({
       </div>
     </div>
   );
-
-  // this div should render the component and the row of items currently selected to filter
 };

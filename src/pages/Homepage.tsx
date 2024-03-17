@@ -1,4 +1,5 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { LoginContext } from "../App";
 import {
   fetchAllEvents,
@@ -37,6 +38,8 @@ const Homepage = (): ReactElement => {
     "Guest Speaker",
     "Committee",
   ]);
+
+  const [searchParams] = useSearchParams();
 
   // selected Filters are right now empty
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -99,41 +102,49 @@ const Homepage = (): ReactElement => {
       ));
 
     const remainingEvents = events.filter((e) => e.status === EventStatus.Rest);
-    const upcomingEvents: ReactElement[] = remainingEvents.map((e, i) => {
-      const prevDate = events[i - 1]
-        ? events[i - 1].startTime.toDateString()
-        : null;
-      const currDate = events[i].startTime.toDateString();
+    // filter on both Selected Filter, and the Search as well
+    const upcomingEvents: ReactElement[] = remainingEvents
+      .filter((e) => {
+        const filters = searchParams.getAll("filter");
+        return filters.every((v) => e.tags?.includes(v));
+      })
+      .map((e, i) => {
+        const prevDate = events[i - 1]
+          ? events[i - 1].startTime.toDateString()
+          : null;
+        const currDate = events[i].startTime.toDateString();
 
-      //if we have the same event ids, then add in attendanceChange
-      const potentialAttendanceChange = attendanceChanges?.find(
-        (element) => e.id === element.eventID
-      );
-
-      // Checks if this event is the first event of the day, and updates its status accordingly
-      if (i === 0) {
-        e.status = EventStatus.First;
-      } else if (prevDate !== currDate) {
-        e.status = EventStatus.First;
-        return (
-          <>
-            <hr className="border-black home-mx lg:hidden lg:my-12" />
-            <EventCard
-              key={e.eventName}
-              event={e}
-              attendanceChange={potentialAttendanceChange}
-            />
-          </>
+        //if we have the same event ids, then add in attendanceChange
+        const potentialAttendanceChange = attendanceChanges?.find(
+          (element) => e.id === element.eventID
         );
-      }
-      return (
-        <EventCard
-          key={e.eventName}
-          event={e}
-          attendanceChange={potentialAttendanceChange}
-        />
-      );
-    });
+
+        // Checks if this event is the first event of the day, and updates its status accordingly
+        if (i === 0) {
+          e.status = EventStatus.First;
+        } else if (prevDate !== currDate) {
+          e.status = EventStatus.First;
+          return (
+            <>
+              <hr className="border-black home-mx lg:hidden lg:my-12" />
+              <EventCard
+                key={e.eventName}
+                event={e}
+                attendanceChange={potentialAttendanceChange}
+              />
+            </>
+          );
+        }
+        return (
+          <EventCard
+            key={e.eventName}
+            event={e}
+            attendanceChange={potentialAttendanceChange}
+          />
+        );
+      });
+
+    // also fallback on if we apply too many filters -> No Results Component
 
     return (
       <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">
