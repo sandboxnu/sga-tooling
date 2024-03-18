@@ -21,19 +21,24 @@ export const DropDownComponent = ({
   label,
 }: DropDownComponentProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  // is it a good idea to use useState?
   const [availableFilters, setAvailableFilters] = useState(dropDownOptions);
+  const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
+
   const [isOpen, setIsOpen] = useState(false);
 
   // when searchParams change, update our available Filters if we can
   useEffect(() => {
     const currentFilterParams = searchParams.getAll("filter");
-    const options = availableFilters.filter((item) => {
+    const options = dropDownOptions.filter((item) => {
       return !currentFilterParams.includes(item);
     });
+
     setAvailableFilters(options);
+    setAppliedFilters(currentFilterParams);
 
     // it suggests to include availableFilters wihtin the dep array, however doing that causes this
-    // useEffect to reload continously, which is not the intended behavior
+    // useEffect to reload continously, which is not good..
     // eslint-disable-next-line
   }, [searchParams]);
 
@@ -50,6 +55,12 @@ export const DropDownComponent = ({
 
   const onRemovalButton = (option: string) => {
     // we are filtering on the name
+    // TODO: see if we can shorten this/use previous state?
+    const currentFilters = searchParams.getAll("filter");
+    const newParams = currentFilters.filter((f) => {
+      return f !== option;
+    });
+    setSearchParams({ filter: newParams });
   };
 
   // TODO: implement hook for closing outside component
@@ -81,7 +92,7 @@ export const DropDownComponent = ({
       </div>
 
       <div>
-        {selectedFilters.map((item) => (
+        {appliedFilters.map((item) => (
           <div
             role="button"
             onClick={(e) => {
