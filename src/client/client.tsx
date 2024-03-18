@@ -2,6 +2,7 @@ import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
+import { mockVotes } from "../data/votes";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -9,6 +10,8 @@ import {
   Event,
   Member,
   RequestType,
+  Vote,
+  VoteSelection,
 } from "../util/Types";
 
 /**
@@ -141,6 +144,26 @@ export const getAttendanceEventsForMember = (
           }
         }
       }
+    }, 1000);
+  });
+};
+
+export const createVote = (
+  memberID: string,
+  voteID: string,
+  selection: VoteSelection
+): Promise<Vote | undefined> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      //Sample Attendance Change being added
+      const newVote: Vote = {
+        id: mockAttendanceChange.length + 1,
+        memberID: parseInt(memberID),
+        voteID: parseInt(voteID),
+        voteType: selection,
+      };
+      mockVotes.push(newVote);
+      resolve(newVote);
     }, 1000);
   });
 };

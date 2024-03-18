@@ -111,12 +111,12 @@ const Menu = (): ReactElement => {
               Record
             </button>
             <button
-              className={`text-slate-400 ${
+              className={`App hover:text-slate-200 ${
                 useLocation().pathname === "/voting"
                   ? "underline"
                   : "no-underline"
               }`}
-              disabled
+              onClick={() => Click("/voting")}
             >
               Voting
             </button>

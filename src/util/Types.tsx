@@ -77,3 +77,31 @@ export type AttendanceRecord = {
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export type Vote = {
+  id: number;
+  memberID: number;
+  voteID: number;
+  voteType: VoteSelection;
+};
+
+export type VoteSelection = "A" | "Y" | "N";
+
+export type VoteQuestions = {
+  id: number;
+  question: string;
+  // optional subtext/description for the votew
+  description?: string;
+  // Duration for how long the voting period lasts:
+  time_start: Date;
+  time_end: Date;
+};
+
+// two post requests, post to both the vote questions, and the vote selection
+
+export type VoteHistory = {
+  // these don't have UUIDs so its fine
+  memberID: number;
+  voteID: number;
+  voteSelection: VoteSelection;
+};
