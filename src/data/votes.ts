@@ -1,4 +1,4 @@
-import { Vote, VoteHistory, VoteQuestions, VoteSelection } from "../util/Types";
+import { VoteHistory, VoteQuestions, VoteSelection } from "../util/Types";
 
 export const mockVoteQuestions: VoteQuestions[] = [
   // For now comment/uncomment this question out for testing whether a vote exists or not
@@ -16,22 +16,6 @@ export const mockVoteQuestions: VoteQuestions[] = [
     // random idk
     time_start: new Date("2023-12-25 18:15:23"),
     time_end: new Date("2023-12-25 20:30:54"),
-  },
-];
-
-export const mockVotes: Vote[] = [
-  {
-    id: 1,
-    memberID: 1,
-    voteID: 1,
-    voteType: VoteSelection.NO,
-  },
-  // For now comment/uncomment this member out for testing whether we have already voted or not
-  {
-    id: 2,
-    memberID: 2,
-    voteID: 1,
-    voteType: VoteSelection.YES,
   },
 ];
 

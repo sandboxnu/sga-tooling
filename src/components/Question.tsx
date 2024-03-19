@@ -8,10 +8,6 @@ interface QuestionProps {
 }
 
 export const Question = ({ question }: QuestionProps) => {
-  // keep track of the state of the selection here, and the inpts
-  // TODO: in here would probably read the member from context, but weird stuff going on so gonna pass by props
-  // is it safe to pass props like the id of the vote?
-
   const [selectedVote, setSelectedVote] = useState<VoteSelection>();
   const [error, setError] = useState(false);
   // not sure if error is needed, but if we don't select we are disabled:

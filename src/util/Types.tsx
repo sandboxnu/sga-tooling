@@ -78,14 +78,6 @@ export type AttendanceRecord = {
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
 
-// probabably don't need this
-export type Vote = {
-  id: number;
-  memberID: number;
-  voteID: number;
-  voteType: VoteSelection;
-};
-
 export enum VoteSelection {
   YES = "Y",
   ABSTAIN = "A",
