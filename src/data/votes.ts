@@ -1,8 +1,9 @@
-import { Vote, VoteQuestions } from "../util/Types";
+import { Vote, VoteHistory, VoteQuestions, VoteSelection } from "../util/Types";
 
 export const mockVoteQuestions: VoteQuestions[] = [
+  // For now comment/uncomment this question out for testing whether a vote exists or not
   {
-    id: 1,
+    id: "1",
     question: "Do you want to implement the new SGA website",
     description: "Subtext here blah blah blah",
     // yearlong ex: for something that should start now:
@@ -10,7 +11,7 @@ export const mockVoteQuestions: VoteQuestions[] = [
     time_end: new Date("2024-12-31 23:59:59"),
   },
   {
-    id: 2,
+    id: "2",
     question: "Another Vote Example in the future",
     // random idk
     time_start: new Date("2023-12-25 18:15:23"),
@@ -23,6 +24,27 @@ export const mockVotes: Vote[] = [
     id: 1,
     memberID: 1,
     voteID: 1,
-    voteType: "A",
+    voteType: VoteSelection.NO,
+  },
+  // For now comment/uncomment this member out for testing whether we have already voted or not
+  {
+    id: 2,
+    memberID: 2,
+    voteID: 1,
+    voteType: VoteSelection.YES,
+  },
+];
+
+export const mockVoteHistory: VoteHistory[] = [
+  {
+    memberID: "1",
+    voteID: "1",
+    voteSelection: VoteSelection.YES,
+  },
+  // For now comment/uncomment this member out for testing whether we have already voted or not
+  {
+    memberID: "2",
+    voteID: "1",
+    voteSelection: VoteSelection.NO,
   },
 ];

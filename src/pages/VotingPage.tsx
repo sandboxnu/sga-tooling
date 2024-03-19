@@ -1,7 +1,11 @@
-import { ReactElement } from "react";
+import { ReactElement, useContext, useState } from "react";
+import { LoginContext } from "../App";
+import { fetchMember, getAllQuestions, getMemberVotes } from "../client/client";
+import Loading from "../components/Loading";
+import { Question } from "../components/Question";
+import { Member, VoteHistory, VoteQuestions } from "../util/Types";
 
 // TODO: also interesting case if we maybe have two questions at the same time/ choose the most recent/first one that we find
-
 // this page will load two things the vote questions, the votes the logged in user made
 // if we have a live vote/ the times overlap, and we have not already casted a vote for this i.e can't find within the list
 // display prompt to submit a vote
@@ -16,26 +20,62 @@ import { ReactElement } from "react";
 // once we have submitted show a different screen/component
 // then eventually consider how this will look across all screens :)
 
+// as always when something fails/cannot fetch make sure to show the error compoenent
+
+const determineIfVoteAvailable = (time_start: Date, time_end: Date) => {
+  // given two inputs find whether we are within the time range to show the dates:
+  const today = new Date();
+  return today >= time_start && today <= time_end;
+};
+
 export const VotingPage = (): ReactElement => {
   // TODO: web sockets and live display of member votes, focus on creating a vote, based on a system
   // then showing the results
   // TODO: also for this screen ask to authenticate one more time befor entering
 
   // Then Reach here:
-  // first fetch all the votes within the table to see if there is a vote available
+  const { userID } = useContext(LoginContext);
+  // fetch both the Voting History and the Questions to be proposed:
+  const [votingHistory, setVotingHistory] = useState<VoteHistory[]>([]);
+  const [totalQuestions, setQuestions] = useState<VoteQuestions[]>();
+  const [member, setMember] = useState<Member>();
+  // for now undefined
 
-  // if there is nothing available: other screen
+  // this will be better handled in a reactQuery funtion
+  const fetchNecessaryItems = async () => {
+    // on load fetch each of the components:
+    const member = await fetchMember(userID!);
+    setMember(member);
+    // from the memebrs use their ID:
+    const votingRecords = await getMemberVotes(member?.id!);
+    setVotingHistory(votingRecords);
+    // with the memberID -> get their voting History
+    const questionsInQueue = await getAllQuestions();
+    return questionsInQueue;
+  };
 
-  // if there is a vote available:
-  // show the screen to cast a vote for that specific vote uuid:
+  // quick cheat to get the Loading Component while these fetch:
+  if (!totalQuestions) {
+    fetchNecessaryItems().then((q) => {
+      setQuestions(q);
+    });
+    return <Loading />;
+  }
 
-  // 3 basic optioned select and the value depending on select -> set a value here: then cast the vote
-  // upon submission i.e we know we have submitted -> navigate to another page/show somehow completed
+  // find if we have a question:
+  const isValidQuestion: VoteQuestions | undefined = totalQuestions.find(
+    (q) => {
+      return determineIfVoteAvailable(q.time_start, q.time_end);
+    }
+  );
 
-  // stay within voting screen and navigate to another page wihthin this component :)
-  // is submitted:
-
-  // then once we submit we should not be able to come back
-
-  return <>Hello World</>;
+  return (
+    <div>
+      {isValidQuestion ? (
+        <Question question={isValidQuestion} />
+      ) : (
+        <>We don't have a question</>
+      )}
+    </div>
+  );
 };

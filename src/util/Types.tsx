@@ -78,6 +78,7 @@ export type AttendanceRecord = {
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
 
+// probabably don't need this
 export type Vote = {
   id: number;
   memberID: number;
@@ -85,23 +86,26 @@ export type Vote = {
   voteType: VoteSelection;
 };
 
-export type VoteSelection = "A" | "Y" | "N";
+export enum VoteSelection {
+  YES = "Y",
+  ABSTAIN = "A",
+  NO = "N",
+}
 
+//"A" | "Y" | "N";
 export type VoteQuestions = {
-  id: number;
+  id: string;
   question: string;
-  // optional subtext/description for the votew
+  // optional subtext/description for the vote
   description?: string;
   // Duration for how long the voting period lasts:
   time_start: Date;
   time_end: Date;
 };
 
-// two post requests, post to both the vote questions, and the vote selection
-
+// variable names are certainly subject to change...
 export type VoteHistory = {
-  // these don't have UUIDs so its fine
-  memberID: number;
-  voteID: number;
+  memberID: string;
+  voteID: string;
   voteSelection: VoteSelection;
 };

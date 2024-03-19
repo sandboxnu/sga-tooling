@@ -2,7 +2,7 @@ import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
-import { mockVotes } from "../data/votes";
+import { mockVoteHistory, mockVoteQuestions } from "../data/votes";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -10,7 +10,8 @@ import {
   Event,
   Member,
   RequestType,
-  Vote,
+  VoteHistory,
+  VoteQuestions,
   VoteSelection,
 } from "../util/Types";
 
@@ -152,18 +153,37 @@ export const createVote = (
   memberID: string,
   voteID: string,
   selection: VoteSelection
-): Promise<Vote | undefined> => {
+): Promise<VoteHistory | undefined> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      //Sample Attendance Change being added
-      const newVote: Vote = {
-        id: mockAttendanceChange.length + 1,
-        memberID: parseInt(memberID),
-        voteID: parseInt(voteID),
-        voteType: selection,
+      // Add a new vote into the table
+      const newVote: VoteHistory = {
+        memberID: memberID,
+        voteID: voteID,
+        voteSelection: selection,
       };
-      mockVotes.push(newVote);
+      mockVoteHistory.push(newVote);
       resolve(newVote);
+    }, 1000);
+  });
+};
+
+export const getAllQuestions = (): Promise<VoteQuestions[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      mockVoteQuestions ? resolve(mockVoteQuestions) : reject("404 Not found");
+    }, 1000);
+  });
+};
+
+export const getMemberVotes = (memberID: string): Promise<VoteHistory[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // in the future can make this query params where we include everything we supply: memberID/VID: can be much quicker?
+      const memberHistory = mockVoteHistory.filter(
+        (vh) => vh.memberID !== memberID
+      );
+      resolve(memberHistory);
     }, 1000);
   });
 };
