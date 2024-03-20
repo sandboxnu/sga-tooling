@@ -39,8 +39,8 @@ export const AttendanceStanding = ({
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
 
-  const poorStanding = member?.activeMember;
-  const pendingDiscussion = member?.signInBlocked;
+  const poorStanding = member?.active_member;
+  const pendingDiscussion = member?.sign_in_blocked;
 
   const amtEvents = attendanceRecord.length;
   const unexcusedA = getCountOfKeyInStatusList(AttendanceList, "A");

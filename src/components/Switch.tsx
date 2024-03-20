@@ -1,9 +1,25 @@
+import { useRef, useState } from "react";
+import { updateMemberTags } from "../client/member";
+
 type SliderProp = {
   toggle: boolean;
-  setToggle: (toggle: boolean) => void;
+  userID: string;
 };
 
-const Switch = ({ toggle, setToggle }: SliderProp) => {
+const Switch = ({ toggle, userID }: SliderProp) => {
+  // TODO: this is a hacky fix that is not recommended, for an optimistic update
+  const [initState, setBoolean] = useState<boolean>(toggle);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const setToggle = async () => {
+    setBoolean(!initState);
+    inputRef.current?.blur();
+
+    await updateMemberTags(userID);
+  };
+
+  // TODO: look deeper into the example later, but this should not be final!
+
   return (
     <div className="form-check form-switch">
       <input
@@ -11,8 +27,8 @@ const Switch = ({ toggle, setToggle }: SliderProp) => {
         type="checkbox"
         role="switch"
         id="flexSwitchChecked"
-        checked={toggle}
-        onClick={(e) => setToggle(!toggle)}
+        checked={initState}
+        onClick={setToggle}
       />
     </div>
   );

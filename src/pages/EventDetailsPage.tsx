@@ -1,28 +1,43 @@
-import { ReactElement, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { ReactElement } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Frame from ".././assets/Frame.svg";
 import LinkSVG from ".././assets/Link.svg";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
-import { fetchEvent } from "../client/client";
+import { getEvent } from "../client/events";
+import ErrorComponent from "../components/ErrorComponent";
 import Loading from "../components/Loading";
 import { createDateString } from "../util/Date";
+import { Event } from "../util/Types";
 
 //if time is not defined make it all day
 const EventDetailsPage = (): ReactElement => {
   const { id } = useParams();
-  const [event, setEvent] = useState(useLocation().state?.event);
+  const paramEvent = useLocation().state?.event;
 
-  if (!event) {
-    fetchEvent(Number(id)).then((e) => {
-      setEvent(e);
-    });
+  const {
+    data: fetchedEvent,
+    isLoading,
+    isError,
+  } = useQuery<Event>({
+    queryKey: ["api", "event", { id }],
+    queryFn: () => getEvent(id!),
+    enabled: !paramEvent,
+  });
+
+  if (isLoading) {
     return <Loading />;
   }
 
-  console.log(`The value of event is ${event}`);
-  const startDate = new Date(event.startTime);
+  if (isError) {
+    // TODO: does isError even work lol, had a 500 error, and nothing happened, need to test this...
+    return <ErrorComponent />;
+  }
+
+  const event: Event = paramEvent || fetchedEvent;
+  const startDate = new Date(event.start_time);
   const { month, dayOfWeek, fulldate, year } = createDateString(startDate);
 
   const startTimeString: string = startDate.toLocaleString("en-US", {
@@ -31,8 +46,8 @@ const EventDetailsPage = (): ReactElement => {
     hour12: true,
   });
 
-  const endTimeString: string | undefined = event.endTime
-    ? new Date(event.endTime).toLocaleString("en-US", {
+  const endTimeString: string | undefined = event.end_time
+    ? new Date(event.end_time).toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
         hour12: true,
@@ -71,7 +86,7 @@ const EventDetailsPage = (): ReactElement => {
       </div>
       <hr className="border-black" />
       <div className="font-bold text-2xl leading-8 font-sans break-words">
-        {event.eventName}
+        {event.event_name}
       </div>
       <div className="flex flex-col w-full md:flex-row gap-12">
         <div className="flex flex-row h-60 md:w-6/12 md:h-96">
@@ -88,7 +103,8 @@ const EventDetailsPage = (): ReactElement => {
                 </div>
               </div>
               <div className="font-sans font-bold text-l">
-                {startTimeString + (event.endTime ? " - " + endTimeString : "")}
+                {startTimeString +
+                  (event.end_time ? " - " + endTimeString : "")}
               </div>
             </div>
           </div>
