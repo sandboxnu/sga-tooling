@@ -1,6 +1,7 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { LoginContext } from "../App";
+import SearchIconSVG from "../assets/SearchIcon.svg";
 import {
   fetchAllEvents,
   fetchMember,
@@ -149,21 +150,32 @@ const Homepage = (): ReactElement => {
     });
 
     // also fallback on if we apply too many filters -> No Results Component
+    /*
+                    <img
+                  src={MeatballMenuSVG}
+                  alt="Menu svg"
+                  aria-label="Open Event Card details"
+                />
+    */
 
     return (
       <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">
         <h1 className="hidden lg:block lg:m-6 lg:mb-3 section-heading">
           EVENTS
         </h1>
-        <div className="flex w-full justify-center">
-          <input
-            className="ml-6 border"
-            placeholder="Search Events"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-          />
+        <div className="flex w-full m-6 gap-x-4">
+          <div className=" flex ml-4 border-2 border-attendance-grey rounded-md max-h-9">
+            {/*TODO: this search Icon size keeps resizing fix */}
+            <img className="mx-2 max-h-8" src={SearchIconSVG}></img>
+            <input
+              className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon "
+              placeholder="Search Events"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
+          </div>
           <DropDownComponent
             dropDownOptions={dropDownOptions}
             setDropDownOptions={setDropDownOptions}

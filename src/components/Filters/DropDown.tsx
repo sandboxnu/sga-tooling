@@ -21,7 +21,6 @@ export const DropDownComponent = ({
   label,
 }: DropDownComponentProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  // is it a good idea to use useState?
   const [availableFilters, setAvailableFilters] = useState(dropDownOptions);
   const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
 
