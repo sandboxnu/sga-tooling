@@ -2,6 +2,7 @@ import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
+import { mockVoteHistory, mockVoteQuestions } from "../data/votes";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -9,6 +10,9 @@ import {
   Event,
   Member,
   RequestType,
+  VoteHistory,
+  VoteQuestions,
+  VoteSelection,
 } from "../util/Types";
 
 /**
@@ -141,6 +145,45 @@ export const getAttendanceEventsForMember = (
           }
         }
       }
+    }, 1000);
+  });
+};
+
+export const createVote = (
+  memberID: string,
+  voteID: string,
+  selection: VoteSelection
+): Promise<VoteHistory | undefined> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Add a new vote into the table
+      const newVote: VoteHistory = {
+        memberID: memberID,
+        voteID: voteID,
+        voteSelection: selection,
+      };
+      mockVoteHistory.push(newVote);
+      resolve(newVote);
+    }, 1000);
+  });
+};
+
+export const getAllQuestions = (): Promise<VoteQuestions[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      mockVoteQuestions ? resolve(mockVoteQuestions) : reject("404 Not found");
+    }, 1000);
+  });
+};
+
+export const getMemberVotes = (memberID: string): Promise<VoteHistory[]> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // in the future can make this query params where we include everything we supply: memberID/VID: can be much quicker?
+      const memberHistory = mockVoteHistory.filter(
+        (vh) => vh.memberID !== memberID
+      );
+      resolve(memberHistory);
     }, 1000);
   });
 };

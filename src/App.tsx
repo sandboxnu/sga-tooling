@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
@@ -9,7 +9,9 @@ import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
+import { PastVotes } from "./pages/PastVotes";
 import UserPreference from "./pages/UserPreference";
+import { VotingPage } from "./pages/VotingPage";
 
 export type UserID = string | null;
 
@@ -49,6 +51,8 @@ function App() {
                 <Route path="/events/:id" element={<EventDetailsPage />} />
                 <Route path="/user/" element={<UserPreference />} />
                 <Route path="/record" element={<AttendanceRecordPage />} />
+                <Route path="/voting" element={<VotingPage />} />
+                <Route path="/voting/past" element={<PastVotes />} />
               </Route>
 
               <Route path="*" element={<Error404 />} />
