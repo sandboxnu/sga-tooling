@@ -1,5 +1,7 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { LoginContext } from "../App";
+import SearchIconSVG from "../assets/SearchIcon.svg";
 import {
   fetchAllEvents,
   fetchMember,
@@ -7,6 +9,7 @@ import {
 } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
+import { DropDownComponent } from "../components/Filters/DropDown";
 import Loading from "../components/Loading";
 import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
@@ -29,6 +32,20 @@ function getStatus(start: Date, end: Date) {
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
+  // probably can move this to the config file in the future similar to how Event Tags does it.
+  // probably can just keep this
+  const [dropDownOptions, setDropDownOptions] = useState([
+    "Senate",
+    "Guest Speaker",
+    "Committee",
+  ]);
+
+  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // selected Filters are right now empty
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
   const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>();
   const [attendanceChanges, setAttendanceChanges] = useState<
     AttendanceChange[] | null
@@ -68,6 +85,8 @@ const Homepage = (): ReactElement => {
       };
     });
 
+    // if I care, something has happened to these events where they no longer sort, and is missing the live
+
     if (!attendanceChanges) return <Loading />;
 
     // for each element, we then look at each eventid and try to match with the corresponding
@@ -84,55 +103,87 @@ const Homepage = (): ReactElement => {
         </div>
       ));
 
-    const upcomingEvents: ReactElement[] = events
+    const remainingEvents = events
       .filter((e) => e.status === EventStatus.Rest)
-      .map((e, i) => {
-        const prevDate = events[i - 1]
-          ? events[i - 1].startTime.toDateString()
-          : null;
-        const currDate = events[i].startTime.toDateString();
-
-        //if we have the same event ids, then add in attendanceChange
-        const potentialAttendanceChange = attendanceChanges?.find(
-          (element) => e.id === element.eventID
-        );
-
-        // Checks if this event is the first event of the day, and updates its status accordingly
-        if (i === 0) {
-          e.status = EventStatus.First;
-        } else if (prevDate !== currDate) {
-          e.status = EventStatus.First;
-          return (
-            <>
-              <hr className="border-black home-mx lg:hidden lg:my-12" />
-              {potentialAttendanceChange ? (
-                <EventCard
-                  key={e.eventName}
-                  event={e}
-                  attendanceChange={potentialAttendanceChange}
-                />
-              ) : (
-                <EventCard key={e.eventName} event={e} />
-              )}
-            </>
-          );
-        }
-        return potentialAttendanceChange ? (
-          <EventCard
-            key={e.eventName}
-            event={e}
-            attendanceChange={potentialAttendanceChange}
-          />
-        ) : (
-          <EventCard key={e.eventName} event={e} />
-        );
+      .filter((e) => {
+        const filters = searchParams.getAll("filter");
+        return filters.every((v) => e.tags?.includes(v));
+      })
+      .filter((e) => {
+        return e.eventName.toLowerCase().includes(searchQuery.toLowerCase());
       });
+    // filter on both Selected Filter, and the Search as well
+    const upcomingEvents: ReactElement[] = remainingEvents.map((e, i) => {
+      const prevDate = events[i - 1]
+        ? events[i - 1].startTime.toDateString()
+        : null;
+      const currDate = events[i].startTime.toDateString();
+
+      //if we have the same event ids, then add in attendanceChange
+      const potentialAttendanceChange = attendanceChanges?.find(
+        (element) => e.id === element.eventID
+      );
+
+      // Checks if this event is the first event of the day, and updates its status accordingly
+      if (i === 0) {
+        e.status = EventStatus.First;
+      } else if (prevDate !== currDate) {
+        e.status = EventStatus.First;
+        return (
+          <>
+            <hr className="border-black home-mx lg:hidden lg:my-12" />
+            <EventCard
+              key={e.eventName}
+              event={e}
+              attendanceChange={potentialAttendanceChange}
+            />
+          </>
+        );
+      }
+      return (
+        <EventCard
+          key={e.eventName}
+          event={e}
+          attendanceChange={potentialAttendanceChange}
+        />
+      );
+    });
+
+    // also fallback on if we apply too many filters -> No Results Component
+    /*
+                    <img
+                  src={MeatballMenuSVG}
+                  alt="Menu svg"
+                  aria-label="Open Event Card details"
+                />
+    */
 
     return (
       <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">
         <h1 className="hidden lg:block lg:m-6 lg:mb-3 section-heading">
           EVENTS
         </h1>
+        <div className="flex w-full m-6 gap-x-4">
+          <div className=" flex ml-4 border-2 border-attendance-grey rounded-md max-h-9">
+            {/*TODO: this search Icon size keeps resizing fix */}
+            <img className="mx-2 max-h-8" src={SearchIconSVG}></img>
+            <input
+              className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon "
+              placeholder="Search Events"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
+          </div>
+          <DropDownComponent
+            dropDownOptions={dropDownOptions}
+            setDropDownOptions={setDropDownOptions}
+            setSelectedFilters={setSelectedFilters}
+            selectedFilters={selectedFilters}
+            label="Filter"
+          />
+        </div>
         {liveEvents && liveEvents.length > 0 && (
           <>
             <h1 className="lg:text-sga-red lg:m-6 lg:my-3 section-heading">
@@ -151,7 +202,11 @@ const Homepage = (): ReactElement => {
           <h1>Upcoming Events</h1>
         </div>
         <div className="flex flex-col lg:pb-6 lg:m-6 mt-6 lg:border-l-4 lg:border-gray-300 gap-12">
-          {upcomingEvents}
+          {remainingEvents.length !== 0 ? (
+            upcomingEvents
+          ) : (
+            <>Filtered Out Results</>
+          )}
         </div>
       </div>
     );
