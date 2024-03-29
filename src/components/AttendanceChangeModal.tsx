@@ -70,8 +70,8 @@ const AttendanceChangeModal = ({
   const submitForm = () => {
     const submissonJson: AttendanceData = {
       reason: reason,
-      request_type: requestType,
-      submission_time: formatDate(new Date(), true),
+      type: requestType,
+      time_submitted: formatDate(new Date(), true),
     };
 
     if (lateArrivalTime) {

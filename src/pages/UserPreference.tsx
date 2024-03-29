@@ -21,8 +21,6 @@ const UserPreference = (): ReactElement => {
     queryKey: ["api", "member", { userID }],
   });
 
-  console.log(memberData);
-
   // fetch their respective tags
   const {
     data: memberTags,

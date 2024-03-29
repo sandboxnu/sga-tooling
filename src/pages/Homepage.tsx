@@ -52,6 +52,8 @@ const Homepage = (): ReactElement => {
     queryKey: ["api", "attendance", { userID }],
   });
 
+  console.log(attendanceChanges);
+
   // Load until we get back results
   if (attendanceLoading || eventsLoading) {
     return <Loading />;
@@ -99,7 +101,7 @@ const Homepage = (): ReactElement => {
 
       //if we have the same event ids, then add in attendanceChange
       const potentialAttendanceChange = attendanceChanges.find(
-        (element) => e.uuid === element.eventID
+        (element) => e.uuid === element.event_id
       );
 
       // Checks if this event is the first event of the day, and updates its status accordingly

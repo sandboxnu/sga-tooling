@@ -1,5 +1,8 @@
-import { useRef, useState } from "react";
-import { updateMemberTags } from "../client/member";
+import { useMutation } from "@tanstack/react-query";
+import { useRef } from "react";
+import { queryClient } from "../App";
+import { updateMemberPreferences } from "../client/member";
+import { Member } from "../util/Types";
 
 type SliderProp = {
   toggle: boolean;
@@ -7,18 +10,48 @@ type SliderProp = {
 };
 
 const Switch = ({ toggle, userID }: SliderProp) => {
-  // TODO: this is a hacky fix that is not recommended, for an optimistic update
-  const [initState, setBoolean] = useState<boolean>(toggle);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // can just add the useMutation stuff here and pass it in as a prop
+  const updateMemberPreference = useMutation({
+    mutationFn: () => updateMemberPreferences(userID!),
+    onMutate: async () => {
+      // cancel outgoing refetches
+      await queryClient.cancelQueries({
+        queryKey: ["api", "member", { userID }],
+      });
+      // previous state:
+      const prevMember: Member | undefined = queryClient.getQueryData([
+        "api",
+        "member",
+        { userID },
+      ]);
+      const newMemberData = {
+        ...prevMember,
+        receive_not_present_email: !prevMember?.receive_not_present_email,
+      };
+      // set New Values:
+      queryClient.setQueryData(["api", "member", { userID }], newMemberData);
+      return { prevMember };
+    },
+    onError: (err, newPreference, context) => {
+      queryClient.setQueryData(
+        ["api", "member", { userID }],
+        context?.prevMember
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["api", "member", { userID }],
+      });
+    },
+  });
+
   const setToggle = async () => {
-    setBoolean(!initState);
     inputRef.current?.blur();
 
-    await updateMemberTags(userID);
+    updateMemberPreference.mutateAsync();
   };
-
-  // TODO: look deeper into the example later, but this should not be final!
 
   return (
     <div className="form-check form-switch">
@@ -27,7 +60,7 @@ const Switch = ({ toggle, userID }: SliderProp) => {
         type="checkbox"
         role="switch"
         id="flexSwitchChecked"
-        checked={initState}
+        checked={toggle}
         onClick={setToggle}
       />
     </div>

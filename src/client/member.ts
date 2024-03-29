@@ -20,8 +20,7 @@ export const getMemberTags = async (uuid: string) => {
   return reponse.data.memberTags;
 };
 
-// just a get request not a put since its a slider from true/false
-export const updateMemberTags = async (uuid: string) => {
+export const updateMemberPreferences = async (uuid: string) => {
   const response = await api.get("/member/updateMemberPreferences", {
     params: {
       id: uuid,

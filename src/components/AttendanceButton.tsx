@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../App";
+import { LoginContext, queryClient } from "../App";
 import { createAttendanceChangeRequest } from "../client/attendanceChange";
 import { AttendanceButtonStyles } from "../util/styleConfig";
 import {
@@ -43,6 +43,10 @@ export const AttendanceButton = ({
         setIsCreatingAttendance(false);
         // once we successfully created an AttendanceChange its back to pending
         setAttendanceStatus(ChangeStatus.NOT_REVIEWED);
+        // invalidate queries to make attendance change state reload
+        queryClient.invalidateQueries({
+          queryKey: ["api", "attendance", { userID }],
+        });
       } catch (e) {
         setErrorType(1);
         setIsCreatingAttendance(false);

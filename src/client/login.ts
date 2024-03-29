@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   // also may need to throw this in an env in the future...
-  baseURL: `http://localhost:3000/api`,
+  baseURL: `https://sgatooling-bnbxge0om-sandboxneu.vercel.app/api`,
   headers: {
     "Content-Type": "application/json",
   },

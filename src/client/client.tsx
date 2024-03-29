@@ -1,15 +1,6 @@
-import { mockAttendanceChange } from "../data/attendanceChange";
-import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
-import {
-  AttendanceChange,
-  AttendanceRecord,
-  ChangeStatus,
-  Event,
-  Member,
-  RequestType,
-} from "../util/Types";
+import { Event, Member } from "../util/Types";
 
 // TODO: move these to a test file along with the mock data
 
@@ -43,6 +34,7 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
   });
 }
 
+/*
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
   memberID: string,
@@ -111,3 +103,4 @@ export const getAttendanceRecordForMember = (
     }, 1000);
   });
 };
+*/

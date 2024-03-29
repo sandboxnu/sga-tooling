@@ -35,14 +35,14 @@ export type Member = {
 
 export type AttendanceChange = {
   uuid: string;
-  memberID: string;
+  member_id: string;
   type: RequestType;
-  eventID: string;
-  submit_time: Date;
+  event_id: string;
+  time_submitted: Date;
   change_status: ChangeStatus;
   reason: string;
-  arrive_time?: Date;
-  leave_time?: Date;
+  time_arriving?: Date;
+  time_leaving?: Date;
 };
 
 export enum RequestType {
@@ -74,8 +74,8 @@ export enum ReportReason {
 
 export type AttendanceData = {
   reason: string;
-  request_type?: RequestType;
-  submission_time: string;
+  type?: RequestType;
+  time_submitted: string;
   time_arriving?: string;
   time_leaving?: string;
 };
