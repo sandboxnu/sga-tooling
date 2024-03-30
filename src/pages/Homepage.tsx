@@ -1,14 +1,14 @@
-import { ReactElement, useContext } from "react";
-import { LoginContext } from "../App";
-import Loading from "../components/Loading";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
-// import { queryClient } from "../App";
 import { useQuery } from "@tanstack/react-query";
+import { ReactElement, useContext, useState } from "react";
+import { LoginContext } from "../App";
 import { getAllAttendanceChangesForMember } from "../client/attendanceChange";
 import { getAllEvents } from "../client/events";
 import Alert from "../components/Alert";
 import ErrorComponent from "../components/ErrorComponent";
 import EventCard from "../components/EventCard";
+import { DropDownComponent } from "../components/filters/HomePageDropDown";
+import Loading from "../components/Loading";
+import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
 /**
  * Compares the current time to a given start and end date to return the associated event status
@@ -31,6 +31,7 @@ function getStatus(start: Date, end?: Date) {
 const Homepage = (): ReactElement => {
   // TODO: swap this out...
   const { userID } = useContext(LoginContext);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // fetch all the events
   const {
@@ -91,49 +92,48 @@ const Homepage = (): ReactElement => {
       </div>
     ));
 
-  const upcomingEvents: ReactElement[] = events
+  // add in filtering logic
+  const remainingEvents = events
     .filter((e) => e.status === EventStatus.Rest)
-    .map((e, i) => {
-      const prevDate = events[i - 1]
-        ? events[i - 1].start_time.toDateString()
-        : null;
-      const currDate = events[i].start_time.toDateString();
+    .filter((e) =>
+      e.event_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-      //if we have the same event ids, then add in attendanceChange
-      const potentialAttendanceChange = attendanceChanges.find(
-        (element) => e.uuid === element.event_id
-      );
+  const upcomingEvents: ReactElement[] = remainingEvents.map((e, i) => {
+    const prevDate = events[i - 1]
+      ? events[i - 1].start_time.toDateString()
+      : null;
+    const currDate = events[i].start_time.toDateString();
 
-      // Checks if this event is the first event of the day, and updates its status accordingly
-      if (i === 0) {
-        e.status = EventStatus.First;
-      } else if (prevDate !== currDate) {
-        e.status = EventStatus.First;
-        return (
-          <>
-            <hr className="border-black home-mx lg:hidden lg:my-12" />
-            {potentialAttendanceChange ? (
-              <EventCard
-                key={e.event_name}
-                event={e}
-                attendanceChange={potentialAttendanceChange}
-              />
-            ) : (
-              <EventCard key={e.event_name} event={e} />
-            )}
-          </>
-        );
-      }
-      return potentialAttendanceChange ? (
-        <EventCard
-          key={e.event_name}
-          event={e}
-          attendanceChange={potentialAttendanceChange}
-        />
-      ) : (
-        <EventCard key={e.event_name} event={e} />
+    //if we have the same event ids, then add in attendanceChange
+    const potentialAttendanceChange = attendanceChanges.find(
+      (element) => e.uuid === element.event_id
+    );
+
+    // Checks if this event is the first event of the day, and updates its status accordingly
+    if (i === 0) {
+      e.status = EventStatus.First;
+    } else if (prevDate !== currDate) {
+      e.status = EventStatus.First;
+      return (
+        <>
+          <hr className="border-black home-mx lg:hidden lg:my-12" />
+          <EventCard
+            key={e.event_name}
+            event={e}
+            attendanceChange={potentialAttendanceChange}
+          />
+        </>
       );
-    });
+    }
+    return (
+      <EventCard
+        key={e.event_name}
+        event={e}
+        attendanceChange={potentialAttendanceChange}
+      />
+    );
+  });
 
   return (
     <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">
@@ -148,6 +148,18 @@ const Homepage = (): ReactElement => {
         </>
       )}
 
+      <div>
+        <input
+          className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon "
+          placeholder="Search Events"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+        />
+        <DropDownComponent />
+      </div>
+
       <Alert
         message="Your standing in SGA may be affected if you miss the next event."
         className="home-mx mt-5 lg:hidden"
@@ -157,7 +169,11 @@ const Homepage = (): ReactElement => {
         <h1>Upcoming Events</h1>
       </div>
       <div className="flex flex-col lg:pb-6 lg:m-6 mt-6 lg:border-l-4 lg:border-gray-300 gap-12">
-        {upcomingEvents}
+        {remainingEvents.length !== 0 ? (
+          upcomingEvents
+        ) : (
+          <>Filtered Out Results</>
+        )}
       </div>
     </div>
   );

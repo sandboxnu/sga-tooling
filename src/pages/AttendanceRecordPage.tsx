@@ -22,6 +22,7 @@ import { AttendanceRecord, Event, Member } from "../util/Types";
 const AttendanceRecordPage = () => {
   // --- CONTEXT ----------------------------------------------------
   const { userID } = useContext(LoginContext);
+  console.log(userID);
 
   // --- DATA ------------------------------------------------------
   // const [member, setMember] = useState<Member>();

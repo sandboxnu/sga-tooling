@@ -10,7 +10,6 @@ export const getAllAttendanceChangesForMember = async (uuid: string) => {
   return attendance.data;
 };
 
-// TODO: need to not get blocked by CORS
 export const createAttendanceChangeRequest = async (
   attendanceChange: createdAttendanceChange
 ) => {
