@@ -52,7 +52,14 @@ const Settings = (props: {
           >
             My Record
           </button>
-          <button className="text-slate-400" disabled>
+          <button
+            className={`App ${
+              useLocation().pathname === "/voting"
+                ? "underline"
+                : "no-underline"
+            }`}
+            onClick={() => Click("/voting")}
+          >
             Voting
           </button>
         </div>

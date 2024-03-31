@@ -94,3 +94,27 @@ export type AttendanceRecord = {
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export enum VoteSelection {
+  YES = "Y",
+  ABSTAIN = "A",
+  NO = "N",
+}
+
+//"A" | "Y" | "N";
+export type VoteQuestions = {
+  uuid: string;
+  question: string;
+  // optional subtext/description for the vote
+  description?: string;
+  // Duration for how long the voting period lasts:
+  time_start: Date;
+  time_end: Date;
+};
+
+// variable names are certainly subject to change...
+export type VoteHistory = {
+  member_id: string;
+  vote_id: string;
+  vote_selection: VoteSelection;
+};

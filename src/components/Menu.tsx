@@ -67,6 +67,7 @@ const Menu = (): ReactElement => {
         </div>
       )}
       {/* Above Is Mobile Design */}
+      {/* TODO: change this for when on voting to check out past votes*/}
       {/* Below is Desktop Design */}
       <div className="fixed top-0 left-0 h-full hidden lg:flex lg:flex-col items-center justify-between bg-sga-red w-[19vw]">
         <div className="flex flex-col items-start w-full h-full">
@@ -111,12 +112,12 @@ const Menu = (): ReactElement => {
               Record
             </button>
             <button
-              className={`text-slate-400 ${
+              className={`App hover:text-slate-200 ${
                 useLocation().pathname === "/voting"
                   ? "underline"
                   : "no-underline"
               }`}
-              disabled
+              onClick={() => Click("/voting")}
             >
               Voting
             </button>
