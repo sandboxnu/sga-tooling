@@ -1,5 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import Frame from ".././assets/Frame.svg";
 import { LoginContext } from "../App";
 import Sidebar from "./Sidebar";
 
@@ -10,6 +11,7 @@ import Sidebar from "./Sidebar";
  * @returns The navbar in a div
  */
 const Menu = (): ReactElement => {
+  const currentPath = useLocation().pathname;
   const [showSidebar, setShowSidebar] = useState(false);
 
   // State to store the current screen width
@@ -71,61 +73,67 @@ const Menu = (): ReactElement => {
       {/* Below is Desktop Design */}
       <div className="fixed top-0 left-0 h-full hidden lg:flex lg:flex-col items-center justify-between bg-sga-red w-[19vw]">
         <div className="flex flex-col items-start w-full h-full">
-          <Link to={`/events`} className="p-8">
-            <img
-              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
-              alt="Student Government Association Logo"
-              className="w-48 cursor-pointer"
-              onClick={() => setShowSidebar(false)}
-            />
-          </Link>
+          {currentPath === "/voting" ? (
+            <div>
+              <div className="flex items-center">
+                <Link to={`/events`}>
+                  <img src={Frame} alt="Back arrow" />
+                </Link>
+                <span>Voting</span>
+              </div>
+              <div>Current Vote</div>
+              <div onClick={() => Click("/voting/past")}>Past Votes</div>
+            </div>
+          ) : (
+            <>
+              <Link to={`/events`} className="p-8">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
+                  alt="Student Government Association Logo"
+                  className="w-48 cursor-pointer"
+                  onClick={() => setShowSidebar(false)}
+                />
+              </Link>
+              <div className="flex flex-col flex-1 gap-5 mt-4 p-8 pt-0 items-start font-sans font-bold text-white text-xl h-fit">
+                <button
+                  className={`App hover:text-slate-200 ${
+                    currentPath === "/events" ? "underline" : "no-underline"
+                  }`}
+                  onClick={() => Click("/events")}
+                >
+                  Home
+                </button>
+                <button
+                  className={`App hover:text-slate-200 ${
+                    currentPath === "/user" ? "underline" : "no-underline"
+                  }`}
+                  onClick={() => Click("/user")}
+                >
+                  Preferences
+                </button>
+                <button
+                  className={`App hover:text-slate-200 ${
+                    currentPath === "/record" ? "underline" : "no-underline"
+                  }`}
+                  onClick={() => Click("/record")}
+                >
+                  Record
+                </button>
+                <button
+                  className={`App hover:text-slate-200 ${
+                    currentPath === "/voting" ? "underline" : "no-underline"
+                  }`}
+                  onClick={() => Click("/voting")}
+                >
+                  Voting
+                </button>
+              </div>
 
-          <div className="flex flex-col flex-1 gap-5 mt-4 p-8 pt-0 items-start font-sans font-bold text-white text-xl h-fit">
-            <button
-              className={`App hover:text-slate-200 ${
-                useLocation().pathname === "/events"
-                  ? "underline"
-                  : "no-underline"
-              }`}
-              onClick={() => Click("/events")}
-            >
-              Home
-            </button>
-            <button
-              className={`App hover:text-slate-200 ${
-                useLocation().pathname === "/user"
-                  ? "underline"
-                  : "no-underline"
-              }`}
-              onClick={() => Click("/user")}
-            >
-              Preferences
-            </button>
-            <button
-              className={`App hover:text-slate-200 ${
-                useLocation().pathname === "/record"
-                  ? "underline"
-                  : "no-underline"
-              }`}
-              onClick={() => Click("/record")}
-            >
-              Record
-            </button>
-            <button
-              className={`App hover:text-slate-200 ${
-                useLocation().pathname === "/voting"
-                  ? "underline"
-                  : "no-underline"
-              }`}
-              onClick={() => Click("/voting")}
-            >
-              Voting
-            </button>
-          </div>
-
-          <div className="flex items-start font-sans font-bold text-white text-xl h-fit w-full border-t-4 border-gray-300 border-opacity-70 p-8 pt-4 hover:text-slate-200">
-            <button onClick={logout}>Logout</button>
-          </div>
+              <div className="flex items-start font-sans font-bold text-white text-xl h-fit w-full border-t-4 border-gray-300 border-opacity-70 p-8 pt-4 hover:text-slate-200">
+                <button onClick={logout}>Logout</button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

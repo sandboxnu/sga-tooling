@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { ReactElement, useContext, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { LoginContext } from "../App";
+import SearchBarIcon from "../assets/SearchBarIcon.svg";
 import { getAllAttendanceChangesForMember } from "../client/attendanceChange";
 import { getAllEvents } from "../client/events";
 import Alert from "../components/Alert";
@@ -31,6 +33,7 @@ function getStatus(start: Date, end?: Date) {
 const Homepage = (): ReactElement => {
   // TODO: swap this out...
   const { userID } = useContext(LoginContext);
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
 
   // fetch all the events
@@ -53,12 +56,12 @@ const Homepage = (): ReactElement => {
     queryKey: ["api", "attendance", { userID }],
   });
 
-  console.log(attendanceChanges);
-
   // Load until we get back results
   if (attendanceLoading || eventsLoading) {
     return <Loading />;
   }
+
+  console.log(attendanceChanges);
 
   if (acError || eventsError) {
     return <ErrorComponent />;
@@ -97,7 +100,13 @@ const Homepage = (): ReactElement => {
     .filter((e) => e.status === EventStatus.Rest)
     .filter((e) =>
       e.event_name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    )
+    .filter((e) => {
+      const filters = searchParams.getAll("filter");
+      const event_groups: string[] = Object.values(e.membership_group);
+
+      return filters.every((v) => event_groups.includes(v));
+    });
 
   const upcomingEvents: ReactElement[] = remainingEvents.map((e, i) => {
     const prevDate = events[i - 1]
@@ -148,15 +157,18 @@ const Homepage = (): ReactElement => {
         </>
       )}
 
-      <div>
-        <input
-          className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon "
-          placeholder="Search Events"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-        />
+      <div className="flex">
+        <div className="border flex items-center">
+          <img src={SearchBarIcon} className="w-4 h-4" />
+          <input
+            className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon border-none"
+            placeholder="Search Events"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+          />
+        </div>
         <DropDownComponent />
       </div>
 
