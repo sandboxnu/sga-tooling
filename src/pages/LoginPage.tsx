@@ -72,8 +72,8 @@ const LoginPage = (): ReactElement => {
 
       if (whetherHasAccess(member)) {
         // add to local storage
-        localStorage.setItem("user", member.uuid);
-        setUserID(input);
+        //localStorage.setItem("user", member.uuid);
+        setUserID(member.uuid);
         navigate("/events");
       } else if (member.active_member) {
         setErrorType(2);

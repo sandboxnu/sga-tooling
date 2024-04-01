@@ -86,8 +86,7 @@ export const AttendanceButtonStyles: Record<
 export const TagButtonStyles: Record<SGATags, TextAndClassNameBuilder> = {
   [SGATags.NEW_SENATORS]: {
     text: "New Senators Fall 2022",
-    className:
-      "bg-tag-green break-words font-bold font-sans rounded-lg px-4 py-1",
+    className: "bg-tag-green",
   },
   [SGATags.ALL_ACTIVE]: {
     text: "All Active Members",

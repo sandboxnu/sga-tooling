@@ -73,7 +73,7 @@ const Menu = (): ReactElement => {
       {/* Below is Desktop Design */}
       <div className="fixed top-0 left-0 h-full hidden lg:flex lg:flex-col items-center justify-between bg-sga-red w-[19vw]">
         <div className="flex flex-col items-start w-full h-full">
-          {currentPath === "/voting" ? (
+          {currentPath === "/voting" || currentPath == "/voting/past" ? (
             <div>
               <div className="flex items-center">
                 <Link to={`/events`}>
@@ -81,7 +81,7 @@ const Menu = (): ReactElement => {
                 </Link>
                 <span>Voting</span>
               </div>
-              <div>Current Vote</div>
+              <div onClick={() => Click("/voting")}>Current Vote</div>
               <div onClick={() => Click("/voting/past")}>Past Votes</div>
             </div>
           ) : (

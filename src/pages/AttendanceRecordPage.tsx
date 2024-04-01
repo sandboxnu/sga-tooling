@@ -64,18 +64,6 @@ const AttendanceRecordPage = () => {
 
   // --- VARIABLES --------------------------------------------------
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
-  let totalHours = 0;
-
-  for (const event of attendanceEvents) {
-    // only count events where we have have a start/end
-    if (event.end_time) {
-      const endTime = new Date(event.end_time).getTime();
-      const startTime = new Date(event.start_time).getTime();
-      const timeDifInSeconds = (endTime - startTime) / 1000;
-      const timeDiffInHours = Math.round(timeDifInSeconds / 3600);
-      totalHours += timeDiffInHours;
-    }
-  }
 
   return (
     <div className="flex flex-col p-10 flex-1 h-fit">
@@ -118,10 +106,6 @@ const AttendanceRecordPage = () => {
               <span className="text-xl font-bold">
                 {attendanceRecord.length + " Meetings"}
               </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-montserrat font-medium">Total Hours</span>
-              <span className="text-xl font-bold">{totalHours}</span>
             </div>
           </div>
         </div>
