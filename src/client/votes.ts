@@ -7,18 +7,16 @@ export const createVote = async (voteCreated: VoteHistory) => {
   return response.data;
 };
 
-// export const getIfMemberVoted = (uuid: string, vid: string) => {};
-
-export const getMemberVotingRecord = async (uuid: string) => {
-  const response = await api.get("/voting/getVotingForMember", {
+export const getMembersPastVotes = async (uuid: string) => {
+  const response = await api.get("/voting/getPastVotes", {
     params: {
-      member_id: uuid,
+      id: uuid,
     },
   });
   return response.data;
 };
 
-export const getQuestionsAvailable = async () => {
-  const response = await api.get("/voting/getAllQuestions");
+export const getQuestionAvailable = async () => {
+  const response = await api.get("/voting/getIfMemberVoted");
   return response.data;
 };

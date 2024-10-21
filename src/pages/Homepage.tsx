@@ -157,11 +157,12 @@ const Homepage = (): ReactElement => {
         </>
       )}
 
-      <div className="flex">
-        <div className="border flex items-center">
-          <img src={SearchBarIcon} className="w-4 h-4" />
+      <div className="flex lg:ml-6 gap-2">
+        {/* TODO: when double monitor match the styling*/}
+        <div className="border rounded-md flex h-10 items-center focus-within:ring-2 focus-within:ring-blue-500">
+          <img src={SearchBarIcon} className="w-4 h-4 ml-2" />
           <input
-            className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon border-none"
+            className="py-0.5 text-lg w-80 font-medium text-attendance-grey bg-search-icon border-none focus:outline-none"
             placeholder="Search Events"
             value={searchQuery}
             onChange={(e) => {

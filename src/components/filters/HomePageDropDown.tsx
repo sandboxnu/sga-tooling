@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import Vector from "../../assets/Vector.svg";
 import { SGATags } from "../../util/Types";
 
 export const DropDownComponent = () => {
@@ -13,7 +14,6 @@ export const DropDownComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // searchParams are all under the queryParam "filter"
     const currentParms = searchParams.getAll("filter");
     const options = dropDownOptions.filter(
       (item) => !currentParms.includes(item)
@@ -25,9 +25,12 @@ export const DropDownComponent = () => {
   }, [searchParams]);
 
   const onDropDownClick = () => {
-    // TODO: add more to this check
-    setIsOpen(!isOpen);
+    if (availableFilters.length !== 0) {
+      setIsOpen(!isOpen);
+    }
   };
+
+  // TODO: cleanup of when there are no filters
 
   const onFilterClick = (option: string) => {
     //push a new queryParam onto the existing URL
@@ -46,32 +49,46 @@ export const DropDownComponent = () => {
 
   return (
     <div className="flex">
-      <div>
-        <div role="button" onClick={(e) => onDropDownClick()}>
+      <div className="relative">
+        {/* Plus icon*/}
+        <button
+          className="rounded font-bold "
+          onClick={(e) => onDropDownClick()}
+        >
           Filters
-        </div>
-        {isOpen &&
-          availableFilters.map((option) => (
-            <div
-              role="button"
-              onClick={(e) => {
-                onFilterClick(option);
-                e.stopPropagation();
-              }}
-            >
-              {option}
-            </div>
-          ))}
+        </button>
+        {isOpen && (
+          <div className="rounded absolute border z-10 w-36">
+            <ul>
+              {availableFilters.map((option) => (
+                <li
+                  className="bg-gray-100"
+                  role="button"
+                  key={option}
+                  onClick={(e) => {
+                    onFilterClick(option);
+                    e.stopPropagation();
+                  }}
+                >
+                  {option}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div>
+        {/* Check out the applied Filters styling from Cargurus Page, also reuse the comopoent from EventTag*/}
         {appliedFilters.map((item) => (
           <div
+            className="bg-tag-green break-words rounded-xl text-sm font-bold font-sans px-4 py-1"
             role="button"
             onClick={(e) => {
               onRemovalButton(item);
             }}
           >
+            <img src={Vector} />
             {item}
           </div>
         ))}

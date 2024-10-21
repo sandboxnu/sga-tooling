@@ -101,7 +101,6 @@ export enum VoteSelection {
   NO = "N",
 }
 
-//"A" | "Y" | "N";
 export type VoteQuestions = {
   uuid: string;
   question: string;
@@ -112,9 +111,10 @@ export type VoteQuestions = {
   time_end: Date;
 };
 
+// TODO: check back on voting after I grind out some UI things
+
 // variable names are certainly subject to change...
 export type VoteHistory = {
-  member_id: string;
-  vote_id: string;
+  question: string;
   vote_selection: VoteSelection;
 };

@@ -27,8 +27,9 @@ export const Question = ({ question }: QuestionProps) => {
     mutationFn: async () => {
       if (!selectedVote) return;
       const createdVote: VoteHistory = {
-        member_id: userID!,
-        vote_id: question.uuid,
+        // member_id: userID!,
+        // vote_id: question.uuid,
+        question: "1", // id of the question???
         vote_selection: selectedVote,
       };
       console.log(createdVote);

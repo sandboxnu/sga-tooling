@@ -1,4 +1,4 @@
-import { VoteHistory, VoteQuestions, VoteSelection } from "../util/Types";
+import { VoteQuestions } from "../util/Types";
 
 export const mockVoteQuestions: VoteQuestions[] = [
   // For now comment/uncomment this question out for testing whether a vote exists or not
@@ -19,16 +19,16 @@ export const mockVoteQuestions: VoteQuestions[] = [
   },
 ];
 
-export const mockVoteHistory: VoteHistory[] = [
-  {
-    member_id: "1",
-    vote_id: "1",
-    vote_selection: VoteSelection.YES,
-  },
-  // For now comment/uncomment this member out for testing whether we have already voted or not
-  {
-    member_id: "2",
-    vote_id: "1",
-    vote_selection: VoteSelection.NO,
-  },
-];
+// export const mockVoteHistory: VoteHistory[] = [
+//   {
+//     member_id: "1",
+//     vote_id: "1",
+//     vote_selection: VoteSelection.YES,
+//   },
+//   // For now comment/uncomment this member out for testing whether we have already voted or not
+//   {
+//     member_id: "2",
+//     vote_id: "1",
+//     vote_selection: VoteSelection.NO,
+//   },
+// ];

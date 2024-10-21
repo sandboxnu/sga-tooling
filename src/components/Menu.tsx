@@ -12,6 +12,8 @@ import Sidebar from "./Sidebar";
  */
 const Menu = (): ReactElement => {
   const currentPath = useLocation().pathname;
+  const isInVotingPages =
+    currentPath === "/voting" || currentPath === "/voting/past";
   const [showSidebar, setShowSidebar] = useState(false);
 
   // State to store the current screen width
@@ -69,20 +71,42 @@ const Menu = (): ReactElement => {
         </div>
       )}
       {/* Above Is Mobile Design */}
-      {/* TODO: change this for when on voting to check out past votes*/}
       {/* Below is Desktop Design */}
-      <div className="fixed top-0 left-0 h-full hidden lg:flex lg:flex-col items-center justify-between bg-sga-red w-[19vw]">
+      {/* TODO: This needs to have some sort of drop shadow*/}
+      <div
+        className={`fixed top-0 left-0 h-full hidden lg:flex lg:flex-col items-center justify-between w-[19vw] ${
+          isInVotingPages ? "bg-transparent-gray shadow-md" : "bg-sga-red"
+        }`}
+      >
         <div className="flex flex-col items-start w-full h-full">
-          {currentPath === "/voting" || currentPath == "/voting/past" ? (
-            <div>
-              <div className="flex items-center">
+          {isInVotingPages ? (
+            <div className="p-8">
+              <div className="flex items-center gap-3">
                 <Link to={`/events`}>
-                  <img src={Frame} alt="Back arrow" />
+                  <img className="h-12 w-12" src={Frame} alt="Back arrow" />
                 </Link>
-                <span>Voting</span>
+                <span className="font-bold text-xl ">VOTING</span>
               </div>
-              <div onClick={() => Click("/voting")}>Current Vote</div>
-              <div onClick={() => Click("/voting/past")}>Past Votes</div>
+              <div className="flex flex-col flex-1 gap-5 mt-4 pt-0 pl-8 items-start font-montserrat text-md h-fit">
+                <button
+                  className={`App ${
+                    currentPath === "/voting" ? "font-bold text-sga-red" : ""
+                  } `}
+                  onClick={() => Click("/voting")}
+                >
+                  Current Vote
+                </button>
+                <button
+                  className={`App ${
+                    currentPath === "/voting/past"
+                      ? "font-bold text-sga-red"
+                      : ""
+                  }`}
+                  onClick={() => Click("/voting/past")}
+                >
+                  Past Votes
+                </button>
+              </div>
             </div>
           ) : (
             <>

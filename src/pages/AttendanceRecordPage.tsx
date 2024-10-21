@@ -44,6 +44,8 @@ const AttendanceRecordPage = () => {
     queryKey: ["api", "record", "events", { userID }],
   });
 
+  // TODO: this api call is literally just to get the first and late name in additon to their user id...
+  // when I add JWTs remove this/encode theose fields in the token
   const {
     data: member,
     isPending: memberLoading,

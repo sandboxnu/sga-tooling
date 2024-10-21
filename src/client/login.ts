@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// NOTE: our local backend blocks put/post requests, which is annoying for creating real
+// attendance changes, as a quick work-around I used a url of the most recently depoyed
+// backend (I know not ideal)
 export const api = axios.create({
-  baseURL: `https://sgatooling-hl1tv077r-sandboxneu.vercel.app/api`,
+  baseURL: `https://sgatooling-7y9kdz96i-sandboxneu.vercel.app/api`,
   headers: {
     "Content-Type": "application/json",
   },
