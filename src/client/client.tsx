@@ -1,7 +1,7 @@
+import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
-import UserJSON from "../data/users.json";
 import {
   AttendanceChange,
   AttendanceRecord,
@@ -10,6 +10,11 @@ import {
   Member,
   RequestType,
 } from "../util/Types";
+
+type GenericResponse<T> = {
+  data?: T;
+  error: string;
+};
 
 /**
  * Gets an event with the given id
@@ -42,15 +47,23 @@ export function fetchAllEvents(): Promise<Event[]> {
  * @param nuid The nuid of the member
  * @returns The Member with that nuid or undefined
  */
-export function fetchMember(nuid: string): Promise<Member | undefined> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const member = (UserJSON as unknown as Member[]).find(
-        (m) => m.nuid === nuid
-      );
-      resolve(member);
-    });
-  });
+export async function fetchMember(
+  nuid: string
+): Promise<GenericResponse<Member>> {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_ENDPOINT}/api/member/getMember/?id=${nuid}`
+  );
+  if (response.status === 200) {
+    return {
+      data: response.data.member,
+      error: "",
+    };
+  } else {
+    return {
+      data: undefined,
+      error: response.data,
+    };
+  }
 }
 
 //sample function to fetch all attendance change requests

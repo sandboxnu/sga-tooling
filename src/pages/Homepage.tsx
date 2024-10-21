@@ -38,10 +38,10 @@ const Homepage = (): ReactElement => {
   useEffect(() => {
     //only go on load
     const loadAttendanceChanges = async () => {
-      const Member = await fetchMember(userID!);
-      if (Member) {
+      const member = (await fetchMember(userID!)).data;
+      if (member) {
         const attendance = await findAttendanceChangeRequestForMember(
-          Member.id
+          member.id
         );
         if (attendance) setAttendanceChanges(attendance);
       }

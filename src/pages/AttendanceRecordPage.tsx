@@ -35,10 +35,12 @@ const AttendanceRecordPage = () => {
   const fetchMemberRecord = async (): Promise<Event[]> => {
     // Update the member from the API
     const member = await fetchMember(userID!);
-    setMember(member);
+    setMember(member.data);
 
     // Get the attendance records for the selected member
-    const attendanceRecords = await getAttendanceRecordForMember(member!.id);
+    const attendanceRecords = await getAttendanceRecordForMember(
+      member.data!.id
+    );
     setAttendanceRecord(attendanceRecords);
 
     // Fetch the event data for each event

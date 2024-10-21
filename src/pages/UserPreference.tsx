@@ -13,9 +13,9 @@ const UserPreference = (): ReactElement => {
 
   if (id) {
     fetchMember(id).then((m) => {
-      if (m) {
-        setMember(m);
-        setNotPresentEmail(m.receiveNotPresentEmail);
+      if (m.data) {
+        setMember(m.data);
+        setNotPresentEmail(m.data.receiveNotPresentEmail);
       }
     });
   }

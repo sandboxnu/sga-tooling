@@ -1,10 +1,10 @@
 {
-    "editor.formatOnSave": true,
-    "eslint.validate": ["typescript", "typescriptreact"],
-    "eslint.workingDirectories": [{ "mode": "auto" }],
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        "source.organizeImports": true,
-        "source.sortMembers": true
-      }
+  "editor.formatOnSave": true,
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  }
 }
