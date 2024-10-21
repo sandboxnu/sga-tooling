@@ -1,17 +1,10 @@
 import { ReactElement } from "react";
+import { TagButtonStyles } from "../util/styleConfig";
+import { SGATags } from "../util/Types";
 
-export enum Tag {
-  Senate = "bg-tag-blue",
-  Committee = "bg-tag-green",
-  Default = "bg-gray-300",
-}
-
-const EventTag = (props: { tag: string }): ReactElement => {
-  let color = Tag[props.tag as keyof typeof Tag];
-
-  if (!Object.keys(Tag).includes(props.tag)) {
-    color = Tag.Default;
-  }
+const EventTag = (props: { tag: SGATags }): ReactElement => {
+  const text = TagButtonStyles[props.tag].text;
+  const color = TagButtonStyles[props.tag].className;
 
   return (
     <span
@@ -19,7 +12,7 @@ const EventTag = (props: { tag: string }): ReactElement => {
         color + " break-words rounded-xl text-sm font-bold font-sans px-4 py-1"
       }
     >
-      {props.tag}
+      {text}
     </span>
   );
 };

@@ -1,8 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../App";
-import { createAttendanceChange, fetchMember } from "../client/client";
-import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
+import { LoginContext, queryClient } from "../App";
+import { createAttendanceChangeRequest } from "../client/attendanceChange";
 import { AttendanceButtonStyles } from "../util/styleConfig";
+import {
+  AttendanceChange,
+  AttendanceData,
+  ChangeStatus,
+  createdAttendanceChange,
+} from "../util/Types";
 import Loading from "./Loading";
 
 interface AttendanceButtonProps {
@@ -11,7 +16,7 @@ interface AttendanceButtonProps {
   setErrorType: React.Dispatch<React.SetStateAction<number>>;
   attendanceChange?: AttendanceChange;
   createdAttendanceChange: AttendanceData | {};
-  eventid: number;
+  eventid: string;
 }
 
 export const AttendanceButton = ({
@@ -29,18 +34,19 @@ export const AttendanceButton = ({
   );
 
   useEffect(() => {
-    const makeAttendanceChange = async () => {
+    const makeAttendanceChange = async (
+      attendanceChange: createdAttendanceChange
+    ) => {
       try {
         setIsCreatingAttendance(true);
-        //using non-null assertion since it's assumed the user is logged in to make it past the home page
-        const member = await fetchMember(userID!);
-        if (member) {
-          await createAttendanceChange(member.id, eventid);
-          setIsRegistered(false);
-        }
+        await createAttendanceChangeRequest(attendanceChange);
         setIsCreatingAttendance(false);
         // once we successfully created an AttendanceChange its back to pending
         setAttendanceStatus(ChangeStatus.NOT_REVIEWED);
+        // invalidate queries to make attendance change state reload
+        queryClient.invalidateQueries({
+          queryKey: ["api", "attendance", { userID }],
+        });
       } catch (e) {
         setErrorType(1);
         setIsCreatingAttendance(false);
@@ -49,7 +55,13 @@ export const AttendanceButton = ({
     //on Mount this useEffect starts,
     //so only want this makeAttendanceChange function to start when we actually have something/ this json is not empty
     if (!(Object.keys(createdAttendanceChange).length === 0)) {
-      makeAttendanceChange();
+      //@ts-ignore
+      const combinedAttendance: createdAttendanceChange = {
+        ...createdAttendanceChange,
+        member_id: userID!,
+        event_id: eventid,
+      };
+      makeAttendanceChange(combinedAttendance);
     }
   }, [createdAttendanceChange, eventid, setErrorType, setIsRegistered, userID]);
 

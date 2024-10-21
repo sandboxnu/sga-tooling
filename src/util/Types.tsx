@@ -1,38 +1,48 @@
 export type Event = {
-  id: number;
-  eventName: string;
-  startTime: Date;
-  endTime: Date;
-  signInClosed: boolean;
-  location?: string;
+  uuid: string;
+  event_name: string;
+  start_time: Date;
+  end_time?: Date;
+  sign_in_closed: boolean;
   description: string;
+  location: string;
   status?: EventStatus;
   tags?: string[];
+  membership_group: SGATags[];
 };
 
+export type MembershipGroupTags = {
+  membership_group: SGATags;
+};
+
+export enum SGATags {
+  NEW_SENATORS = "New Senators Fall 2022",
+  ALL_ACTIVE = "All active",
+}
+
 export type Member = {
-  id: string;
+  uuid: string;
   nuid: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  activeMember: boolean;
-  votingRights: boolean;
-  receiveNotPresentEmail: boolean;
-  includeInQuorum: boolean;
-  signInBlocked: boolean;
+  active_member: boolean;
+  voting_rights: boolean;
+  receive_not_present_email: boolean;
+  include_in_quorum: boolean;
+  sign_in_blocked: boolean;
 };
 
 export type AttendanceChange = {
-  id: Number;
-  memberID: Number;
-  request_type: RequestType;
-  eventID: Number;
-  submit_time: Date;
+  uuid: string;
+  member_id: string;
+  type: RequestType;
+  event_id: string;
+  time_submitted: Date;
   change_status: ChangeStatus;
   reason: string;
-  arrive_time?: Date;
-  leave_time?: Date;
+  time_arriving?: Date;
+  time_leaving?: Date;
 };
 
 export enum RequestType {
@@ -64,16 +74,47 @@ export enum ReportReason {
 
 export type AttendanceData = {
   reason: string;
-  request_type?: RequestType;
-  submission_time: Date;
-  time_arriving?: Date;
-  time_leaving?: Date;
+  type?: RequestType;
+  time_submitted: string;
+  time_arriving?: string;
+  time_leaving?: string;
 };
 
+export type AttendanceEvent = {
+  member_id: string;
+  event_id: string;
+};
+
+export type createdAttendanceChange = AttendanceEvent & AttendanceData;
+
 export type AttendanceRecord = {
-  memberID: number;
-  eventID: number;
+  member_id: string;
+  event_id: string;
   attendance_status: string;
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export enum VoteSelection {
+  YES = "Y",
+  ABSTAIN = "A",
+  NO = "N",
+}
+
+export type VoteQuestions = {
+  uuid: string;
+  question: string;
+  // optional subtext/description for the vote
+  description?: string;
+  // Duration for how long the voting period lasts:
+  time_start: Date;
+  time_end: Date;
+};
+
+// TODO: check back on voting after I grind out some UI things
+
+// variable names are certainly subject to change...
+export type VoteHistory = {
+  question: string;
+  vote_selection: VoteSelection;
+};

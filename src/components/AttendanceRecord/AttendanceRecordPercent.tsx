@@ -13,7 +13,6 @@ export const AttendanceRecordPercentages = ({
   attendanceRecord,
   mobile,
 }: AttendanceRecordPercentagesProps) => {
-  const recordSize = attendanceRecord.length;
   const attendance_statuses = attendanceRecord.map(
     ({ attendance_status }) => attendance_status
   );
@@ -21,9 +20,11 @@ export const AttendanceRecordPercentages = ({
   const { attended, lateOrEarly, absent } =
     totalAttendanceCounts(AttendanceList);
 
-  const attendedPercent = (attended / recordSize) * 100;
-  const earlyOrLatePercent = (lateOrEarly / recordSize) * 100;
-  const absentPercent = (absent / recordSize) * 100;
+  const recordSize = attended + lateOrEarly + absent;
+
+  const attendedPercent = Math.round((attended / recordSize) * 100);
+  const earlyOrLatePercent = Math.round((lateOrEarly / recordSize) * 100);
+  const absentPercent = Math.round((absent / recordSize) * 100);
 
   if (mobile) console.log("mobile:");
 

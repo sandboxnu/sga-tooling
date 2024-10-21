@@ -1,10 +1,11 @@
+import axios from "axios";
 import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
-import { fetchMember } from "../client/client";
+import { loginMember } from "../client/login";
 import PopUp from "../components/PopUp";
 import { Member } from "../util/Types";
 
@@ -20,12 +21,32 @@ const LoginPage = (): ReactElement => {
   /**
    * Checks the local storage to find the user and navigate them to the events page
    */
+  // might be a bit weird, might need some other functionality where if there is no id, pop up an error...
   function checkIfLoginSaved() {
     const nuid = localStorage.getItem("user");
     if (nuid) {
       navigate("/events");
     }
   }
+
+  // TODO: figure out whether I want to convert each of these to their corresponding types on the frontend...
+  // lint will yell at this any, but will fix later...
+  // function parseMember(response: any): Member {
+  //   const member: Member = {
+  //     uuid: response.uuid,
+  //     nuid: response.nuid,
+  //     first_name: response.first_name,
+  //     last_name: response.last_name,
+  //     email: response.email,
+  //     active_member: response.active_member,
+  //     voting_rights: response.voting_rights,
+  //     receive_not_present_email: response.receive_not_present_email,
+  //     include_in_quorum: response.include_in_quorum,
+  //     sign_in_blocked: response.sign_in_blocked,
+  //   };
+  //   console.log(member);
+  //   return member;
+  // }
 
   /**
    * Checks if a valid NUID is inputted. If it isn't valid, return an error message.
@@ -37,35 +58,43 @@ const LoginPage = (): ReactElement => {
   async function login() {
     setErrorType(0); // No error message before they get a response back
     if (!isValidNuid(input)) {
-      console.log("Invalid NUID when log in pressed.");
       setSmallErrMsg("Should be 9 digits.");
       setErrorType(1);
       return;
     }
-    let member = undefined;
+
     try {
-      member = await fetchMember(input); // CHANGE TO API IMPL
-    } catch (e) {
-      setErrorType(4);
-      return;
-    }
-    if (!member) {
-      setErrorType(1);
-      setSmallErrMsg("Member does not exist.");
-    } else {
-      if (
-        whetherHasAccess(member) &&
-        member.lastName.toUpperCase() === lastName.toUpperCase()
-      ) {
-        localStorage.setItem("user", input);
-        setUserID(input);
+      // some loading state while this is happening is necessary
+      const responseData = await loginMember(input, lastName);
+      // parse (later with JWTs this will require more) the axios data into a MemberType
+      const member: Member = responseData.member;
+      console.log(member);
+
+      if (whetherHasAccess(member)) {
+        // add to local storage
+        //localStorage.setItem("user", member.uuid);
+        setUserID(member.uuid);
         navigate("/events");
-      } else if (!member.activeMember) {
+      } else if (member.active_member) {
         setErrorType(2);
-      } else if (member.signInBlocked) {
+      } else if (member.sign_in_blocked) {
         setErrorType(3);
       } else {
-        console.log("in 4?");
+        // catch all for weird behavior...
+        setErrorType(4);
+      }
+    } catch (e) {
+      // maybe need to return in these cases?
+      if (axios.isAxiosError(e)) {
+        // Member not found
+        if (e.response!.status === 400) {
+          setErrorType(3);
+        } else {
+          setErrorType(4);
+        }
+      }
+      // this should not happen, so still give an unknown error
+      else {
         setErrorType(4);
       }
     }
@@ -86,7 +115,7 @@ const LoginPage = (): ReactElement => {
    * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
    */
   function whetherHasAccess(member: Member): boolean {
-    return member.activeMember && !member.signInBlocked;
+    return member.active_member && !member.sign_in_blocked;
   }
 
   return (

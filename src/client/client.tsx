@@ -1,38 +1,19 @@
-import { mockAttendanceChange } from "../data/attendanceChange";
-import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
 import UserJSON from "../data/users.json";
-import {
-  AttendanceChange,
-  AttendanceRecord,
-  ChangeStatus,
-  Event,
-  Member,
-  RequestType,
-} from "../util/Types";
+import { Event, Member } from "../util/Types";
+
+// TODO: move these to a test file along with the mock data
 
 /**
  * Gets an event with the given id
  * @param id The id of the event being fetched
  * @returns The event if it can be found, or an error
  */
-export function fetchEvent(id: number): Promise<Event> {
+export function fetchEvent(id: string): Promise<Event> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const event = mockEvents.find((e) => e.id === id);
+      const event = mockEvents.find((e) => e.uuid === id);
       event ? resolve(event) : reject("404 Not found");
-    }, 1000);
-  });
-}
-
-/**
- * Gets all the events
- * @returns An array of events if they can be found, or an error
- */
-export function fetchAllEvents(): Promise<Event[]> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      mockEvents ? resolve(mockEvents) : reject("404 Not found");
     }, 1000);
   });
 }
@@ -53,15 +34,16 @@ export function fetchMember(nuid: string): Promise<Member | undefined> {
   });
 }
 
+/*
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
   memberID: string,
-  eventID: Number
+  eventID: string
 ) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceChange = mockAttendanceChange.find(
-        (ac) => ac.memberID === parseInt(memberID) && ac.eventID === eventID
+        (ac) => ac.memberID === memberID && ac.eventID === eventID
       );
       attendanceChange
         ? resolve(attendanceChange)
@@ -76,7 +58,7 @@ export const findAttendanceChangeRequestForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceChange = mockAttendanceChange.filter(
-        (ac) => ac.memberID !== parseInt(memberID)
+        (ac) => ac.memberID !== memberID
       );
       attendanceChange
         ? resolve(attendanceChange)
@@ -87,16 +69,16 @@ export const findAttendanceChangeRequestForMember = (
 
 export const createAttendanceChange = (
   memberID: string,
-  eventID: Number
+  eventID: string
 ): Promise<AttendanceChange | undefined> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       //Sample Attendance Change being added
       const newAttendance: AttendanceChange = {
-        id: mockAttendanceChange.length + 1,
-        memberID: parseInt(memberID),
+        uuid: mockAttendanceChange.length.toString(),
+        memberID: memberID,
         eventID: eventID,
-        request_type: RequestType.ABSENT,
+        type: RequestType.ABSENT,
         reason: "idk",
         submit_time: new Date("2001-01-01 12:00:00"),
         change_status: ChangeStatus.EXCUSED,
@@ -113,7 +95,7 @@ export const getAttendanceRecordForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.member_id !== memberId
       );
       attendanceRecordForMember
         ? resolve(attendanceRecordForMember)
@@ -121,26 +103,4 @@ export const getAttendanceRecordForMember = (
     }, 1000);
   });
 };
-
-export const getAttendanceEventsForMember = (
-  memberId: string
-): Promise<Event[]> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
-      );
-      const attendanceEventsForMember = attendanceRecordForMember.map(
-        ({ eventID, memberID, attendance_status }) => eventID
-      );
-      const events = [];
-      for (const attendanceEventId of attendanceEventsForMember) {
-        for (const actualEvent of mockEvents) {
-          if (actualEvent.id === attendanceEventId) {
-            events.push(actualEvent);
-          }
-        }
-      }
-    }, 1000);
-  });
-};
+*/

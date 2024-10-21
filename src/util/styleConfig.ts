@@ -1,4 +1,4 @@
-import { AttendanceTag, ChangeStatus } from "./Types";
+import { AttendanceTag, ChangeStatus, SGATags } from "./Types";
 
 export type TextAndClassNameBuilder = {
   text: string;
@@ -80,5 +80,16 @@ export const AttendanceButtonStyles: Record<
   [ChangeStatus.UNREGISTER]: {
     text: "Unregister",
     className: "button-base-white px-4 my-2 mr-5 w-32",
+  },
+};
+
+export const TagButtonStyles: Record<SGATags, TextAndClassNameBuilder> = {
+  [SGATags.NEW_SENATORS]: {
+    text: "New Senators Fall 2022",
+    className: "bg-tag-green",
+  },
+  [SGATags.ALL_ACTIVE]: {
+    text: "All Active Members",
+    className: "bg-tag-blue",
   },
 };

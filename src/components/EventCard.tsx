@@ -24,32 +24,32 @@ const EventCard = ({
   attendanceChange,
 }: EventCardProps): ReactElement => {
   const {
-    id,
-    startTime,
-    endTime,
-    eventName,
+    uuid,
+    start_time,
+    end_time,
+    event_name,
     location,
     description,
     status,
-    tags,
+    membership_group,
   } = event;
 
-  let startTimeString: string = startTime.toLocaleString("en-US", {
+  let startTimeString: string = start_time.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
   });
-  let endTimeString: string | undefined = endTime
-    ? endTime.toLocaleString("en-US", {
+  let endTimeString: string | undefined = end_time
+    ? end_time.toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
         hour12: true,
       })
     : undefined;
 
-  const tagElements: ReactElement[] = tags
-    ? tags.map((t) => {
-        return <EventTag tag={t} />;
+  const tagElements: ReactElement[] = membership_group
+    ? membership_group.map((tag) => {
+        return <EventTag tag={tag} />;
       })
     : [];
 
@@ -79,18 +79,19 @@ const EventCard = ({
         <PopUp
           source={TriangleError}
           message1="There was an internal server error which caused this failure"
+          link="Please report this bug."
           useState={setErrorType}
         />
       ) : null}
       <div className="flex">
-        <EventDate startTime={startTime} status={status} />
+        <EventDate startTime={start_time} status={status} />
         <div className="flex-1 px-6 md:px-10">
           <span className="font-sans">
-            {startTimeString + (endTime ? " to " + endTimeString : "")}
+            {startTimeString + (end_time ? " to " + endTimeString : "")}
           </span>
           <div className="flex flex-row justify-between items-start mb-4">
             <div className="not-italic font-bold text-2xl leading-8 font-sans break-words w-4/5">
-              {eventName}
+              {event_name}
             </div>
             <details className="relative">
               <summary className="list-none cursor-pointer">
@@ -148,11 +149,11 @@ const EventCard = ({
                   openModal={openModal}
                   setIsRegistered={setIsRegistered}
                   setErrorType={setErrorType}
-                  eventid={id}
+                  eventid={uuid}
                   attendanceChange={attendanceChange}
                   createdAttendanceChange={createdAttendanceChange}
                 />
-                <Link to={`/events/${id}`} state={{ event }}>
+                <Link to={`/events/${uuid}`} state={{ event }}>
                   <button className="button-base-red px-4 my-2 w-32">
                     See More
                   </button>
