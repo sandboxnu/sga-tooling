@@ -5,7 +5,12 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import TriangleError from "../assets/TriangleError.svg";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
+import {
+  AttendanceChange,
+  Event,
+  EventStatus,
+  LoginError,
+} from "../util/Types";
 import { AttendanceButton } from "./AttendanceButton";
 import AttendanceChangeModal from "./AttendanceChangeModal";
 import { EventDate } from "./EventDate";
@@ -56,7 +61,7 @@ const EventCard = ({
   const [isRegistered, setIsRegistered] = useState(
     attendanceChange ? false : true
   );
-  const [errorType, setErrorType] = useState(0);
+  const [errorType, setErrorType] = useState(LoginError.NONE);
   const [isOpen, setIsOpen] = useState(false);
   const [createdAttendanceChange, setCreatedAttendanceChange] = useState({});
 
@@ -75,7 +80,7 @@ const EventCard = ({
 
   return (
     <>
-      {errorType === 1 ? (
+      {errorType === LoginError.UNKNOWN ? (
         <PopUp
           source={TriangleError}
           message1="There was an internal server error which caused this failure"

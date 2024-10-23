@@ -77,3 +77,12 @@ export type AttendanceRecord = {
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export enum LoginError {
+  DEACTIVATED,
+  BLOCKED,
+  OTHER,
+  DOES_NOT_EXIST,
+  NONE,
+  UNKNOWN,
+}

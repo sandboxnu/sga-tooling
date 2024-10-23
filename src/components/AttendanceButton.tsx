@@ -34,8 +34,8 @@ export const AttendanceButton = ({
         setIsCreatingAttendance(true);
         //using non-null assertion since it's assumed the user is logged in to make it past the home page
         const member = await fetchMember(userID!);
-        if (member) {
-          await createAttendanceChange(member.id, eventid);
+        if (member.data) {
+          await createAttendanceChange(member.data.id, eventid);
           setIsRegistered(false);
         }
         setIsCreatingAttendance(false);

@@ -6,13 +6,13 @@ import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
 import { fetchMember } from "../client/client";
 import PopUp from "../components/PopUp";
-import { Member } from "../util/Types";
+import { LoginError, Member } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
   const { setUserID } = useContext(LoginContext);
   const [input, setInput] = useState(""); // value is the value that the user entered
   const [lastName, setLastName] = useState(""); // value to keep track of inputted last name
-  const [errorType, setErrorType] = useState(0); // type of error that occured when we log in 0-3
+  const [errorType, setErrorType] = useState<LoginError>(LoginError.NONE); // type of error that occured when we log in 0-3
   const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
   const navigate = useNavigate();
@@ -35,40 +35,46 @@ const LoginPage = (): ReactElement => {
    * sign in is blocked, display the aapropriate error message
    */
   async function login() {
-    setErrorType(0); // No error message before they get a response back
+    setErrorType(LoginError.NONE); // No error message before they get a response back
     if (!isValidNuid(input)) {
       console.log("Invalid NUID when log in pressed.");
       setSmallErrMsg("Should be 9 digits.");
-      setErrorType(1);
+      setErrorType(LoginError.OTHER);
       return;
     }
-    let member = undefined;
-    try {
-      member = await fetchMember(input); // CHANGE TO API IMPL
-    } catch (e) {
-      setErrorType(4);
-      return;
-    }
-    if (!member) {
-      setErrorType(1);
-      setSmallErrMsg("Member does not exist.");
-    } else {
-      if (
-        whetherHasAccess(member) &&
-        member.lastName.toUpperCase() === lastName.toUpperCase()
-      ) {
-        localStorage.setItem("user", input);
-        setUserID(input);
-        navigate("/events");
-      } else if (!member.activeMember) {
-        setErrorType(2);
-      } else if (member.signInBlocked) {
-        setErrorType(3);
-      } else {
-        console.log("in 4?");
-        setErrorType(4);
-      }
-    }
+    await fetchMember(input)
+      .then((response) => {
+        if (response.error) {
+          // received error from server
+          if (response.error === "Member does not exist.") {
+            setErrorType(LoginError.DOES_NOT_EXIST);
+          } else if (response.error === "Database Error") {
+            setErrorType(LoginError.OTHER);
+          }
+          setSmallErrMsg(response.error);
+        } else if (!response.data) {
+          // no data from server
+          setErrorType(LoginError.OTHER);
+          setSmallErrMsg("Unknown error fetching member");
+        } else {
+          if (
+            whetherHasAccess(response.data) &&
+            response.data.lastName.toUpperCase() === lastName.toUpperCase()
+          ) {
+            localStorage.setItem("user", input);
+            setUserID(input);
+            navigate("/events");
+          } else if (!response.data.activeMember) {
+            setErrorType(LoginError.DEACTIVATED);
+          } else if (response.data.signInBlocked) {
+            setErrorType(LoginError.BLOCKED);
+          }
+        }
+      })
+      .catch((_) => {
+        console.log(_);
+        setErrorType(LoginError.UNKNOWN);
+      });
   }
 
   /**
@@ -86,20 +92,22 @@ const LoginPage = (): ReactElement => {
    * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
    */
   function whetherHasAccess(member: Member): boolean {
-    return member.activeMember && !member.signInBlocked;
+    // console.log(member);
+    // return member.activeMember && !member.signInBlocked;
+    return true;
   }
 
   return (
     <div onLoad={checkIfLoginSaved}>
-      {errorType === 2 ? (
+      {errorType === LoginError.DEACTIVATED ? (
         <PopUp
           source={TriangleError}
-          message1="Your account has been inactivated."
+          message1="Your account has been deactivated."
           message2="Please contact your administrator if this is a mistake."
           useState={setErrorType}
         />
       ) : null}
-      {errorType === 3 ? (
+      {errorType === LoginError.BLOCKED ? (
         <PopUp
           source={TriangleError}
           message1="You are not allowed to log in."
@@ -107,7 +115,7 @@ const LoginPage = (): ReactElement => {
           useState={setErrorType}
         />
       ) : null}
-      {errorType === 4 ? (
+      {errorType === LoginError.UNKNOWN ? (
         <PopUp
           source={UnknownError}
           message1="We ran into an unknown error."
@@ -182,7 +190,7 @@ const LoginPage = (): ReactElement => {
           >
             Log In
           </button>
-          {errorType === 1 && smallErrMsg && (
+          {errorType === LoginError.OTHER && smallErrMsg && (
             <div className="flex flex-start">
               <img src={ErrorSvg} alt="Error icon" className="h-5" />
               <p className="font-sans text-sga-red px-2">{smallErrMsg}</p>
