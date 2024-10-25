@@ -1,13 +1,12 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
-import { LoginContext } from "../App";
+import { ReactElement, useEffect, useState } from "react";
 import {
   fetchAllEvents,
-  fetchMember,
   findAttendanceChangeRequestForMember,
 } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
+import { useAuth } from "../hooks/useAuth";
 import { AttendanceChange, Event, EventStatus } from "../util/Types";
 
 /**
@@ -33,12 +32,11 @@ const Homepage = (): ReactElement => {
   const [attendanceChanges, setAttendanceChanges] = useState<
     AttendanceChange[] | null
   >();
-  const { userID } = useContext(LoginContext);
+  const { member } = useAuth();
 
   useEffect(() => {
     //only go on load
     const loadAttendanceChanges = async () => {
-      const member = (await fetchMember(userID!)).data;
       if (member) {
         const attendance = await findAttendanceChangeRequestForMember(
           member.id
@@ -48,7 +46,7 @@ const Homepage = (): ReactElement => {
     };
 
     loadAttendanceChanges();
-  }, [userID]);
+  }, [member]);
 
   if (!eventsToDisplay) {
     fetchAllEvents().then((e) => {

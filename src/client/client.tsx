@@ -9,12 +9,8 @@ import {
   Event,
   Member,
   RequestType,
+  Response,
 } from "../util/Types";
-
-type GenericResponse<T> = {
-  data?: T;
-  error: string;
-};
 
 /**
  * Gets an event with the given id
@@ -47,9 +43,7 @@ export function fetchAllEvents(): Promise<Event[]> {
  * @param nuid The nuid of the member
  * @returns The Member with that nuid or undefined
  */
-export async function fetchMember(
-  nuid: string
-): Promise<GenericResponse<Member>> {
+export async function fetchMember(nuid: string): Promise<Response<Member>> {
   const response = await axios.get(
     `${process.env.REACT_APP_API_ENDPOINT}/api/member/getMember/?id=${nuid}`
   );

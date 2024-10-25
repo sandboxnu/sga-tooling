@@ -1,40 +1,26 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../App";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
 import UnknownError from "../assets/UnknownError.svg";
-import { fetchMember } from "../client/client";
 import PopUp from "../components/PopUp";
-import { LoginError, Member } from "../util/Types";
+import { useAuth } from "../hooks/useAuth";
+import { LoginError } from "../util/Types";
 
 const LoginPage = (): ReactElement => {
-  const { setUserID } = useContext(LoginContext);
-  const [input, setInput] = useState(""); // value is the value that the user entered
-  const [lastName, setLastName] = useState(""); // value to keep track of inputted last name
-  const [errorType, setErrorType] = useState<LoginError>(LoginError.NONE); // type of error that occured when we log in 0-3
-  const [smallErrMsg, setSmallErrMsg] = useState<String>();
-
+  const { member, login } = useAuth();
   const navigate = useNavigate();
 
-  /**
-   * Checks the local storage to find the user and navigate them to the events page
-   */
-  function checkIfLoginSaved() {
-    const nuid = localStorage.getItem("user");
-    if (nuid) {
-      navigate("/events");
-    }
-  }
+  const [input, setInput] = useState(""); // value is the value that the user entered
+  const [lastName, setLastName] = useState(""); // value to keep track of inputted last name
+  const [errorType, setErrorType] = useState<LoginError>(LoginError.NONE);
+  const [smallErrMsg, setSmallErrMsg] = useState<String>();
 
   /**
-   * Checks if a valid NUID is inputted. If it isn't valid, return an error message.
-   * If it isn't a member, return an error message.
-   * If it is a member, check if if the member has access. If it has access, store
-   * the member as a user in local storage. If it's not an active member or it's
-   * sign in is blocked, display the aapropriate error message
+   * Attempt to sign in. If successful, navigate to the events page.
+   * Validates the NUID inputted by the user. If it is not valid, display an error message.
    */
-  async function login() {
+  async function signin() {
     setErrorType(LoginError.NONE); // No error message before they get a response back
     if (!isValidNuid(input)) {
       console.log("Invalid NUID when log in pressed.");
@@ -42,39 +28,25 @@ const LoginPage = (): ReactElement => {
       setErrorType(LoginError.OTHER);
       return;
     }
-    await fetchMember(input)
-      .then((response) => {
-        if (response.error) {
-          // received error from server
-          if (response.error === "Member does not exist.") {
-            setErrorType(LoginError.DOES_NOT_EXIST);
-          } else if (response.error === "Database Error") {
-            setErrorType(LoginError.OTHER);
-          }
-          setSmallErrMsg(response.error);
-        } else if (!response.data) {
-          // no data from server
-          setErrorType(LoginError.OTHER);
-          setSmallErrMsg("Unknown error fetching member");
-        } else {
-          if (
-            whetherHasAccess(response.data) &&
-            response.data.lastName.toUpperCase() === lastName.toUpperCase()
-          ) {
-            localStorage.setItem("user", input);
-            setUserID(input);
-            navigate("/events");
-          } else if (!response.data.activeMember) {
-            setErrorType(LoginError.DEACTIVATED);
-          } else if (response.data.signInBlocked) {
-            setErrorType(LoginError.BLOCKED);
-          }
-        }
-      })
-      .catch((_) => {
-        console.log(_);
-        setErrorType(LoginError.UNKNOWN);
-      });
+    let error = await login(input, lastName);
+    if (error === undefined) {
+      navigate("/events");
+    } else {
+      switch (error) {
+        case "User not found":
+          setErrorType(LoginError.DOES_NOT_EXIST);
+          break;
+        case "User not active":
+          setErrorType(LoginError.DEACTIVATED);
+          break;
+        case "User blocked":
+          setErrorType(LoginError.BLOCKED);
+          break;
+        default:
+          setErrorType(LoginError.UNKNOWN);
+          break;
+      }
+    }
   }
 
   /**
@@ -86,19 +58,14 @@ const LoginPage = (): ReactElement => {
     return nuid.length === 9 && !isNaN(parseInt(nuid));
   }
 
-  /**
-   * Checks whether the inputted Member has access
-   * @param member The member being checked
-   * @returns true if the given member is an active member and is not blocked from sign in, false otherwise
-   */
-  function whetherHasAccess(member: Member): boolean {
-    // console.log(member);
-    // return member.activeMember && !member.signInBlocked;
-    return true;
-  }
+  // useEffect(() => {
+  //   if (member) {
+  //     navigate("/events");
+  //   }
+  // }, [member, navigate]);
 
   return (
-    <div onLoad={checkIfLoginSaved}>
+    <div onLoad={() => member === undefined ?? navigate("/events")}>
       {errorType === LoginError.DEACTIVATED ? (
         <PopUp
           source={TriangleError}
@@ -145,7 +112,7 @@ const LoginPage = (): ReactElement => {
             required
           />
           <button
-            onClick={(e) => login()}
+            onClick={(e) => login(input, lastName)}
             className="w-full my-2.5 bg-sga-red text-white text-2xl font-semibold rounded-lg px-2.5 py-4 hover:bg-sga-red-hover active:bg-sga-red-active"
           >
             Log In
@@ -185,7 +152,7 @@ const LoginPage = (): ReactElement => {
             required
           />
           <button
-            onClick={(e) => login()}
+            onClick={(e) => signin()}
             className="w-72 my-2.5 bg-sga-red text-white text-2xl font-semibold rounded-lg px-4 py-4 hover:bg-sga-red-hover active:bg-sga-red-active"
           >
             Log In

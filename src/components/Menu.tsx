@@ -1,6 +1,6 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { LoginContext } from "../App";
+import { useAuth } from "../hooks/useAuth";
 import Sidebar from "./Sidebar";
 
 /**
@@ -32,13 +32,7 @@ const Menu = (): ReactElement => {
 
   // Navigation for the buttons on desktop
   let navigate = useNavigate();
-  const { setUserID } = useContext(LoginContext);
-
-  function logout() {
-    localStorage.removeItem("user");
-    setUserID(null);
-    navigate("/");
-  }
+  const { logout } = useAuth();
 
   function Click(route: string) {
     navigate(route);

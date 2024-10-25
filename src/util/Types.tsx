@@ -1,3 +1,18 @@
+export type JWTAuthToken = {
+  data: Member;
+};
+
+export type Response<T> = {
+  data?: T;
+  error?: string;
+  status?: number;
+};
+
+export type AuthResponse = {
+  jwt: string;
+  member: Member;
+};
+
 export type Event = {
   id: number;
   eventName: string;

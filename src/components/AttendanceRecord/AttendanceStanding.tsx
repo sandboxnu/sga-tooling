@@ -1,8 +1,8 @@
+import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
 import {
   AttendanceStandingOption,
   AttendanceStandingOptions,
 } from "../../util/styleConfig";
-import { AttendanceRecord, AttendanceTag, Member } from "../../util/Types";
 import {
   getAllStatuses,
   getCountOfKeyInStatusList,
