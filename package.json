@@ -15,7 +15,6 @@
     "@types/react-lottie": "^1.2.6",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.7",
-    "dotenv": "^16.4.5",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.11",
     "localforage": "^1.10.0",
