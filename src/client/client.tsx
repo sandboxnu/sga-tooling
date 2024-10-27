@@ -1,4 +1,3 @@
-import axios from "axios";
 import { mockAttendanceChange } from "../data/attendanceChange";
 import { mockAttendanceRecord } from "../data/attendanceRecord";
 import { mockEvents } from "../data/events";
@@ -7,9 +6,7 @@ import {
   AttendanceRecord,
   ChangeStatus,
   Event,
-  Member,
   RequestType,
-  Response,
 } from "../util/Types";
 
 /**
@@ -36,28 +33,6 @@ export function fetchAllEvents(): Promise<Event[]> {
       mockEvents ? resolve(mockEvents) : reject("404 Not found");
     }, 1000);
   });
-}
-
-/**
- * Gets the member with the associated nuid
- * @param nuid The nuid of the member
- * @returns The Member with that nuid or undefined
- */
-export async function fetchMember(nuid: string): Promise<Response<Member>> {
-  const response = await axios.get(
-    `${process.env.REACT_APP_API_ENDPOINT}/api/member/getMember/?id=${nuid}`
-  );
-  if (response.status === 200) {
-    return {
-      data: response.data.member,
-      error: "",
-    };
-  } else {
-    return {
-      data: undefined,
-      error: response.data,
-    };
-  }
 }
 
 //sample function to fetch all attendance change requests

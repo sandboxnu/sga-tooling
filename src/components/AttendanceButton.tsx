@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../App";
-import { createAttendanceChange, fetchMember } from "../client/client";
+import { createAttendanceChange } from "../client/client";
+import { AuthContext } from "../hooks/useAuth";
 import { AttendanceChange, AttendanceData, ChangeStatus } from "../util/Types";
 import { AttendanceButtonStyles } from "../util/styleConfig";
 import Loading from "./Loading";
@@ -22,7 +22,7 @@ export const AttendanceButton = ({
   setIsRegistered,
   setErrorType,
 }: AttendanceButtonProps) => {
-  const { userID } = useContext(LoginContext);
+  const { member } = useContext(AuthContext);
   const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
   const [initialAttendanceStatus, setAttendanceStatus] = useState(
     attendanceChange?.change_status || ChangeStatus.UNREGISTER
@@ -33,9 +33,8 @@ export const AttendanceButton = ({
       try {
         setIsCreatingAttendance(true);
         //using non-null assertion since it's assumed the user is logged in to make it past the home page
-        const member = await fetchMember(userID!);
-        if (member.data) {
-          await createAttendanceChange(member.data.id, eventid);
+        if (member) {
+          await createAttendanceChange(member.id, eventid);
           setIsRegistered(false);
         }
         setIsCreatingAttendance(false);
@@ -51,7 +50,7 @@ export const AttendanceButton = ({
     if (!(Object.keys(createdAttendanceChange).length === 0)) {
       makeAttendanceChange();
     }
-  }, [createdAttendanceChange, eventid, setErrorType, setIsRegistered, userID]);
+  }, [member, createdAttendanceChange, eventid, setErrorType, setIsRegistered]);
 
   const renderText = AttendanceButtonStyles[initialAttendanceStatus];
 

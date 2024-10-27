@@ -1,5 +1,5 @@
 export type JWTAuthToken = {
-  data: Member;
+  data: string;
 };
 
 export type Response<T> = {

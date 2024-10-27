@@ -1,16 +1,12 @@
 import { useContext, useState } from "react";
-import { LoginContext } from "../App";
-import {
-  fetchEvent,
-  fetchMember,
-  getAttendanceRecordForMember,
-} from "../client/client";
+import { fetchEvent, getAttendanceRecordForMember } from "../client/client";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
 import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
 import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
 import Loading from "../components/Loading";
+import { AuthContext } from "../hooks/useAuth";
 import { createDateString } from "../util/Date";
-import { AttendanceRecord, Event, Member } from "../util/Types";
+import { AttendanceRecord, Event } from "../util/Types";
 
 /**
  *
@@ -19,28 +15,22 @@ import { AttendanceRecord, Event, Member } from "../util/Types";
  */
 const AttendanceRecordPage = () => {
   // --- STATE ------------------------------------------------------
-  const [member, setMember] = useState<Member>();
   const [attendanceRecord, setAttendanceRecord] = useState<
     AttendanceRecord[] | []
   >([]);
   const [attendanceEvents, setAttendanceEvents] = useState<Event[] | []>();
 
   // --- CONTEXT ----------------------------------------------------
-  const { userID } = useContext(LoginContext);
+  const { member } = useContext(AuthContext);
 
   // --- VARIABLES --------------------------------------------------
   const { month, dayOfWeek, fulldate, year } = createDateString(new Date());
   let totalHours = 0;
 
   const fetchMemberRecord = async (): Promise<Event[]> => {
-    // Update the member from the API
-    const member = await fetchMember(userID!);
-    setMember(member.data);
-
     // Get the attendance records for the selected member
-    const attendanceRecords = await getAttendanceRecordForMember(
-      member.data!.id
-    );
+    if (!member) return [];
+    const attendanceRecords = await getAttendanceRecordForMember(member?.id);
     setAttendanceRecord(attendanceRecords);
 
     // Fetch the event data for each event

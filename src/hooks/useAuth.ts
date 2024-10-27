@@ -1,16 +1,21 @@
 import { createContext, useContext } from "react";
 import { useCookies } from "react-cookie";
 import AuthClient from "../client/AuthClient";
+import MemberClient from "../client/MemberClient";
 import { Member } from "../util/Types";
 
 type AuthContextType = {
   member?: Member;
+  loading: boolean;
   setMember: (member?: Member) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   member: undefined,
+  loading: false,
   setMember: () => {},
+  setLoading: () => {},
 });
 
 export const useAuth = (): {
@@ -29,10 +34,15 @@ export const useAuth = (): {
       error ||
       status !== 200
     ) {
-      return error === undefined ? "Unknown error" : error;
+      return error === undefined ? "Unknown error logging in" : error;
     } else {
-      setMember(member);
       setCookie("token", data.jwt);
+    }
+    const member = await MemberClient.fetchMember(data.member.id);
+    if (member.data) {
+      setMember(member.data);
+    } else {
+      return error === undefined ? "Unknown error getting member" : error;
     }
     return undefined;
   };
