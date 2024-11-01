@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorSvg from "../assets/ErrorBubble.svg";
 import TriangleError from "../assets/TriangleError.svg";
@@ -58,11 +58,11 @@ const LoginPage = (): ReactElement => {
     return nuid.length === 9 && !isNaN(parseInt(nuid));
   }
 
-  // useEffect(() => {
-  //   if (member) {
-  //     navigate("/events");
-  //   }
-  // }, [member, navigate]);
+  useEffect(() => {
+    if (member) {
+      navigate("/events");
+    }
+  }, [member, navigate]);
 
   return (
     <div onLoad={() => member === undefined ?? navigate("/events")}>

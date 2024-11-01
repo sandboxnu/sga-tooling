@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      if (loading) {
+      if (loading || member) {
         return;
       }
       setLoading(true);
