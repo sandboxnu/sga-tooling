@@ -24,7 +24,7 @@ export const useAuth = (): {
   login: (nuid: string, lastName: string) => Promise<string | undefined>;
   logout: () => void;
 } => {
-  const [_, setCookie, removeCookie] = useCookies();
+  const [, setCookie, removeCookie] = useCookies();
   const { member, setMember } = useContext(AuthContext);
 
   const login = async (nuid: string, lastName: string) => {

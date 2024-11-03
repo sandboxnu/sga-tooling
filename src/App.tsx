@@ -50,7 +50,7 @@ function App() {
       setLoading(false);
     };
     checkLoggedIn();
-  }, [cookies.token, setMember, loading, setLoading]);
+  }, [cookies.token, setMember, loading, setLoading, member]);
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
