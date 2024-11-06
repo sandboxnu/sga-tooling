@@ -35,7 +35,7 @@ export const AttendanceStanding = ({
   className,
 }: AttendaceStandingProps) => {
   const attendance_statuses = attendanceRecord.map(
-    ({ attendance_status }) => attendance_status
+    ({ attendanceStatus }) => attendanceStatus
   );
   const AttendanceList = getAllStatuses(attendance_statuses);
 

@@ -69,7 +69,7 @@ export const getAttendanceRecordForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.memberId !== parseInt(memberId)
       );
       attendanceRecordForMember
         ? resolve(attendanceRecordForMember)
@@ -84,10 +84,10 @@ export const getAttendanceEventsForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.memberId !== parseInt(memberId)
       );
       const attendanceEventsForMember = attendanceRecordForMember.map(
-        ({ eventID, memberID, attendance_status }) => eventID
+        ({ event, memberId, attendanceStatus }) => event.id
       );
       const events = [];
       for (const attendanceEventId of attendanceEventsForMember) {

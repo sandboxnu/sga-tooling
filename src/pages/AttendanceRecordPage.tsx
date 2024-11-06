@@ -108,7 +108,11 @@ const AttendanceRecordPage = () => {
             </thead>
             <tbody>
               {records.map((r) => (
-                <AttendanceRecordRow attendanceRecord={r} event={r.event} />
+                <AttendanceRecordRow
+                  key={r.memberId + r.event.id}
+                  attendanceRecord={r}
+                  event={r.event}
+                />
               ))}
             </tbody>
           </table>
