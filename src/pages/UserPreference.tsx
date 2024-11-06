@@ -1,27 +1,16 @@
 import { ReactElement, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "tw-elements";
-import { LoginContext } from "../App";
-import { fetchMember } from "../client/client";
-import Loading from "../components/Loading";
 import Switch from "../components/Switch";
-import { Member } from "../util/Types";
+import { AuthContext } from "../hooks/useAuth";
 
 const UserPreference = (): ReactElement => {
-  const [Member, setMember] = useState<Member>();
   const [notPresentEmail, setNotPresentEmail] = useState<boolean>(false);
-  const { userID: id } = useContext(LoginContext);
+  const { member } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  if (id) {
-    fetchMember(id).then((m) => {
-      if (m) {
-        setMember(m);
-        setNotPresentEmail(m.receiveNotPresentEmail);
-      }
-    });
-  }
-
-  if (!Member) {
-    return <Loading />;
+  if (!member) {
+    navigate("/");
   }
 
   return (
@@ -35,11 +24,11 @@ const UserPreference = (): ReactElement => {
         <span className="font-bold text-xl">CONTACT INFO</span>
         <div>
           <span className="text-gray-600">Name</span> <br />
-          {Member.firstName + " " + Member.lastName}
+          {member?.firstName + " " + member?.lastName}
         </div>
         <div className="flex flex-col">
           <span className="text-gray-600">Email</span>
-          <span>{Member.email}</span>
+          <span>{member?.email}</span>
         </div>
 
         <hr className="border-black" />

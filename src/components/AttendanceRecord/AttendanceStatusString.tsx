@@ -1,8 +1,8 @@
+import { AttendanceTag } from "../../util/Types";
 import {
   AttendanceTagToClassName,
   AttendanceTagToText,
 } from "../../util/styleConfig";
-import { AttendanceTag } from "../../util/Types";
 
 // this function takes in the coming list of characters and groups according strings when there is
 // an Excused Tag(E) or Not Requried Tag (N)

@@ -1,3 +1,18 @@
+export type JWTAuthToken = {
+  data: string;
+};
+
+export type Response<T> = {
+  data?: T;
+  error?: string;
+  status?: number;
+};
+
+export type AuthResponse = {
+  jwt: string;
+  member: Member;
+};
+
 export type Event = {
   id: number;
   eventName: string;
@@ -77,3 +92,12 @@ export type AttendanceRecord = {
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
+
+export enum LoginError {
+  DEACTIVATED,
+  BLOCKED,
+  OTHER,
+  DOES_NOT_EXIST,
+  NONE,
+  UNKNOWN,
+}

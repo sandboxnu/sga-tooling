@@ -1,16 +1,20 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { LoginContext } from "../App";
+import { AuthContext } from "../hooks/useAuth";
+import Loading from "./Loading";
 
-// Navigation to the login menu if the user is not logged in. 
+// Navigation to the login menu if the user is not logged in.
 
 const RequireAuth = () => {
-    const { userID } = useContext(LoginContext);
-    console.log("RequireAuth")
-    if (!userID) {
-        console.log("User ID does not exist. Redirecting.");
-    }
-    return userID ? <Outlet /> : <Navigate to="/" />;
-}
+  const { member, loading } = useContext(AuthContext);
 
-export default RequireAuth; 
+  if (member) {
+    return <Outlet />;
+  } else if (loading) {
+    return <Loading />;
+  } else {
+    return <Navigate to="/" />;
+  }
+};
+
+export default RequireAuth;
