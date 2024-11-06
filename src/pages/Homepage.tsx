@@ -1,38 +1,19 @@
 import { ReactElement, useEffect, useState } from "react";
-import {
-  fetchAllEvents,
-  findAttendanceChangeRequestForMember,
-} from "../client/client";
+import { findAttendanceChangeRequestForMember } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
 import { useAuth } from "../hooks/useAuth";
-import { AttendanceChange, Event, EventStatus } from "../util/Types";
-
-/**
- * Compares the current time to a given start and end date to return the associated event status
- * @param start The start date
- * @param end The end date
- * @returns Returns a live event status if the start time is before the current time and the end time is after the current time
- */
-function getStatus(start: Date, end: Date) {
-  const today = new Date();
-  const timeNow = today.getTime();
-
-  if (start.getTime() < timeNow && timeNow < end.getTime()) {
-    return EventStatus.Live;
-  } else {
-    return EventStatus.Rest;
-  }
-}
+import useEvents from "../hooks/useEvents";
+import { AttendanceChange, EventStatus } from "../util/Types";
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
-  const [eventsToDisplay, setEventsToDisplay] = useState<Event[] | null>();
   const [attendanceChanges, setAttendanceChanges] = useState<
     AttendanceChange[] | null
   >();
   const { member } = useAuth();
+  const { status, data: events, error, isFetching } = useEvents();
 
   useEffect(() => {
     //only go on load
@@ -47,25 +28,10 @@ const Homepage = (): ReactElement => {
 
     loadAttendanceChanges();
   }, [member]);
-
-  if (!eventsToDisplay) {
-    fetchAllEvents().then((e) => {
-      e.sort((a, b) => {
-        return (
-          new Date(b.startTime).getTime() - new Date(a.startTime).getTime()
-        );
-      });
-      setEventsToDisplay(e);
-    });
-    return <Loading />;
-  } else {
-    const events: Event[] = eventsToDisplay.map((e) => {
-      return {
-        ...e,
-        status: getStatus(new Date(e.startTime), new Date(e.endTime)),
-      };
-    });
-
+  if (isFetching) return <Loading />;
+  else if (status === "error") {
+    return <div>Error: {error.message}</div>;
+  } else if (events) {
     if (!attendanceChanges) return <Loading />;
 
     // for each element, we then look at each eventid and try to match with the corresponding
@@ -153,6 +119,8 @@ const Homepage = (): ReactElement => {
         </div>
       </div>
     );
+  } else {
+    return <></>;
   }
 };
 

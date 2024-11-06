@@ -21,8 +21,9 @@ export type Event = {
   signInClosed: boolean;
   location?: string;
   description: string;
-  status?: EventStatus;
+  membershipGroup?: string[];
   tags?: string[];
+  status?: EventStatus;
 };
 
 export type Member = {

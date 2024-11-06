@@ -7,13 +7,10 @@ class AuthClient {
     lastName: string
   ): Promise<Response<AuthResponse>> {
     // Call the login API
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_ENDPOINT}/api/auth`,
-      {
-        nuid,
-        lastName,
-      }
-    );
+    const response = await axios.post(`/api/auth`, {
+      nuid,
+      lastName,
+    });
     return {
       data: response.data.auth,
       error: response.data.error,

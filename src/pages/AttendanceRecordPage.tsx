@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { fetchEvent, getAttendanceRecordForMember } from "../client/client";
+import { getAttendanceRecordForMember } from "../client/client";
 import { AttendanceRecordPercentages } from "../components/AttendanceRecord/AttendanceRecordPercent";
 import { AttendanceRecordRow } from "../components/AttendanceRecord/AttendanceRecordRow";
 import { AttendanceStanding } from "../components/AttendanceRecord/AttendanceStanding";
@@ -35,10 +35,10 @@ const AttendanceRecordPage = () => {
 
     // Fetch the event data for each event
     const events: Event[] = [];
-    for (const record of attendanceRecords) {
-      const event = await fetchEvent(record.eventID);
-      events.push(event);
-    }
+    // for (const record of attendanceRecords) {
+    //   const event = await fetchEvent(record.eventID);
+    //   events.push(event);
+    // }
 
     return events;
   };

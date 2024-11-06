@@ -8,12 +8,10 @@ export default class MemberClient {
    * @returns The Member with that nuid or undefined
    */
   public static async fetchMember(id: string): Promise<Response<Member>> {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_ENDPOINT}/api/member/getMember/?id=${id}`
-    );
+    const response = await axios.get(`/api/member/getMember/?id=${id}`);
     if (response.status === 200) {
       return {
-        data: response.data.member,
+        data: response.data,
         error: "",
       };
     } else {
