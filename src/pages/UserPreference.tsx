@@ -43,7 +43,7 @@ const UserPreference = (): ReactElement => {
             </div>
             <br />
             <span className="bg-yellow-400 rounded-lg px-4 py-1">
-              Diverstiy, Equity, and Inclusion
+              Diversity, Equity, and Inclusion
             </span>
           </div>
         </div>

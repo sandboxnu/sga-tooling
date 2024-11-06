@@ -1,19 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Event, EventStatus } from "../util/Types";
+import { Event } from "../util/Types";
+import { getStatus } from "../util/converters";
 
 export default function useEvents() {
-  const getStatus = (event: Event): EventStatus => {
-    const now = new Date();
-    if (
-      event.startTime.getTime() < now.getTime() &&
-      now.getTime() < event.endTime.getTime()
-    ) {
-      return EventStatus.Live;
-    }
-    return EventStatus.Rest;
-  };
-
   return useQuery({
     queryKey: ["events"],
     queryFn: async (): Promise<Event[]> => {

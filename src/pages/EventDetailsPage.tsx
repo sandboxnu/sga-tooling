@@ -5,7 +5,6 @@ import LinkSVG from ".././assets/Link.svg";
 import MeatballMenuSVG from ".././assets/MeatballMenu.svg";
 import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
-// import { fetchEvent } from "../client/client";
 import Loading from "../components/Loading";
 import useEvent from "../hooks/useEvent";
 import { createDateString } from "../util/Date";

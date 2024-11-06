@@ -87,9 +87,9 @@ export type AttendanceData = {
 };
 
 export type AttendanceRecord = {
-  memberID: number;
-  eventID: number;
-  attendance_status: string;
+  memberId: number;
+  attendanceStatus: string;
+  event: Event;
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";
