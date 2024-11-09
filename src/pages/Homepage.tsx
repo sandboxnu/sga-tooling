@@ -58,6 +58,7 @@ const Homepage = (): ReactElement => {
 
     const upcomingEvents: ReactElement[] = displayedEvents
       .filter((e) => e.status === EventStatus.Rest)
+      .filter((e) => e.startTime > new Date())
       .map((e, i) => {
         const prevDate = displayedEvents[i - 1]
           ? displayedEvents[i - 1].startTime.toDateString()
