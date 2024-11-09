@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { CookiesProvider } from "react-cookie";
 import ReactDOM from "react-dom/client";
@@ -6,6 +7,9 @@ import { AuthContext } from "./hooks/useAuth";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Member } from "./util/Types";
+
+// Create a client
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,11 +20,13 @@ const Root = () => {
   const [loading, setLoading] = React.useState(false);
 
   return (
-    <AuthContext.Provider value={{ member, loading, setMember, setLoading }}>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </AuthContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <AuthContext.Provider value={{ member, loading, setMember, setLoading }}>
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
+      </AuthContext.Provider>
+    </QueryClientProvider>
   );
 };
 

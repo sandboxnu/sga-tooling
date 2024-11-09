@@ -21,8 +21,9 @@ export type Event = {
   signInClosed: boolean;
   location?: string;
   description: string;
-  status?: EventStatus;
+  membershipGroup?: string[];
   tags?: string[];
+  status?: EventStatus;
 };
 
 export type Member = {
@@ -86,9 +87,9 @@ export type AttendanceData = {
 };
 
 export type AttendanceRecord = {
-  memberID: number;
-  eventID: number;
-  attendance_status: string;
+  memberId: number;
+  attendanceStatus: string;
+  event: Event;
 };
 
 export type AttendanceTag = "K" | "A" | "L" | "D" | "O" | "N" | "E";

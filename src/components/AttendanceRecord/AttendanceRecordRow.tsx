@@ -3,15 +3,15 @@ import { createDateString } from "../../util/Date";
 import { AttendanceRecord, Event } from "../../util/Types";
 import { AttendanceList } from "./AttendanceStatusString";
 
-interface AttendanceRecodRowProps {
-  attendanceRecord: AttendanceRecord[];
+interface AttendanceRecordRowProps {
+  attendanceRecord: AttendanceRecord;
   event: Event;
 }
 
 export const AttendanceRecordRow = ({
   event,
   attendanceRecord,
-}: AttendanceRecodRowProps) => {
+}: AttendanceRecordRowProps) => {
   const eventStartDate = new Date(event.startTime);
   const eventEndDate = new Date(event.endTime);
   const { month, fulldate, year } = createDateString(eventStartDate);
@@ -28,10 +28,7 @@ export const AttendanceRecordRow = ({
     hour12: true,
   });
 
-  const correspRecord = attendanceRecord.find(
-    (attendance) => attendance.eventID === event.id
-  );
-  const attendanceStatus = correspRecord!.attendance_status;
+  const attendanceStatus = attendanceRecord!.attendanceStatus;
 
   return (
     <tr className="border-b border-gray-600">

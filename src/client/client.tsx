@@ -9,32 +9,6 @@ import {
   RequestType,
 } from "../util/Types";
 
-/**
- * Gets an event with the given id
- * @param id The id of the event being fetched
- * @returns The event if it can be found, or an error
- */
-export function fetchEvent(id: number): Promise<Event> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const event = mockEvents.find((e) => e.id === id);
-      event ? resolve(event) : reject("404 Not found");
-    }, 1000);
-  });
-}
-
-/**
- * Gets all the events
- * @returns An array of events if they can be found, or an error
- */
-export function fetchAllEvents(): Promise<Event[]> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      mockEvents ? resolve(mockEvents) : reject("404 Not found");
-    }, 1000);
-  });
-}
-
 //sample function to fetch all attendance change requests
 export const findAttendanceChangeRequests = (
   memberID: string,
@@ -95,7 +69,7 @@ export const getAttendanceRecordForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.memberId !== parseInt(memberId)
       );
       attendanceRecordForMember
         ? resolve(attendanceRecordForMember)
@@ -110,10 +84,10 @@ export const getAttendanceEventsForMember = (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const attendanceRecordForMember = mockAttendanceRecord.filter(
-        (attendanceRecord) => attendanceRecord.memberID !== parseInt(memberId)
+        (attendanceRecord) => attendanceRecord.memberId !== parseInt(memberId)
       );
       const attendanceEventsForMember = attendanceRecordForMember.map(
-        ({ eventID, memberID, attendance_status }) => eventID
+        ({ event, memberId, attendanceStatus }) => event.id
       );
       const events = [];
       for (const attendanceEventId of attendanceEventsForMember) {
