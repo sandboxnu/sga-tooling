@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Event, Response } from "../util/Types";
 
 export default class EventClient {
@@ -8,17 +8,21 @@ export default class EventClient {
    * @returns The event if it can be found, or an error
    */
   public static async fetchEvent(id: number): Promise<Response<Event>> {
-    const response = await axios.get(`/api/event/getEvent/?id=${id}`);
-    if (response.status === 200) {
+    try {
+      const response = await axios.get(`/api/event/getEvent/?id=${id}`);
       return {
         data: response.data,
         error: "",
       };
-    } else {
-      return {
-        data: undefined,
-        error: response.data,
-      };
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        let error: AxiosError<any, any> = e;
+        return {
+          data: undefined,
+          error: error.response?.data,
+        };
+      }
+      throw e;
     }
   }
 

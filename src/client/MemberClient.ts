@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Member, Response } from "../util/Types";
 
 export default class MemberClient {
@@ -8,17 +8,21 @@ export default class MemberClient {
    * @returns The Member with that nuid or undefined
    */
   public static async fetchMember(id: string): Promise<Response<Member>> {
-    const response = await axios.get(`/api/member/getMember/?id=${id}`);
-    if (response.status === 200) {
+    try {
+      const response = await axios.get(`/api/member/getMember/?id=${id}`);
       return {
         data: response.data,
         error: "",
       };
-    } else {
-      return {
-        data: undefined,
-        error: response.data,
-      };
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        let error: AxiosError<any, any> = e;
+        return {
+          data: undefined,
+          error: error.response?.data,
+        };
+      }
+      throw e;
     }
   }
 }

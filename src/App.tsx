@@ -7,7 +7,7 @@ import MemberClient from "./client/MemberClient";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import RequireAuth from "./components/RequireAuth";
-import { AuthContext } from "./hooks/useAuth";
+import { AuthContext, useAuth } from "./hooks/useAuth";
 import AttendanceRecordPage from "./pages/AttendanceRecordPage";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
@@ -19,6 +19,7 @@ import { JWTAuthToken } from "./util/Types";
 function App() {
   const { member, loading, setMember, setLoading, setCheckedCookie } =
     useContext(AuthContext);
+  const { logout } = useAuth();
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
@@ -33,14 +34,23 @@ function App() {
         if (memberResponse.data) {
           setMember(memberResponse.data);
         } else {
-          console.log("Error fetching member: ", memberResponse.error);
+          console.log("Unable to verify member: ", memberResponse.error);
+          logout();
         }
       }
       setCheckedCookie(true);
       setLoading(false);
     };
     checkLoggedIn();
-  }, [cookies.token, setMember, loading, setLoading, member]);
+  }, [
+    cookies.token,
+    setMember,
+    loading,
+    setLoading,
+    member,
+    setCheckedCookie,
+    logout,
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
