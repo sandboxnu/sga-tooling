@@ -8,6 +8,7 @@ import TextIconSVG from ".././assets/TextIcon.svg";
 import Loading from "../components/Loading";
 import useEvent from "../hooks/useEvent";
 import { createDateString } from "../util/Date";
+import { saveICSEvent } from "../util/saveICSEvent";
 
 //if time is not defined make it all day
 const EventDetailsPage = (): ReactElement => {
@@ -60,7 +61,10 @@ const EventDetailsPage = (): ReactElement => {
                 <li className="hover:underline py-3 px-4">
                   Enable Notifications
                 </li>
-                <li className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4">
+                <li
+                  className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4"
+                  onClick={() => saveICSEvent(event)}
+                >
                   Add to Calendar
                 </li>
               </ul>

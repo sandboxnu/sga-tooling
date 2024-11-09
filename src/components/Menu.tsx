@@ -44,7 +44,7 @@ const Menu = (): ReactElement => {
         <div>
           <Link to={`/events`}>
             <img
-              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
+              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/7c34e45d-ee16-4883-8334-358495ef8e38/SGA+Logo+and+Seal.png?format=1500w"
               alt="Student Government Association Logo"
               className="w-32 cursor-pointer"
               onClick={() => setShowSidebar(false)}
@@ -66,7 +66,7 @@ const Menu = (): ReactElement => {
         <div className="flex flex-col items-start w-full h-full">
           <Link to={`/events`} className="p-8">
             <img
-              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/1599605891670-HLWDP9UQBSK6XT6DLF3A/SGA+White+Text+Transparent.png%3Fformat=1500w"
+              src="https://images.squarespace-cdn.com/content/v1/5939fcd1db29d6ec60929205/7c34e45d-ee16-4883-8334-358495ef8e38/SGA+Logo+and+Seal.png?format=1500w"
               alt="Student Government Association Logo"
               className="w-48 cursor-pointer"
               onClick={() => setShowSidebar(false)}
