@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import React, { createContext, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
@@ -16,20 +16,9 @@ import LoginPage from "./pages/LoginPage";
 import UserPreference from "./pages/UserPreference";
 import { JWTAuthToken } from "./util/Types";
 
-export type UserID = string | null;
-
-type UserContext = {
-  userID: UserID;
-  setUserID: React.Dispatch<React.SetStateAction<UserID>>;
-};
-
-export const LoginContext = createContext<UserContext>({
-  userID: null,
-  setUserID: () => {},
-});
-
 function App() {
-  const { member, loading, setMember, setLoading } = useContext(AuthContext);
+  const { member, loading, setMember, setLoading, setCheckedCookie } =
+    useContext(AuthContext);
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
@@ -47,6 +36,7 @@ function App() {
           console.log("Error fetching member: ", memberResponse.error);
         }
       }
+      setCheckedCookie(true);
       setLoading(false);
     };
     checkLoggedIn();

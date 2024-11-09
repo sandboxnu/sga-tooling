@@ -18,10 +18,20 @@ const root = ReactDOM.createRoot(
 const Root = () => {
   const [member, setMember] = React.useState<Member | undefined>(undefined);
   const [loading, setLoading] = React.useState(false);
+  const [checkedCookie, setCheckedCookie] = React.useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthContext.Provider value={{ member, loading, setMember, setLoading }}>
+      <AuthContext.Provider
+        value={{
+          member,
+          loading,
+          checkedCookie,
+          setMember,
+          setLoading,
+          setCheckedCookie,
+        }}
+      >
         <CookiesProvider>
           <App />
         </CookiesProvider>

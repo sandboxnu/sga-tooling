@@ -8,15 +8,19 @@ import { JWTAuthToken, Member } from "../util/Types";
 type AuthContextType = {
   member?: Member;
   loading: boolean;
+  checkedCookie: boolean;
   setMember: (member?: Member) => void;
   setLoading: (loading: boolean) => void;
+  setCheckedCookie: (checkedCookie: boolean) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   member: undefined,
   loading: false,
+  checkedCookie: false,
   setMember: () => {},
   setLoading: () => {},
+  setCheckedCookie: () => {},
 });
 
 export const useAuth = (): {

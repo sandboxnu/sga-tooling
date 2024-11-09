@@ -6,11 +6,11 @@ import Loading from "./Loading";
 // Navigation to the login menu if the user is not logged in.
 
 const RequireAuth = () => {
-  const { member, loading } = useContext(AuthContext);
+  const { member, loading, checkedCookie } = useContext(AuthContext);
 
-  if (member) {
+  if (member && checkedCookie) {
     return <Outlet />;
-  } else if (loading) {
+  } else if (loading || !checkedCookie) {
     return <Loading />;
   } else {
     return <Navigate to="/" />;
