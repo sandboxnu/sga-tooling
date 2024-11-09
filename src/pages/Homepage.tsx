@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { findAttendanceChangeRequestForMember } from "../client/client";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
@@ -14,6 +14,14 @@ const Homepage = (): ReactElement => {
   >();
   const { member } = useAuth();
   const { status, data: events, error, isFetching } = useEvents();
+  const [searchTerm, setSearchTerm] = useState("");
+  const displayedEvents = React.useMemo(() => {
+    return searchTerm === ""
+      ? events
+      : events?.filter((event) =>
+          event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+  }, [events, searchTerm]);
 
   useEffect(() => {
     //only go on load
@@ -31,12 +39,12 @@ const Homepage = (): ReactElement => {
   if (isFetching) return <Loading />;
   else if (status === "error") {
     return <div>Error: {error.message}</div>;
-  } else if (events) {
+  } else if (displayedEvents) {
     if (!attendanceChanges) return <Loading />;
 
     // for each element, we then look at each eventid and try to match with the corresponding
     // eventid if it has one, then we pass that attendanceChange in if there is one.
-    const liveEvents: ReactElement[] = events
+    const liveEvents: ReactElement[] = displayedEvents
       .filter((e) => e.status === EventStatus.Live)
       .map((e, i) => (
         <div
@@ -48,13 +56,13 @@ const Homepage = (): ReactElement => {
         </div>
       ));
 
-    const upcomingEvents: ReactElement[] = events
+    const upcomingEvents: ReactElement[] = displayedEvents
       .filter((e) => e.status === EventStatus.Rest)
       .map((e, i) => {
-        const prevDate = events[i - 1]
-          ? events[i - 1].startTime.toDateString()
+        const prevDate = displayedEvents[i - 1]
+          ? displayedEvents[i - 1].startTime.toDateString()
           : null;
-        const currDate = events[i].startTime.toDateString();
+        const currDate = displayedEvents[i].startTime.toDateString();
 
         //if we have the same event ids, then add in attendanceChange
         const potentialAttendanceChange = attendanceChanges?.find(
@@ -97,6 +105,33 @@ const Homepage = (): ReactElement => {
         <h1 className="hidden lg:block lg:m-6 lg:mb-3 section-heading">
           EVENTS
         </h1>
+        <div className="lg:m-6 mt-6 relative">
+          <input
+            type="text"
+            placeholder="Search events..."
+            className="w-full p-2 pl-10 border border-black-300 rounded-lg"
+            onChange={(e) => {
+              const searchTerm = e.target.value;
+              setSearchTerm(searchTerm);
+            }}
+          />
+          <svg
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            width="20"
+            height="20"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
         {liveEvents && liveEvents.length > 0 && (
           <>
             <h1 className="lg:text-sga-red lg:m-6 lg:my-3 section-heading">
