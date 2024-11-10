@@ -1,18 +1,12 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LoginContext } from "../App";
+import { useAuth } from "../hooks/useAuth";
 
 const Settings = (props: {
   useState: React.Dispatch<React.SetStateAction<boolean>>;
 }): ReactElement => {
-  const { setUserID } = useContext(LoginContext);
+  const { logout } = useAuth();
   let navigate = useNavigate();
-
-  function logout() {
-    localStorage.removeItem("user");
-    setUserID(null);
-    navigate("/");
-  }
 
   function Click(route: string) {
     navigate(route);

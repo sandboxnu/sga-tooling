@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import React, { createContext, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
@@ -7,7 +7,7 @@ import MemberClient from "./client/MemberClient";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import RequireAuth from "./components/RequireAuth";
-import { AuthContext } from "./hooks/useAuth";
+import { AuthContext, useAuth } from "./hooks/useAuth";
 import AttendanceRecordPage from "./pages/AttendanceRecordPage";
 import Error404 from "./pages/Error404";
 import EventDetailsPage from "./pages/EventDetailsPage";
@@ -16,20 +16,10 @@ import LoginPage from "./pages/LoginPage";
 import UserPreference from "./pages/UserPreference";
 import { JWTAuthToken } from "./util/Types";
 
-export type UserID = string | null;
-
-type UserContext = {
-  userID: UserID;
-  setUserID: React.Dispatch<React.SetStateAction<UserID>>;
-};
-
-export const LoginContext = createContext<UserContext>({
-  userID: null,
-  setUserID: () => {},
-});
-
 function App() {
-  const { member, loading, setMember, setLoading } = useContext(AuthContext);
+  const { member, loading, setMember, setLoading, setCheckedCookie } =
+    useContext(AuthContext);
+  const { logout } = useAuth();
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
@@ -44,13 +34,23 @@ function App() {
         if (memberResponse.data) {
           setMember(memberResponse.data);
         } else {
-          console.log("Error fetching member: ", memberResponse.error);
+          console.log("Unable to verify member: ", memberResponse.error);
+          logout();
         }
       }
+      setCheckedCookie(true);
       setLoading(false);
     };
     checkLoggedIn();
-  }, [cookies.token, setMember, loading, setLoading, member]);
+  }, [
+    cookies.token,
+    setMember,
+    loading,
+    setLoading,
+    member,
+    setCheckedCookie,
+    logout,
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen justify-between">

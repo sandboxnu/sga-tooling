@@ -17,7 +17,7 @@ export const AttendanceTagToText: Record<AttendanceTag, string> = {
   A: "Absent",
   L: "Late Arrival",
   D: "Early Dismissal",
-  O: "Attendend",
+  O: "Attended",
   N: "Not Required ",
   E: "Excused ",
 };

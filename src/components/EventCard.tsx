@@ -5,6 +5,7 @@ import PinSVG from ".././assets/Pin.svg";
 import TextIconSVG from ".././assets/TextIcon.svg";
 import ".././styles.css";
 import TriangleError from "../assets/TriangleError.svg";
+import { saveICSEvent } from "../util/saveICSEvent";
 import {
   AttendanceChange,
   Event,
@@ -111,7 +112,10 @@ const EventCard = ({
                   <li className="hover:underline py-3 px-4">
                     Enable Notifications
                   </li>
-                  <li className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4">
+                  <li
+                    className="hover:underline border-t border-gray-300 border-solid pb-3 pt-2 px-4"
+                    onClick={() => saveICSEvent(event)}
+                  >
                     Add to Calendar
                   </li>
                 </ul>
