@@ -14,7 +14,7 @@ export type AuthResponse = {
 };
 
 export type Event = {
-  id: number;
+  id: string;
   eventName: string;
   startTime: Date;
   endTime: Date;
@@ -39,23 +39,43 @@ export type Member = {
   signInBlocked: boolean;
 };
 
+export type Attendance = {
+  personId: string;
+  eventId: string;
+  attendanceStatus: string;
+};
+
 export type AttendanceChange = {
-  id: Number;
-  memberID: Number;
-  request_type: RequestType;
-  eventID: Number;
-  submit_time: Date;
-  change_status: ChangeStatus;
+  id: string;
+  name: string;
+  timeSubmitted: Date;
+  dateOfChange: Date;
+  type: RequestType;
+  changeStatus: ChangeStatus;
   reason: string;
-  arrive_time?: Date;
-  leave_time?: Date;
+  timeArriving?: Date;
+  timeLeaving?: Date;
+  memberId: string;
+  eventId: string;
+};
+
+export type AttendanceChangeCreate = {
+  name: string;
+  timeSubmitted: Date;
+  dateOfChange: Date;
+  type: RequestType;
+  reason: string;
+  timeArriving?: Date;
+  timeLeaving?: Date;
+  memberId: string;
+  eventId: string;
 };
 
 export enum RequestType {
   ABSENT = "absent",
   ARRIVING_LATE = "arriving late",
   LEAVING_EARLY = "leaving early",
-  BOTH = "both",
+  BOTH = "arriving late, leaving early",
 }
 
 export enum ChangeStatus {
@@ -80,10 +100,10 @@ export enum ReportReason {
 
 export type AttendanceData = {
   reason: string;
-  request_type?: RequestType;
-  submission_time: Date;
-  time_arriving?: Date;
-  time_leaving?: Date;
+  requestType?: RequestType;
+  submissionTime: Date;
+  timeArriving?: Date;
+  timeLeaving?: Date;
 };
 
 export type AttendanceRecord = {

@@ -1,17 +1,14 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { findAttendanceChangeRequestForMember } from "../client/client";
+import React, { ReactElement, useState } from "react";
 import Alert from "../components/Alert";
 import EventCard from "../components/EventCard";
 import Loading from "../components/Loading";
+import useAttendanceChanges from "../hooks/useAttendanceChanges";
 import { useAuth } from "../hooks/useAuth";
 import useEvents from "../hooks/useEvents";
-import { AttendanceChange, EventStatus } from "../util/Types";
+import { EventStatus } from "../util/Types";
 
 // Renders homepage with events.
 const Homepage = (): ReactElement => {
-  const [attendanceChanges, setAttendanceChanges] = useState<
-    AttendanceChange[] | null
-  >();
   const { member } = useAuth();
   const { status, data: events, error, isFetching } = useEvents();
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,26 +19,19 @@ const Homepage = (): ReactElement => {
           event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
         );
   }, [events, searchTerm]);
+  const {
+    status: fetchAttendanceChangesStatus,
+    data: attendanceChanges,
+    error: fetchAttendanceChangesError,
+    isFetching: isFetchingAttendanceChanges,
+  } = useAttendanceChanges(undefined, member?.id, undefined);
 
-  useEffect(() => {
-    //only go on load
-    const loadAttendanceChanges = async () => {
-      if (member) {
-        const attendance = await findAttendanceChangeRequestForMember(
-          member.id
-        );
-        if (attendance) setAttendanceChanges(attendance);
-      }
-    };
-
-    loadAttendanceChanges();
-  }, [member]);
-  if (isFetching) return <Loading />;
+  if (isFetching || isFetchingAttendanceChanges) return <Loading />;
   else if (status === "error") {
     return <div>Error: {error.message}</div>;
-  } else if (displayedEvents) {
-    if (!attendanceChanges) return <Loading />;
-
+  } else if (fetchAttendanceChangesStatus === "error") {
+    return <div>Error: {fetchAttendanceChangesError.message}</div>;
+  } else if (displayedEvents && attendanceChanges) {
     // for each element, we then look at each eventid and try to match with the corresponding
     // eventid if it has one, then we pass that attendanceChange in if there is one.
     const liveEvents: ReactElement[] = displayedEvents
@@ -59,7 +49,8 @@ const Homepage = (): ReactElement => {
     const upcomingEvents: ReactElement[] = displayedEvents
       .filter((e) => e.status === EventStatus.Rest)
       .filter((e) => e.startTime > new Date())
-      .map((e, i) => {
+      .map((ev, i) => {
+        let e = structuredClone(ev);
         const prevDate = displayedEvents[i - 1]
           ? displayedEvents[i - 1].startTime.toDateString()
           : null;
@@ -67,7 +58,7 @@ const Homepage = (): ReactElement => {
 
         //if we have the same event ids, then add in attendanceChange
         const potentialAttendanceChange = attendanceChanges?.find(
-          (element) => e.id === element.eventID
+          (element) => e.id === element.eventId
         );
 
         // Checks if this event is the first event of the day, and updates its status accordingly
@@ -100,6 +91,8 @@ const Homepage = (): ReactElement => {
           <EventCard key={e.eventName} event={e} />
         );
       });
+
+    console.log(upcomingEvents.length);
 
     return (
       <div className="lg:flex lg:flex-col lg:justify-between lg:items-start lg:max-w-[70%]">

@@ -154,12 +154,8 @@ const EventCard = ({
             ) : (
               <>
                 <AttendanceButton
-                  openModal={openModal}
-                  setIsRegistered={setIsRegistered}
-                  setErrorType={setErrorType}
-                  eventid={id}
                   attendanceChange={attendanceChange}
-                  createdAttendanceChange={createdAttendanceChange}
+                  openModal={openModal}
                 />
                 <Link to={`/events/${id}`} state={{ event }}>
                   <button className="button-base-red px-4 my-2 w-32">
@@ -173,7 +169,7 @@ const EventCard = ({
         {isOpen && (
           <AttendanceChangeModal
             onClose={() => closeModal()}
-            setAttendanceChange={setCreatedAttendanceChange}
+            eventId={event.id}
           />
         )}
       </div>

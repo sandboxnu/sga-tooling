@@ -29,11 +29,13 @@ const LoginPage = (): ReactElement => {
       return;
     }
     let error = await login(input, lastName);
+    console.log(error);
     if (error === undefined) {
       navigate("/events");
     } else {
+      console.log(error);
       switch (error) {
-        case "User not found":
+        case "User Not Found":
           setErrorType(LoginError.DOES_NOT_EXIST);
           break;
         case "User not active":
