@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import React, { createContext, useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import MemberClient from "./client/MemberClient";
 import Footer from "./components/Footer";
@@ -14,6 +14,8 @@ import EventDetailsPage from "./pages/EventDetailsPage";
 import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import UserPreference from "./pages/UserPreference";
+import VotingHistory from "./pages/VotingHistory";
+import VotingPage from "./pages/VotingPage";
 import { JWTAuthToken } from "./util/Types";
 
 export type UserID = string | null;
@@ -74,6 +76,8 @@ function App() {
               <Route path="/events/:id" element={<EventDetailsPage />} />
               <Route path="/user/" element={<UserPreference />} />
               <Route path="/record" element={<AttendanceRecordPage />} />
+              <Route path="/voting" element={<VotingPage />} />
+              <Route path="/voting/past" element={<VotingHistory />} />
             </Route>
 
             <Route path="*" element={<Error404 />} />

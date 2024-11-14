@@ -1,18 +1,12 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LoginContext } from "../App";
+import { useAuth } from "../hooks/useAuth";
 
 const Settings = (props: {
   useState: React.Dispatch<React.SetStateAction<boolean>>;
 }): ReactElement => {
-  const { setUserID } = useContext(LoginContext);
   let navigate = useNavigate();
-
-  function logout() {
-    localStorage.removeItem("user");
-    setUserID(null);
-    navigate("/");
-  }
+  const { logout } = useAuth();
 
   function Click(route: string) {
     navigate(route);
@@ -52,8 +46,25 @@ const Settings = (props: {
           >
             My Record
           </button>
-          <button className="text-slate-400" disabled>
+          <button
+            className={`App ${
+              useLocation().pathname === "/voting"
+                ? "underline"
+                : "no-underline"
+            }`}
+            onClick={() => Click("/voting")}
+          >
             Voting
+          </button>
+          <button
+            className={`App ${
+              useLocation().pathname === "/voting"
+                ? "underline"
+                : "no-underline"
+            }`}
+            onClick={() => Click("/voting/past")}
+          >
+            Past Votes
           </button>
         </div>
 
@@ -61,7 +72,7 @@ const Settings = (props: {
         <hr className="h-px bg-white border-0 dark:bg-white-700 w-full"></hr>
 
         <div className="flex p-8">
-          <button onClick={() => logout()}>Logout</button>
+          <button onClick={logout}>Logout</button>
         </div>
         {/* </div> */}
       </div>

@@ -9,7 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Member } from "./util/Types";
 
 // Create a client
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -105,17 +105,26 @@ const Menu = (): ReactElement => {
               Record
             </button>
             <button
-              className={`text-slate-400 ${
+              className={`App ${
                 useLocation().pathname === "/voting"
                   ? "underline"
                   : "no-underline"
               }`}
-              disabled
+              onClick={() => Click("/voting")}
             >
               Voting
             </button>
+            <button
+              className={`App ${
+                useLocation().pathname === "/voting/past"
+                  ? "underline"
+                  : "no-underline"
+              }`}
+              onClick={() => Click("/voting/past")}
+            >
+              Past Votes
+            </button>
           </div>
-
           <div className="flex items-start font-sans font-bold text-white text-xl h-fit w-full border-t-4 border-gray-300 border-opacity-70 p-8 pt-4 hover:text-slate-200">
             <button onClick={logout}>Logout</button>
           </div>

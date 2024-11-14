@@ -102,3 +102,20 @@ export enum LoginError {
   NONE,
   UNKNOWN,
 }
+
+export enum VoteSelection {
+  YES = "Y",
+  ABSTAIN = "A",
+  NO = "N",
+}
+
+export type VoteQuestion = {
+  uuid: string;
+  question: string;
+  description: string;
+};
+
+export type VoteHistory = {
+  question: string;
+  vote_selection: VoteSelection;
+};
